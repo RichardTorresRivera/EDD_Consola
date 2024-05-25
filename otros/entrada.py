@@ -20,8 +20,9 @@ def menu_opcion(n):
 
 def arbol_opcion():
     while True:
-        rpta = input("Elige una opcion (a/b): ")
-        if rpta == "a" or rpta == "b":
+        print()
+        rpta = input("Elige una opcion (a/b - s para salir): ")
+        if rpta == "a" or rpta == "b" or rpta == "s":
             return rpta
         else:
             print("Error: Opcion no valida, intente de nuevo")

@@ -8,7 +8,7 @@ def menu():
     print("| 1. Torres de Hanoi              |")
     print("| 2. Decisiones de Toshi          |")
     print("| 0. Salir                        |")
-    print("-----------------------------------")
+    print("-----------------------------------\n")
     
 while True:
     menu()
@@ -19,4 +19,5 @@ while True:
     elif (opc == 2):
         mainDecisiones()
     elif (opc == 0):
+        print("Saliendo ...")
         break

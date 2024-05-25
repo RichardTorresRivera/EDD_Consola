@@ -75,8 +75,8 @@ def menu():
     print("| 4. Mover disco de torre B a C |")
     print("| 5. Mover disco de torre C a A |")
     print("| 6. Mover disco de torre C a B |")
-    print("| 0. Salir")
-    print("-----------------------------")
+    print("| 0. Salir                      |")
+    print("---------------------------------\n")
 
 def numeroDiscos():
     flag = True
@@ -91,7 +91,7 @@ def numeroDiscos():
     
 def finJuego(pilas):
     if (pilas[0].estaVacia() and pilas[1].estaVacia()):
-        print("\nFELICIDADES, FIN DEL JUEGO")
+        print("\n-----FELICIDADES, FIN DEL JUEGO-----")
         return True
     else:
         return False
@@ -99,7 +99,7 @@ def finJuego(pilas):
 def mainHanoi():
     print("\n---------------------------------")
     print("|      LAS TORRES DE HANOI      |")
-    print("---------------------------------")
+    print("---------------------------------\n")
     n = numeroDiscos()
     torre = crearDiscos(n)
     pilas = [Pila(), Pila(), Pila()]
@@ -125,6 +125,7 @@ def mainHanoi():
         elif (opc == 6):
             moverDiscos(pilas[2], pilas[1], mov)
         elif(opc == 0):
+            print("Saliendo del juego ...")
             break
         mostrarTorres(n, pilas, torre)
         jugando = not finJuego(pilas)
