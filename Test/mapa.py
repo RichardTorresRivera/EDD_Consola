@@ -5,7 +5,10 @@ pygame.init()
 screen = pygame.display.set_mode((1280, 720))
 run = True
 
-wallpaper = pygame.image.load("mapa.png")
+map_frames = []
+for i in range(4):
+    wallpaper = pygame.image.load(f"Mapa//map_frame{i}.png")
+    map_frames.append(wallpaper)
 
 pygame.display.set_caption("Stack Adventure")
 
@@ -31,20 +34,30 @@ for i in range(2):
     animation_idle.append(img)
 
 path_segments = [
-    [(130, 70), (190, 70)],
-    [(190, 70), (440, 70)],
-    [(440, 70), (500, 70), (500, 140), (650, 140)],
-    [(650, 140), (685, 140), (690, 390)],
-    [(690, 390), (690, 350), (875, 350), (875, 440), (910, 440)],
-    [(910, 440), (1230, 440)]
+    [(130, 75), (180, 75)],
+    [(180, 75), (430, 75)],
+    [(440, 75), (500, 75), (500, 140), (650, 140)],
+    [(650, 140), (685, 140), (690, 380)],
+    [(690, 380), (690, 350), (875, 350), (875, 445), (905, 445)],
+    [(905, 445), (1240, 445)]
 ]
 
 player = Personaje(path_segments[0][0][0], path_segments[0][0][1], animation_move, animation_idle, path_segments)
 
-reloj = pygame.time.Clock()
+current_frame = 0
+
+reloj_personaje = pygame.time.Clock()
+reloj_mapa = pygame.time.Clock()
+
+fps_personaje = 30
+fps_mapa = 3
+
+last_map_update = pygame.time.get_ticks()
+map_update_interval = 1000 // fps_mapa
 
 while run:
-    reloj.tick(30)
+
+    reloj_personaje.tick(fps_personaje)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -57,7 +70,12 @@ while run:
 
     player.update()
 
-    screen.blit(wallpaper, (0, 0))
+    current_time = pygame.time.get_ticks()
+    if current_time - last_map_update > map_update_interval:
+        current_frame = (current_frame + 1) % len(map_frames)
+        last_map_update = current_time
+
+    screen.blit(map_frames[current_frame], (0, 0))
     player.dibujar(screen)
 
     pygame.display.update()
