@@ -1,6 +1,7 @@
 from otros import entrada
-from juegos.hanoi import mainHanoi 
-from juegos.decisiones import mainDecisiones
+from juegos.hanoi import main_hanoi
+from juegos.decisiones import main_decisiones
+
 def menu():
     print("\n-----------------------------------")
     print("|  JUEGOS DE ESTRUCTURA DE DATOS  |")
@@ -15,9 +16,9 @@ while True:
     opc = entrada.menu_opcion(2)
     print()
     if (opc == 1):
-        mainHanoi()
+        main_hanoi()
     elif (opc == 2):
-        mainDecisiones()
+        main_decisiones()
     elif (opc == 0):
         print("Saliendo ...")
         break
