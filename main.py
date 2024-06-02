@@ -1,6 +1,7 @@
 from otros import entrada
 from juegos.hanoi import main_hanoi
 from juegos.decisiones import main_decisiones
+from juegos.buscaminas import main_minas
 
 def menu():
     print("\n-----------------------------------")
@@ -8,17 +9,20 @@ def menu():
     print("-----------------------------------")
     print("| 1. Torres de Hanoi              |")
     print("| 2. Decisiones de Toshi          |")
+    print("| 3. Buscaminas                   |")
     print("| 0. Salir                        |")
     print("-----------------------------------\n")
     
 while True:
     menu()
-    opc = entrada.menu_opcion(2)
+    opc = entrada.menu_opcion(3)
     print()
     if (opc == 1):
         main_hanoi()
     elif (opc == 2):
         main_decisiones()
+    elif (opc == 3):
+        main_minas()
     elif (opc == 0):
         print("Saliendo ...")
         break
