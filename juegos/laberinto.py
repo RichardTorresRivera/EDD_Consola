@@ -1,9 +1,9 @@
-from edd.grafos import Laberinto
+from edd.grafo import Grafo
 
 def main_lab():
     filas = 10
     columnas = 10
-    lab = Laberinto(filas, columnas)
+    lab = Grafo(filas, columnas)
     pos_jugador = (0, 0)
 
     while True:
