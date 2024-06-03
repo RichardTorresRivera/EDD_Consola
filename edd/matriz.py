@@ -20,10 +20,13 @@ class Matriz:
                     return False
         return True
 
-    def mostrar(self):
-        for x in range(self.filas):
-            for y in range(self.columnas):
-                print(self.no_map[x][y], end=" ")
+    def mostrar(self, posicion_x, posicion_y):
+        for i in range(self.filas):
+            for j in range(self.columnas):
+                if i == posicion_x and j == posicion_y:
+                    print("*  ", end="")
+                else:
+                    print(self.no_map[i][j], end=" ")
             print()
 
     def flood_fill(self, x, y):
