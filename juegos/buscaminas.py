@@ -25,9 +25,13 @@ def main_minas():
             matriz.colocar_bandera(posicion_x, posicion_y)
 
     if flag:
+        print("*******")
         print("Ganaste")
+        print("*******")
     else:
+        print("********")
         print("Perdiste")
+        print("********")
         matriz.revelar_todas_las_minas()
         matriz.mostrar(posicion_x, posicion_y)
 

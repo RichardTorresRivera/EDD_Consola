@@ -82,4 +82,4 @@ class Matriz:
         for x in range(self.filas):
             for y in range(self.columnas):
                 if self.map[x][y] == 9:
-                    self.no_map[x][y] = "9 "
+                    self.no_map[x][y] = "M "
