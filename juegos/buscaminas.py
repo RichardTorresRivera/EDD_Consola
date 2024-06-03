@@ -15,7 +15,7 @@ def main_minas():
     flag = True
     while flag and not matriz.comprobar():
         matriz.mostrar(posicion_x, posicion_y)
-        print("Moverse: w/a/s/d | Revelar celda: r | Colocar/Quitar bandera: f |")
+        print("Moverse: w/a/s/d | Revelar celda: r |\nColocar/Quitar bandera: f | Salir: x |")
         accion = input("-> Acción: ").strip().lower()
         if accion in ['w', 'a', 's', 'd']:
             posicion_x, posicion_y = mover_jugador(accion, posicion_x, posicion_y, tam_x, tam_y)
@@ -23,6 +23,9 @@ def main_minas():
             flag = matriz.revelar(posicion_x, posicion_y)
         elif accion == 'f':
             matriz.colocar_bandera(posicion_x, posicion_y)
+        elif accion == 'x':
+            print("Saliendo del juego ...")
+            return
 
     if flag:
         print("*******")

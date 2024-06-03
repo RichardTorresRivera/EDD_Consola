@@ -7,15 +7,16 @@ def mostrar_menu():
     """
     Muestra el menú del juego.
     """
-    print("\n----------------------------------------------")
-    print("|              JUEGO DE COMPELTAR PALABRAS         |")
-    print("----------------------------------------------")
-    print("| Toshi, el protagonista, llega a un pueblo misterioso |")
-    print("| donde las palabras están atrapadas. Para liberarlas debe|")
-    print("| adivinar una serie de claves que le faltan caracteres|")
-    print("| con ayuda de las palabras atrapadas. Las letras a adivinar |")
-    print("|están relacionadas con estructuras de datos |")
-    print("----------------------------------------------\n")
+    print("\n-----------------------------------------")
+    print("|      JUEGO DE COMPLETAR PALABRAS      |")
+    print("-----------------------------------------")
+    print("| Toshi, el protagonista, llega a un    |")
+    print("| pueblo misterioso donde las palabras  |")
+    print("| estan atrapadas. Para liberarlas debe |")
+    print("| adivinar una serie de claves que le   |")
+    print("| faltan caracteres con ayuda de las    |")
+    print("| palabras atrapadas.                   |")
+    print("-----------------------------------------\n")
 
 def elegir_palabra(palabras_disponibles):
     """
@@ -87,13 +88,13 @@ def jugar_palabra(palabras):
                     print("\n¡Has perdido todas tus vidas! Intenta de nuevo.")
                     break
                 else:
-                    print(f"\n¡Has fallado! Te quedan {vidas} vidas. Presiona cualquier tecla para continuar.")
+                    print(f"\n¡Has fallado! Te quedan {vidas} vidas.\nPresiona cualquier tecla para continuar.")
                     intentos = 6
                     guiones = revelar_letras(palabra_actual)
                     letras_adivinadas = set()
                     input()
 
-def main():
+def main_palabras():
     """
     Función principal del juego.
     """
@@ -104,6 +105,3 @@ def main():
         if opcion != 's':
             print("Gracias por jugar. ¡Hasta la próxima!")
             break
-
-if __name__ == "__main__":
-    main()

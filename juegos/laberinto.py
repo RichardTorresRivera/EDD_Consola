@@ -16,7 +16,7 @@ def main_lab():
             print("¡No hay movimientos válidos!")
             break
 
-        mov = input("Ingrese su movimiento (WASD): ").upper()
+        mov = input("Ingrese su movimiento (WASD - X para salir): ").upper()
         dx, dy = 0, 0
         if mov == 'W':
             dx, dy = -1, 0
@@ -26,6 +26,9 @@ def main_lab():
             dx, dy = 0, -1
         elif mov == 'D':
             dx, dy = 0, 1
+        elif mov == 'X':
+            print("Saliendo del juego ...")
+            break
 
         nueva_pos = (pos_jugador[0] + dx, pos_jugador[1] + dy)
         if nueva_pos in mov_val:
