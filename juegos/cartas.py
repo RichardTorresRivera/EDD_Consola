@@ -66,6 +66,11 @@ def jugar_nivel(nivel):
 def juego_emparejamiento_cartas():
     print("\n----------------------------------------------")
     print("|         JUEGO DE EMPAREJAMIENTO DE CARTAS         |")
+    print("| Toshi se encuentra con un viejo brujo |")
+    print("| que no lo permitirá pasar hasta que haga unas adivinanzas con cartas. |")
+    print("| El brujo le dirá una frase y las cartas tendrán imágenes relacionadas a ello. |")
+    print("| Toshi deberá ordenarlas de tal forma que dé con la adivinanza |")
+    print("|para poder completar el desafío. |")
     print("----------------------------------------------")
 
     for nivel in range(3):
