@@ -8,7 +8,7 @@ def mostrar_menu():
     Muestra el menú del juego.
     """
     print("\n----------------------------------------------")
-    print("|              AVENTURA DE TOSHI             |")
+    print("|              JUEGO DE COMPELTAR PALABRAS         |")
     print("----------------------------------------------")
     print("| Toshi, el protagonista, llega a un pueblo misterioso |")
     print("| donde las palabras están atrapadas. Para liberarlas debe|")
