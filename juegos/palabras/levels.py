@@ -1,6 +1,4 @@
-import pygame
 from puzzles.complete_words import CompleteWordsPuzzle
-
 
 class LevelManager:
     def __init__(self, screen):

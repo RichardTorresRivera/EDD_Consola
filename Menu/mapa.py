@@ -1,6 +1,16 @@
+# PARA CORRER EL ARCHIVO: en la carpeta de proyecto ejecutar: py menu/mapa.py
+
+import os
+import sys
 import pygame
 from personaje import Personaje
 from inicio import inicio
+
+# Agregar el directorio del proyecto al sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+# Ahora se puede importar config
+import config
 
 pygame.init()
 screen = pygame.display.set_mode((1280, 720))
@@ -8,7 +18,8 @@ run = True
 
 map_frames = []
 for i in range(4):
-    wallpaper = pygame.image.load(f"Mapa//map_frame{i}.png")
+    wallpaper_path = os.path.join(config.MAPA_DIR,f"map_frame{i}.png")
+    wallpaper = pygame.image.load(wallpaper_path)
     map_frames.append(wallpaper)
 
 pygame.display.set_caption("Stack Adventure")
@@ -25,18 +36,24 @@ animation_move = []
 animation_idle = []
 
 for i in range(4):
-    img = pygame.image.load(f"Toshi//Moving//Frame{i}.png")
+    img_path = os.path.join(config.TOSHI_DIR,"moving",f"frame{i}.png")
+    img = pygame.image.load(img_path)
     img = escalar_imagen(img, 0.04)
     animation_move.append(img)
 
 for i in range(2):
-    img = pygame.image.load(f"Toshi//Stop//FrameS{i}.png")
+    img_path = os.path.join(config.TOSHI_DIR,"stop",f"frameS{i}.png")
+    img = pygame.image.load(img_path)
     img = escalar_imagen(img, 0.04)
     animation_idle.append(img)
 
-img_config = pygame.image.load("Elementos//Ajustes.png")
+
+img_config_path = os.path.join(config.GENERAL_DIR,"boton ajustes.png")
+img_config = pygame.image.load(img_config_path)
 img_config = escalar_imagen(img_config, 0.07)
-img_book = pygame.image.load("Elementos//Libro.png")
+
+img_book_path = os.path.join(config.GENERAL_DIR,"libro.png")
+img_book = pygame.image.load(img_book_path)
 img_book = escalar_imagen(img_book, 0.08)
 
 path_segments = [
