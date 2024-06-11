@@ -1,12 +1,26 @@
 import os
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# Directorio de assets
 ASSETS_DIR = os.path.join(PROJECT_DIR, "assets")
 IMAGES_DIR = os.path.join(ASSETS_DIR, "images")
-MAPA_DIR = os.path.join(IMAGES_DIR, "mapa")
-TOSHI_DIR = os.path.join(IMAGES_DIR, "toshi")
+FONTS_DIR = os.path.join(ASSETS_DIR, "fonts")
+SOUNDS_DIR = os.path.join(ASSETS_DIR, "sounds")
+
+# Directorio de images
+FONDOS_DIR = os.path.join(IMAGES_DIR, "fondos")
 GENERAL_DIR = os.path.join(IMAGES_DIR, "general")
+MAPA_DIR = os.path.join(IMAGES_DIR, "mapa")
 MENU_DIR = os.path.join(IMAGES_DIR, "menu")
+TOSHI_DIR = os.path.join(IMAGES_DIR, "toshi")
+
+# Directorio de juegos
+JUEGOS_DIR = os.path.join(IMAGES_DIR, "juegos")
+BUSCAMINAS_DIR = os.path.join(JUEGOS_DIR, "buscaminas")
+CARTAS_DIR = os.path.join(JUEGOS_DIR, "cartas")
+HANOI_DIR = os.path.join(JUEGOS_DIR, "hanoi")
+LABERINTOS_DIR = os.path.join(JUEGOS_DIR, "laberintos")
 
 
 ANCHO_VENTANA = 1280

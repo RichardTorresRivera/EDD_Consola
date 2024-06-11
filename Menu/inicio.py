@@ -29,6 +29,13 @@ def inicio():
 
         screen.blit(img, (0, 0))
 
+        # Cambiar el cursor del mouse según su posición
+        mouse_pos = pygame.mouse.get_pos()
+        if boton_jugar.collidepoint(mouse_pos) or boton_salir.collidepoint(mouse_pos):
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+        else:
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -37,8 +44,10 @@ def inicio():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = event.pos
                 if boton_jugar.collidepoint(mouse_pos):
+                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                     running = False
                 elif boton_salir.collidepoint(mouse_pos):
+                    pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                     running = False
                     pygame.quit()
                     sys.exit()
