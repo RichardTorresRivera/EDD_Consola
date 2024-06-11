@@ -14,6 +14,7 @@ GENERAL_DIR = os.path.join(IMAGES_DIR, "general")
 MAPA_DIR = os.path.join(IMAGES_DIR, "mapa")
 MENU_DIR = os.path.join(IMAGES_DIR, "menu")
 TOSHI_DIR = os.path.join(IMAGES_DIR, "toshi")
+NIVELES_DIR = os.path.join(IMAGES_DIR, "niveles")
 
 # Directorio de juegos
 JUEGOS_DIR = os.path.join(IMAGES_DIR, "juegos")
