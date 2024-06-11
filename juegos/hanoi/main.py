@@ -51,25 +51,33 @@ def manejar_eventos(hanoi, torres, discos):
             mouse_pos = event.pos
             for torre in torres:
                 if torre.forma.collidepoint(mouse_pos):
-                    if not hanoi.flotando:
+                    if not hanoi.get_flotando():
                         if not torre.esta_vacia():
                             disco = torre.desapilar()
-                            hanoi.disco_mover = disco
-                            index = disco.get_peso()-1
-                            hanoi.indice_disco_mover = index
+                            index = disco.get_indice()
                             discos[index] = disco
-                            discos[index].set_pos(4.5)
-                            hanoi.flotando = True
+                            discos[index].set_pos(constantes.DISCO_FLOTAR)
+                            hanoi.set_disco_mover(disco)
+                            hanoi.set_torre_origen(torre)
+                            hanoi.set_flotando(True)
                         else:
-                            print("La torre esta vacia, movimiento invalido")
+                            print("Movimiento invalido: La torre esta vacia, no hay discos para mover")
                     else:
-                        index = hanoi.indice_disco_mover 
-                        disco = hanoi.disco_mover
-                        discos[index].set_torre(torre) # asociar disco a torre
-                        discos[index].set_pos(torre.get_tamanio())
-                        discos[index].set_torre(torre)
-                        torre.apilar(disco)
-                        hanoi.flotando = False
+                        hanoi.set_torre_destino(torre)
+                        if hanoi.movimiento_valido():
+                            disco = hanoi.get_disco_mover()
+                            index = disco.get_indice()
+                            discos[index].set_torre(torre)
+                            discos[index].set_pos(torre.get_tamanio())
+                            discos[index].set_torre(torre)
+                            torre.apilar(disco)
+                            hanoi.set_flotando(False)
+                            if (hanoi.get_torre_origen() == hanoi.get_torre_destino()):
+                                print("Mmmm")
+                            else:
+                                print("Bien hecho")
+                        else:
+                            print("Movimiento invalido: El peso del disco a mover es mayor al disco de la torre destino")
 
 def actualizar(discos):
     for i in range(len(discos)):
@@ -88,7 +96,7 @@ def dibujar(screen, fondo, torres, discos):
     else:
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
-    pygame.display.flip()  # Actualizar la pantalla
+    pygame.display.flip()
 
 def cargar_imagen(path, nombre, ancho = None, alto = None):
     img_path = os.path.join(path, nombre+".png")
@@ -99,18 +107,26 @@ def cargar_imagen(path, nombre, ancho = None, alto = None):
     return img
 
 def main_hanoi():
+    n = 3
+
     img_fondo = cargar_imagen(config.FONDOS_DIR, "hanoiHD")
     img_torre = cargar_imagen(config.HANOI_DIR, "soporte", constantes.ANCHO_TORRE, constantes.ALTO_TORRE)
     
     torres = crear_torres(img_torre)
-    discos = llenar_torre(5, torres[0]) #Numero de discos
+    discos = llenar_torre(n, torres[0])
 
-    hanoi = Hanoi() # Objeto hanoi
-
-    while True:
+    hanoi = Hanoi(torres)
+    jugar_hanoi = True
+    while jugar_hanoi:
         manejar_eventos(hanoi, torres, discos)
         actualizar(discos)
         dibujar(screen, img_fondo, torres, discos)
+        if hanoi.game_over(n):
+            jugar_hanoi = False
+            print("FELICIDADES")
+            print("Numero de movimiento: ", hanoi.get_movimientos())
+            pygame.quit()
+            sys.exit()
         reloj.tick(FPS)
 
 if __name__ == '__main__':

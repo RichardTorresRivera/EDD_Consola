@@ -22,13 +22,15 @@ class Disco(Nodo):
     def get_torre(self):
         return self.torre
     
+    def get_indice(self):
+        return self.peso - 1
+    
     def actualizar(self):
         self.forma.center = self.torre.forma.center
         self.forma.top = 240 - self.pos*40
 
     def dibujar(self, screen):
         screen.blit(self.image, self.forma)
-        #pygame.draw.rect(screen, (255,255,0), self.forma, 1)
 
 class Torre(Pila):
     def __init__(self, image, x, y):
@@ -42,4 +44,3 @@ class Torre(Pila):
 
     def dibujar(self, screen):
         screen.blit(self.image, self.forma)
-        pygame.draw.rect(screen, (255,0,0), self.forma, 1)
