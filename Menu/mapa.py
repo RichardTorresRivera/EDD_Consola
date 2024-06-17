@@ -13,6 +13,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 import config
 
 pygame.init()
+pygame.mixer.init()
 screen = pygame.display.set_mode((1280, 720))
 run = True
 
@@ -81,13 +82,20 @@ img_handle = pygame.image.load(img_handle_path)
 
 # IMAGENES DE LOS NIVELES
 
-img_palabras_path = os.path.join(config.NIVELES_DIR, "palabras.png")
-img_palabras = pygame.image.load(img_palabras_path)
-img_palabras = escalar_imagen(img_palabras, 1.2)
+img_preview1_path = os.path.join(config.NIVELES_DIR, "palabras.png")
+img_preview1= pygame.image.load(img_preview1_path)
+img_preview1 = escalar_imagen(img_preview1, 1.4)
+
+img_preview2_path = os.path.join(config.NIVELES_DIR, "buscaminas.png")
+img_preview2= pygame.image.load(img_preview2_path)
+img_preview2 = escalar_imagen(img_preview2, 1.4)
 
 preview_areas = [
-    pygame.Rect(180, 75, 50, 50)
+    (pygame.Rect(180, 75, 20, 20), img_preview1),
+    (pygame.Rect(430, 75, 20, 20), img_preview2)
 ]
+
+preview_position = (0, 350)
 
 path_segments = [
     [(130, 75), (180, 75)],
@@ -115,8 +123,12 @@ mostrar_inicio = True
 
 while run:
     if mostrar_inicio:
+        pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Inicio - Barracuda.mp3"))
+        pygame.mixer.music.play(-1)
         inicio()
         mostrar_inicio = False
+        pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Menu - Super Mario World.mp3"))
+        pygame.mixer.music.play(-1)
     else:
         screen.blit(map_frames[current_frame], (0, 0))
         screen.blit(img_config, (1180, 20))
@@ -130,7 +142,6 @@ while run:
             handle_x = vfx_slider.x + int(vfx_volume * (vfx_slider.width - img_handle.get_width()))
             handle_y = vfx_slider.y + (vfx_slider.height // 2) - (img_handle.get_height() // 2)
             screen.blit(img_handle, (handle_x, handle_y))
-
 
             handle_x = music_slider.x + int(music_volume * (music_slider.width - img_handle.get_width()))
             handle_y = music_slider.y + (music_slider.height // 2) - (img_handle.get_height() // 2)
@@ -186,9 +197,9 @@ while run:
         player.update()
         player.dibujar(screen)
 
-        for area in preview_areas:
+        for area, img_preview in preview_areas:
             if area.collidepoint(player.forma.topleft):
-                screen.blit(img_palabras, (area.x - 180, area.y + 310))
+                screen.blit(img_preview, (preview_position))
 
         pygame.display.update()
 

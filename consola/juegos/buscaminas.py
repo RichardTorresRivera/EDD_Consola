@@ -1,4 +1,4 @@
-from edd.matriz import Matriz
+from consola.edd.matriz import Matriz
 
 def main_minas():
     dificultad = int(input("Elige la dificultad:\n1. Facil\n2. Dificil\n-> Opción: "))

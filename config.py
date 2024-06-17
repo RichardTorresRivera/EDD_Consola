@@ -23,6 +23,10 @@ CARTAS_DIR = os.path.join(JUEGOS_DIR, "cartas")
 HANOI_DIR = os.path.join(JUEGOS_DIR, "hanoi")
 LABERINTOS_DIR = os.path.join(JUEGOS_DIR, "laberintos")
 
+#Directorio de musica
+SFX_DIR = os.path.join(SOUNDS_DIR, "sound effects")
+SOUNDTRACK_DIR = os.path.join(SOUNDS_DIR, "soundtrack 8-bits")
+
 
 ANCHO_VENTANA = 1280
 ALTO_VENTANA = 720
