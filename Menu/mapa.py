@@ -81,33 +81,26 @@ img_handle_path = os.path.join(config.GENERAL_DIR, "slide_button.png")
 img_handle = pygame.image.load(img_handle_path)
 
 # IMAGENES DE LOS NIVELES
-img_preview1_path = os.path.join(config.NIVELES_DIR, "palabras.png")
-img_preview1 = pygame.image.load(img_preview1_path)
-img_preview1 = escalar_imagen(img_preview1, 1.4)
+nombres_archivos_preview = ["palabras.png", "buscaminas.png", "hanoi.png", "cartas.png", "laberinto.png",
+                            "decisiones.png"]
 
-img_preview2_path = os.path.join(config.NIVELES_DIR, "buscaminas.png")
-img_preview2 = pygame.image.load(img_preview2_path)
-img_preview2 = escalar_imagen(img_preview2, 1.4)
-
-img_preview3_path = os.path.join(config.NIVELES_DIR, "hanoi.png")
-img_preview3 = pygame.image.load(img_preview3_path)
-img_preview3 = escalar_imagen(img_preview3, 1.4)
-
-img_preview4_path = os.path.join(config.NIVELES_DIR, "cartas.png")
-img_preview4 = pygame.image.load(img_preview4_path)
-img_preview4 = escalar_imagen(img_preview4, 1.4)
-
-img_preview5_path = os.path.join(config.NIVELES_DIR, "laberinto.png")
-img_preview5 = pygame.image.load(img_preview5_path)
-img_preview5 = escalar_imagen(img_preview5, 1.4)
-
-preview_areas = [
-    (pygame.Rect(180, 75, 20, 20), img_preview1),
-    (pygame.Rect(430, 75, 20, 20), img_preview2),
-    (pygame.Rect(650, 140, 20, 20), img_preview3),
-    (pygame.Rect(690, 380, 20, 20), img_preview4),
-    (pygame.Rect(905, 445, 20, 20), img_preview5)
+areas_colision = [
+    pygame.Rect(180, 75, 20, 20),
+    pygame.Rect(430, 75, 20, 20),
+    pygame.Rect(650, 140, 20, 20),
+    pygame.Rect(690, 380, 20, 20),
+    pygame.Rect(905, 445, 20, 20),
+    pygame.Rect(1240, 445, 20, 20)
 ]
+
+assert len(nombres_archivos_preview) == len(areas_colision)
+preview_areas = []
+
+for i in range(len(nombres_archivos_preview)):
+    img_preview_path = os.path.join(config.NIVELES_DIR, nombres_archivos_preview[i])
+    img_preview = pygame.image.load(img_preview_path)
+    img_preview = escalar_imagen(img_preview, 1.4)
+    preview_areas.append((areas_colision[i], img_preview))
 
 preview_position = (0, 350)
 
