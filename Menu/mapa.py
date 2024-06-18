@@ -25,7 +25,7 @@ slider_dragging = False
 
 map_frames = []
 for i in range(4):
-    wallpaper_path = os.path.join(config.MAPA_DIR,f"map_frame{i}.png")
+    wallpaper_path = os.path.join(config.MAPA_DIR, f"map_frame{i}.png")
     wallpaper = pygame.image.load(wallpaper_path)
     map_frames.append(wallpaper)
 
@@ -50,13 +50,13 @@ animation_move = []
 animation_idle = []
 
 for i in range(4):
-    img_path = os.path.join(config.TOSHI_DIR,"moving",f"frame{i}.png")
+    img_path = os.path.join(config.TOSHI_DIR, "moving", f"frame{i}.png")
     img = pygame.image.load(img_path)
     img = escalar_imagen(img, 0.04)
     animation_move.append(img)
 
 for i in range(2):
-    img_path = os.path.join(config.TOSHI_DIR,"stop",f"frameS{i}.png")
+    img_path = os.path.join(config.TOSHI_DIR, "stop", f"frameS{i}.png")
     img = pygame.image.load(img_path)
     img = escalar_imagen(img, 0.04)
     animation_idle.append(img)
@@ -81,18 +81,32 @@ img_handle_path = os.path.join(config.GENERAL_DIR, "slide_button.png")
 img_handle = pygame.image.load(img_handle_path)
 
 # IMAGENES DE LOS NIVELES
-
 img_preview1_path = os.path.join(config.NIVELES_DIR, "palabras.png")
-img_preview1= pygame.image.load(img_preview1_path)
+img_preview1 = pygame.image.load(img_preview1_path)
 img_preview1 = escalar_imagen(img_preview1, 1.4)
 
 img_preview2_path = os.path.join(config.NIVELES_DIR, "buscaminas.png")
-img_preview2= pygame.image.load(img_preview2_path)
+img_preview2 = pygame.image.load(img_preview2_path)
 img_preview2 = escalar_imagen(img_preview2, 1.4)
+
+img_preview3_path = os.path.join(config.NIVELES_DIR, "hanoi.png")
+img_preview3 = pygame.image.load(img_preview3_path)
+img_preview3 = escalar_imagen(img_preview3, 1.4)
+
+img_preview4_path = os.path.join(config.NIVELES_DIR, "cartas.png")
+img_preview4 = pygame.image.load(img_preview4_path)
+img_preview4 = escalar_imagen(img_preview4, 1.4)
+
+img_preview5_path = os.path.join(config.NIVELES_DIR, "laberinto.png")
+img_preview5 = pygame.image.load(img_preview5_path)
+img_preview5 = escalar_imagen(img_preview5, 1.4)
 
 preview_areas = [
     (pygame.Rect(180, 75, 20, 20), img_preview1),
-    (pygame.Rect(430, 75, 20, 20), img_preview2)
+    (pygame.Rect(430, 75, 20, 20), img_preview2),
+    (pygame.Rect(650, 140, 20, 20), img_preview3),
+    (pygame.Rect(690, 380, 20, 20), img_preview4),
+    (pygame.Rect(905, 445, 20, 20), img_preview5)
 ]
 
 preview_position = (0, 350)
@@ -199,7 +213,7 @@ while run:
 
         for area, img_preview in preview_areas:
             if area.collidepoint(player.forma.topleft):
-                screen.blit(img_preview, (preview_position))
+                screen.blit(img_preview, preview_position)
 
         pygame.display.update()
 
