@@ -44,10 +44,14 @@ help_button = pygame.Rect(1101, 20, 50, 50)
 vfx_slider = pygame.Rect(563, 330, 160, 16)
 music_slider = pygame.Rect(563, 408, 160, 16)
 ok_button = pygame.Rect(625, 558, 50, 40)
+no_button = pygame.Rect(630, 460, 30, 30)
+main_exit = pygame.Rect(570, 290, 160, 50)
+desktop_exit = pygame.Rect(570, 375, 160, 50)
 
 
 animation_move = []
 animation_idle = []
+animation_load = []
 
 for i in range(4):
     img_path = os.path.join(config.TOSHI_DIR, "moving", f"frame{i}.png")
@@ -60,6 +64,11 @@ for i in range(2):
     img = pygame.image.load(img_path)
     img = escalar_imagen(img, 0.04)
     animation_idle.append(img)
+
+for i in range(6):
+    img_path = os.path.join(config.TOSHI_DIR, "loading", f"load{i}.png")
+    img = pygame.image.load(img_path)
+    animation_load.append(img)
 
 # IMAGENES DE LA CONFIGURACION
 img_config_path = os.path.join(config.GENERAL_DIR, "boton ajustes.png")
@@ -79,6 +88,9 @@ img_help = escalar_imagen(img_help, 0.9)
 
 img_handle_path = os.path.join(config.GENERAL_DIR, "slide_button.png")
 img_handle = pygame.image.load(img_handle_path)
+
+img_exit_path = os.path.join(config.GENERAL_DIR, "exit.png")
+img_exit = pygame.image.load(img_exit_path)
 
 # IMAGENES DE LOS NIVELES
 nombres_archivos_preview = ["palabras.png", "buscaminas.png", "hanoi.png", "cartas.png", "laberinto.png",
@@ -127,6 +139,7 @@ last_map_update = pygame.time.get_ticks()
 map_update_interval = 1000 // fps_mapa
 
 mostrar_inicio = True
+show_exit = False
 
 while run:
     if mostrar_inicio:
@@ -134,28 +147,18 @@ while run:
         pygame.mixer.music.play(-1)
         inicio()
         mostrar_inicio = False
+        pygame.mixer.music.stop()
+        for frame in animation_load:
+            screen.blit(frame, (0, 0))
+            pygame.display.update()
+            pygame.time.delay(500)
+
         pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Menu - Super Mario World.mp3"))
         pygame.mixer.music.play(-1)
     else:
         screen.blit(map_frames[current_frame], (0, 0))
         screen.blit(img_config, (1180, 20))
         screen.blit(img_book, (1100, 20))
-
-        if show_settings:
-            pygame.draw.rect(screen, (200, 200, 200), vfx_slider)
-            pygame.draw.rect(screen, (200, 200, 200), music_slider)
-            screen.blit(img_panel_config, (500, 195))
-
-            handle_x = vfx_slider.x + int(vfx_volume * (vfx_slider.width - img_handle.get_width()))
-            handle_y = vfx_slider.y + (vfx_slider.height // 2) - (img_handle.get_height() // 2)
-            screen.blit(img_handle, (handle_x, handle_y))
-
-            handle_x = music_slider.x + int(music_volume * (music_slider.width - img_handle.get_width()))
-            handle_y = music_slider.y + (music_slider.height // 2) - (img_handle.get_height() // 2)
-            screen.blit(img_handle, (handle_x, handle_y))
-
-        if show_help:
-            screen.blit(img_help, (400, 65))
 
         reloj_personaje.tick(fps_personaje)
 
@@ -167,6 +170,8 @@ while run:
                     player.move_to_next_point()
                 if event.key == pygame.K_LEFT:
                     player.move_to_previous_point()
+                if event.key == pygame.K_ESCAPE:
+                    show_exit = True
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if settings_button.collidepoint(event.pos) and not show_help:
@@ -183,6 +188,20 @@ while run:
 
                 if show_help and ok_button.collidepoint(event.pos):
                     show_help = False
+
+                if show_exit:
+                    if main_exit.collidepoint(event.pos):
+                        pygame.mixer.music.stop()
+                        for frame in animation_load:
+                            screen.blit(frame, (0, 0))
+                            pygame.display.update()
+                            pygame.time.delay(500)
+                        mostrar_inicio = True
+                        show_exit = False
+                    elif desktop_exit.collidepoint(event.pos):
+                        run = False
+                    if no_button.collidepoint(event.pos):
+                        show_exit = False
 
             if event.type == pygame.MOUSEBUTTONUP:
                 slider_dragging = False
@@ -207,6 +226,23 @@ while run:
         for area, img_preview in preview_areas:
             if area.collidepoint(player.forma.topleft):
                 screen.blit(img_preview, preview_position)
+
+        if show_settings:
+            pygame.draw.rect(screen, (200, 200, 200), vfx_slider)
+            pygame.draw.rect(screen, (200, 200, 200), music_slider)
+            screen.blit(img_panel_config, (500, 195))
+
+            handle_x = vfx_slider.x + int(vfx_volume * (vfx_slider.width - img_handle.get_width()))
+            handle_y = vfx_slider.y + (vfx_slider.height // 2) - (img_handle.get_height() // 2)
+            screen.blit(img_handle, (handle_x, handle_y))
+
+            handle_x = music_slider.x + int(music_volume * (music_slider.width - img_handle.get_width()))
+            handle_y = music_slider.y + (music_slider.height // 2) - (img_handle.get_height() // 2)
+            screen.blit(img_handle, (handle_x, handle_y))
+        if show_help:
+            screen.blit(img_help, (400, 65))
+        if show_exit:
+            screen.blit(img_exit, (480, 195))
 
         pygame.display.update()
 
