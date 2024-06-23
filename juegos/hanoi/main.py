@@ -109,7 +109,6 @@ def cargar_imagen(path, nombre, ancho = None, alto = None):
 
 def main_hanoi():
     n = 3
-
     img_fondo = cargar_imagen(config.FONDOS_DIR, "hanoiHD")
     img_torre = cargar_imagen(config.HANOI_DIR, "soporte", constantes.ANCHO_TORRE, constantes.ALTO_TORRE)
     
@@ -117,6 +116,8 @@ def main_hanoi():
     discos = llenar_torre(n, torres[0])
 
     hanoi = Hanoi(torres)
+    pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Torre Hanoi - Stairway to Heaven.mp3"))
+    pygame.mixer.music.play(-1)
     jugar_hanoi = True
     while jugar_hanoi:
         manejar_eventos(hanoi, torres, discos)

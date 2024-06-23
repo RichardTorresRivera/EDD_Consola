@@ -1,4 +1,5 @@
 import sys
+import os
 import csv
 import pygame
 import config
@@ -6,6 +7,8 @@ from juegos.decisiones.recursos.arbol import ArbolBinario, Nodo
 from juegos.decisiones.recursos.contenedor import Contenedor
 from juegos.decisiones.recursos.decisiones import Decisiones
 from juegos.decisiones.recursos import constantes
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Inicialización de Pygame
 pygame.init()
@@ -111,7 +114,7 @@ def main_decisiones():
 
     jugar_decisiones = True
     # Iniciar clases
-    archivo = "assets/data/data_decisiones.csv"
+    archivo = os.path.join(config.DATA_DIR, "data_decisiones.csv")
     escenarios = crear_escenarios(screen, COLORES)
     nodos = get_nodos(archivo, escenarios)
     arbol = ArbolBinario(nodos)
@@ -121,6 +124,8 @@ def main_decisiones():
     boton_opcion_b = Contenedor(680, constantes.POSY_BOTON, constantes.ANCHO_BOTON, constantes.ALTO_BOTON, constantes.NEGRO, decisiones.get_opc_b())
     botones = [boton_opcion_a, boton_opcion_b]
 
+    pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Toma Decisiones - Raincloud.mp3"))
+    pygame.mixer.music.play(-1)
     while jugar_decisiones:
         manejar_eventos(decisiones, botones)
         actualizar(decisiones, mensaje, boton_opcion_a, boton_opcion_b)

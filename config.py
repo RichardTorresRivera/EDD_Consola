@@ -4,6 +4,7 @@ PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Directorio de assets
 ASSETS_DIR = os.path.join(PROJECT_DIR, "assets")
+DATA_DIR = os.path.join(ASSETS_DIR, "data")
 IMAGES_DIR = os.path.join(ASSETS_DIR, "images")
 FONTS_DIR = os.path.join(ASSETS_DIR, "fonts")
 SOUNDS_DIR = os.path.join(ASSETS_DIR, "sounds")

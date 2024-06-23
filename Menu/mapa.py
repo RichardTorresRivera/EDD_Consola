@@ -5,6 +5,8 @@ import sys
 import pygame
 from personaje import Personaje
 from inicio import inicio
+from juegos.hanoi.main import main_hanoi
+from juegos.decisiones.main import main_decisiones
 
 # Agregar el directorio del proyecto al sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -47,7 +49,8 @@ ok_button = pygame.Rect(625, 558, 50, 40)
 no_button = pygame.Rect(630, 460, 30, 30)
 main_exit = pygame.Rect(570, 290, 160, 50)
 desktop_exit = pygame.Rect(570, 375, 160, 50)
-
+accept_button = pygame.Rect(593, 460, 30, 30)
+cancel_button = pygame.Rect(658, 460, 30, 30)
 
 animation_move = []
 animation_idle = []
@@ -107,12 +110,16 @@ areas_colision = [
 
 assert len(nombres_archivos_preview) == len(areas_colision)
 preview_areas = []
+level_button = []
+init_game = [main_hanoi, main_decisiones, main_decisiones, main_decisiones, main_decisiones, main_decisiones]
 
 for i in range(len(nombres_archivos_preview)):
     img_preview_path = os.path.join(config.NIVELES_DIR, nombres_archivos_preview[i])
     img_preview = pygame.image.load(img_preview_path)
     img_preview = escalar_imagen(img_preview, 1.4)
     preview_areas.append((areas_colision[i], img_preview))
+
+level_button = pygame.Rect(158, 655, 85, 30)
 
 preview_position = (0, 350)
 
@@ -124,6 +131,8 @@ path_segments = [
     [(690, 380), (690, 350), (875, 350), (875, 445), (905, 445)],
     [(905, 445), (1240, 445)]
 ]
+
+# level_button = [pygame.Rect(158, 655, 85, 30) for area, img_preview in preview_areas]
 
 player = Personaje(path_segments[0][0][0], path_segments[0][0][1], animation_move, animation_idle, path_segments)
 
@@ -138,8 +147,25 @@ fps_mapa = 3
 last_map_update = pygame.time.get_ticks()
 map_update_interval = 1000 // fps_mapa
 
+original_music_volume = music_volume
+original_vfx_volume = vfx_volume
+
 mostrar_inicio = True
 show_exit = False
+
+try:
+    with open(os.path.join(config.DATA_DIR, 'config_volume.txt'), 'r') as f:
+        lines = f.readlines()
+        for line in lines:
+            key, value = line.strip().split('=')
+            if key == 'music_volume':
+                music_volume = float(value)
+                pygame.mixer.music.set_volume(music_volume)
+except FileNotFoundError:
+    music_volume = 0.5
+    pygame.mixer.music.set_volume(music_volume)
+
+handle_x = 563
 
 while run:
     if mostrar_inicio:
@@ -174,6 +200,12 @@ while run:
                     show_exit = True
 
             if event.type == pygame.MOUSEBUTTONDOWN:
+                if level_button.collidepoint(event.pos):
+                    for i, (area, game) in enumerate(zip(areas_colision, init_game)):
+                        if area.collidepoint(player.forma.topleft):
+                            game()
+                            break
+
                 if settings_button.collidepoint(event.pos) and not show_help:
                     show_settings = not show_settings
 
@@ -182,6 +214,18 @@ while run:
                         slider_dragging = 'vfx'
                     elif music_slider.collidepoint(event.pos):
                         slider_dragging = 'music'
+
+                    if accept_button.collidepoint(event.pos):
+                        show_settings = False
+                        with open(os.path.join(config.DATA_DIR, "config_volume.txt"), "w") as f:
+                            f.write(f"music_volume={music_volume}\n")
+                            handle_x = music_slider.x + int(
+                                music_volume * (music_slider.width - img_handle.get_width()))
+                            f.write(f"music_slider_pos={handle_x}\n")
+                    elif cancel_button.collidepoint(event.pos):
+                        music_volume = original_music_volume
+                        pygame.mixer.music.set_volume(music_volume)
+                        show_settings = False
 
                 if help_button.collidepoint(event.pos) and not show_settings:
                     show_help = not show_help
@@ -214,6 +258,11 @@ while run:
                 elif slider_dragging == 'music':
                     music_volume = (mouse_x - music_slider.x) / music_slider.width
                     music_volume = max(0, min(music_volume, 1))
+                    pygame.mixer.music.set_volume(music_volume)
+                    handle_x = music_slider.x + int(music_volume * (music_slider.width - img_handle.get_width()))
+                    with open(os.path.join(config.DATA_DIR, "config_volume.txt"), "w") as f:
+                        f.write(f"music_volume={music_volume}\n")
+                        f.write(f"music_slider_pos={handle_x}\n")
 
         current_time = pygame.time.get_ticks()
         if current_time - last_map_update > map_update_interval:
