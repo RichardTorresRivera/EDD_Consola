@@ -1,12 +1,17 @@
+import sys
+import os
+import config
 import pygame
 import textwrap
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 class Contenedor:
     def __init__(self, x, y, ancho, alto, color, texto):
         self.forma = pygame.Rect(x, y, ancho, alto)
         self.color = color
         self.texto = texto
-        self.fuente = pygame.font.Font('assets/fonts/minecraft.ttf', 23)
+        self.fuente = pygame.font.Font(os.path.join(config.FONTS_DIR, "minecraft.ttf"), 23)
     
     def dibujar(self, screen):
         pygame.draw.rect(screen, self.color, self.forma, border_radius = 20)
