@@ -5,15 +5,24 @@ import config
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Inicialización Pygame
+# Initialization Pygame
 pygame.init()
-screen = pygame.display.set_mode((1280,720))
+screen = pygame.display.set_mode((config.ANCHO_VENTANA, config.ALTO_VENTANA))
 pygame.display.set_caption('Libro Instrucciones')
 clock = pygame.time.Clock()
 FPS = 60
-# Fin de inicialización
+# End of initialization
 
-background = pygame.image.load(os.path.join(config.LIBROS_DIR,"LibroVacio.png"))
+background_default = pygame.image.load(os.path.join(config.LIBROS_DIR, "LibroVacio.png"))
+background_hanoi = pygame.image.load(os.path.join(config.LIBROS_DIR, "LibroHanoi.png"))
+
+context = 'hanoi'
+
+
+def librohanoi():
+    global context
+    context = 'hanoi'
+
 
 done = False
 
@@ -23,17 +32,12 @@ while not done:
             done = True
             pygame.quit()
             sys.exit()
-    screen.blit(background, [0,0])
+
+    if context == 'hanoi':
+        background = background_hanoi
+    else:
+        background = background_default
+
+    screen.blit(background, [0, 0])
+    pygame.display.flip()
     clock.tick(FPS)
-
-# def infoHanoi()
-
-# def infoBuscaminas()
-
-# def infoCartas()
-
-# def infoLaberintos()
-
-# def infoDecisiones()
-
-# def infoPalabras()
