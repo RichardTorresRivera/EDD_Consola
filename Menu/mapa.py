@@ -1,6 +1,7 @@
 import os
 import sys
 import pygame
+import config
 from personaje import Personaje
 from juegos.hanoi.main import main_hanoi
 from juegos.decisiones.main import main_decisiones
@@ -8,8 +9,6 @@ from juegos.decisiones.main import main_decisiones
 # Agregar el directorio del proyecto al sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Ahora se puede importar config
-import config
 
 class Juego:
     def __init__(self):
@@ -101,7 +100,8 @@ class Juego:
         assert len(nombres_archivos_preview) == len(self.areas_colision)
         self.preview_areas = []
         self.level_button = []
-        self.init_game = [main_hanoi, main_decisiones, main_decisiones, main_decisiones, main_decisiones, main_decisiones]
+        self.init_game = [main_hanoi, main_decisiones, main_decisiones, main_decisiones,
+                          main_decisiones, main_decisiones]
 
         for i in range(len(nombres_archivos_preview)):
             img_preview_path = os.path.join(config.NIVELES_DIR, nombres_archivos_preview[i])
@@ -122,7 +122,8 @@ class Juego:
             [(905, 445), (1240, 445)]
         ]
 
-        self.player = Personaje(path_segments[0][0][0], path_segments[0][0][1], self.animation_move, self.animation_idle, path_segments)
+        self.player = Personaje(path_segments[0][0][0], path_segments[0][0][1], self.animation_move,
+                                self.animation_idle, path_segments)
 
         self.current_frame = 0
 
@@ -251,7 +252,8 @@ class Juego:
                             self.music_volume = (mouse_x - self.music_slider.x) / self.music_slider.width
                             self.music_volume = max(0, min(self.music_volume, 1))
                             pygame.mixer.music.set_volume(self.music_volume)
-                            self.handle_x = self.music_slider.x + int(self.music_volume * (self.music_slider.width - self.img_handle.get_width()))
+                            self.handle_x = self.music_slider.x + int(self.music_volume * (self.music_slider.width -
+                                                                                           self.img_handle.get_width()))
                             with open(os.path.join(config.DATA_DIR, "config_volume.txt"), "w") as f:
                                 f.write(f"music_volume={self.music_volume}\n")
                                 f.write(f"music_slider_pos={self.handle_x}\n")
@@ -273,12 +275,15 @@ class Juego:
                     pygame.draw.rect(self.screen, (200, 200, 200), self.music_slider)
                     self.screen.blit(self.img_panel_config, (500, 195))
 
-                    handle_x = self.vfx_slider.x + int(self.vfx_volume * (self.vfx_slider.width - self.img_handle.get_width()))
+                    handle_x = self.vfx_slider.x + int(self.vfx_volume * (self.vfx_slider.width -
+                                                                          self.img_handle.get_width()))
                     handle_y = self.vfx_slider.y + (self.vfx_slider.height // 2) - (self.img_handle.get_height() // 2)
                     self.screen.blit(self.img_handle, (handle_x, handle_y))
 
-                    handle_x = self.music_slider.x + int(self.music_volume * (self.music_slider.width - self.img_handle.get_width()))
-                    handle_y = self.music_slider.y + (self.music_slider.height // 2) - (self.img_handle.get_height() // 2)
+                    handle_x = self.music_slider.x + int(self.music_volume * (self.music_slider.width -
+                                                                              self.img_handle.get_width()))
+                    handle_y = (self.music_slider.y + (self.music_slider.height // 2) -
+                                (self.img_handle.get_height() // 2))
                     self.screen.blit(self.img_handle, (handle_x, handle_y))
                 if self.show_help:
                     self.screen.blit(self.img_help, (400, 65))
@@ -288,6 +293,7 @@ class Juego:
                 pygame.display.update()
 
         pygame.quit()
+
 
 if __name__ == "__main__":
     juego = Juego()

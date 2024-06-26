@@ -1,13 +1,12 @@
 import os
 import sys
+import config
 import pygame
 from mapa import Juego
 
 # Agregar el directorio del proyecto al sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# Ahora se puede importar config
-import config
 
 class Menu:
     def __init__(self):
@@ -57,14 +56,14 @@ class Menu:
             elif self.screen_status == self.level:
                 self.screen.blit(self.game, (0, 0))
                 mouse_pos = pygame.mouse.get_pos()
-                if self.boton_nuevo.collidepoint(mouse_pos) or self.boton_cargar.collidepoint(mouse_pos) or self.boton_volver.collidepoint(mouse_pos):
+                if (self.boton_nuevo.collidepoint(mouse_pos) or self.boton_cargar.collidepoint(mouse_pos)
+                        or self.boton_volver.collidepoint(mouse_pos)):
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
                 else:
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
@@ -117,10 +116,10 @@ class Menu:
 
                     elif self.boton_salir.collidepoint(mouse_pos):
                         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-                        running = False
                         pygame.quit()
                         sys.exit()
             pygame.display.update()
+
 
 if __name__ == "__main__":
     menu = Menu()
