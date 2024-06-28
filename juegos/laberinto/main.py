@@ -1,7 +1,11 @@
 import pygame
 import sys
+import os
+import config
 from recursos.constantes import *
 from recursos.grafo import Grafo
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Inicializar Pygame
 pygame.init()
@@ -10,7 +14,7 @@ pygame.init()
 pantalla = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
 pygame.display.set_caption("Laberinto")
 
-fondo_img = pygame.image.load('assets/images/fondos/laberintoHD.png')
+fondo_img = pygame.image.load(os.path.join(config.FONDOS_DIR, "laberintoHD.png"))
 fondo_img = pygame.transform.scale(fondo_img, (ANCHO_VENTANA, ALTO_VENTANA))
 
 # Fuente para el texto
@@ -19,8 +23,8 @@ titulo_fuente = pygame.font.Font(ruta_fuente, 48)
 
 # Cargar las imágenes del jugador
 jugador_imgs = [
-    pygame.image.load('assets/images/toshi/stop/frameS0.png').convert_alpha(),
-    pygame.image.load('assets/images/toshi/stop/frameS1.png').convert_alpha()
+    pygame.image.load(os.path.join(config.TOSHI_DIR, "stop", "frameS0.png")).convert_alpha(),
+    pygame.image.load(os.path.join(config.TOSHI_DIR, "stop", "frameS1.png")).convert_alpha()
 ]
 jugador_imgs = [pygame.transform.scale(img, (TAMAÑO_CELDA, TAMAÑO_CELDA)) for img in jugador_imgs]
 
@@ -42,7 +46,7 @@ def main_lab():
     margen_y = (ALTO_VENTANA - alto_laberinto) // 2
 
     # Cargar la imagen de fondo para "Laberinto"
-    fondo_laberinto_img = pygame.image.load('assets/images/general/cuadro.png')
+    fondo_laberinto_img = pygame.image.load(os.path.join(config.GENERAL_DIR, "cuadro.png"))
     fondo_laberinto_img = pygame.transform.scale(fondo_laberinto_img, (300, 70))
 
     while True:

@@ -2,7 +2,7 @@ import os
 import sys
 import pygame
 import config
-from personaje import Personaje
+from Menu.personaje import Personaje
 from juegos.hanoi.main import main_hanoi
 from juegos.decisiones.main import main_decisiones
 

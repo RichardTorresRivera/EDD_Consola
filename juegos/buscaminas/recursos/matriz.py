@@ -1,6 +1,11 @@
 import pygame
 from recursos.constantes import *
 import random
+import os
+import sys
+import config
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 class Matriz:
     def __init__(self, filas, columnas, minas):
@@ -13,7 +18,7 @@ class Matriz:
         self.map = [[0 for _ in range(columnas)] for _ in range(filas)]
         self.colocar_minas()
         self.calcular_numeros()
-        self.bandera_img = pygame.image.load('assets/images/juegos/buscaminas/bandera.png')
+        self.bandera_img = pygame.image.load(os.path.join(config.BUSCAMINAS_DIR, "bandera.png"))
         self.bandera_img = pygame.transform.scale(self.bandera_img, (20, 20))
 
     def colocar_minas(self):

@@ -1,7 +1,12 @@
 import pygame
 import sys
+import os
+import config
 from recursos.constantes import *
 from recursos.matriz import Matriz
+
+# Agregar el directorio del proyecto al sys.path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 # Inicializar pygame
 pygame.init()
@@ -10,12 +15,13 @@ pygame.init()
 pantalla = pygame.display.set_mode((ANCHO, ALTO))
 pygame.display.set_caption("Buscaminas")
 
-fondo_img = pygame.image.load('assets/images/fondos/buscaminasHD.png')
+fondo_img = pygame.image.load(os.path.join(config.FONDOS_DIR, "buscaminasHD.png"))
 fondo_img = pygame.transform.scale(fondo_img, (ANCHO, ALTO))
 
 # Fuente para el texto
 fuente = pygame.font.Font(ruta_fuente, 30)
 fuente_minas = pygame.font.Font(ruta_fuente, 24)
+
 
 def mostrar_mensaje_final(pantalla, mensaje, color):
     reloj = pygame.time.Clock()

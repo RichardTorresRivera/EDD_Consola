@@ -1,6 +1,10 @@
 # constantes.py
 # Configuración de colores
+import os
+import sys
+import config
 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 NEGRO = (38, 32, 23)
 BLANCO = (255, 255, 255)
@@ -27,4 +31,4 @@ ANCHO = 1280
 ALTO = 720
 TAMAÑO_CELDA = 40
 
-ruta_fuente = 'assets/fonts/Minecraft.ttf'
+ruta_fuente = os.path.join(config.FONTS_DIR, "minecraft.ttf")

@@ -2,11 +2,10 @@ import os
 import sys
 import config
 import pygame
-from mapa import Juego
+from Menu.mapa import Juego
 
 # Agregar el directorio del proyecto al sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 
 class Menu:
     def __init__(self):

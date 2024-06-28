@@ -1,3 +1,9 @@
+import os
+import sys
+import config
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 # Configuración de colores
 NEGRO = (0, 0, 0)
 BLANCO = (255, 255, 255)
@@ -15,4 +21,4 @@ ALTO_VENTANA = 720
 TAMAÑO_CELDA = 40
 
 # Fuente
-ruta_fuente = 'assets/fonts/Minecraft.ttf'
+ruta_fuente = os.path.join(config.FONTS_DIR, "minecraft.ttf")
