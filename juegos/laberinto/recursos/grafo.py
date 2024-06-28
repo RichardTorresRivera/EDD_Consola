@@ -1,6 +1,6 @@
 import random
 import pygame
-from recursos.constantes import *
+from juegos.laberinto.recursos.constantes import *
 
 class Grafo:
     def __init__(self, filas, columnas):

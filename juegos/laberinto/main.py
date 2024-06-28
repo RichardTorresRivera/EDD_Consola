@@ -1,9 +1,6 @@
 import pygame
-import sys
-import os
-import config
-from recursos.constantes import *
-from recursos.grafo import Grafo
+from juegos.laberinto.recursos.constantes import *
+from juegos.laberinto.recursos.grafo import Grafo
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -28,8 +25,11 @@ jugador_imgs = [
 ]
 jugador_imgs = [pygame.transform.scale(img, (TAMAÑO_CELDA, TAMAÑO_CELDA)) for img in jugador_imgs]
 
+
 def main_lab():
     reloj = pygame.time.Clock()
+    pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Laberinto - Enjoy The Silence.mp3"))
+    pygame.mixer.music.play(-1)
 
     filas = 10
     columnas = 10
@@ -82,16 +82,19 @@ def main_lab():
 
         # Dibujar el laberinto centrado en la pantalla
         pantalla.blit(fondo_img, (0, 0))  # Fondo del laberinto
-        pantalla.blit(fondo_laberinto_img, ((ANCHO_VENTANA - fondo_laberinto_img.get_width()) // 2, 5))  # Fondo para "Laberinto"
+        pantalla.blit(fondo_laberinto_img, ((ANCHO_VENTANA - fondo_laberinto_img.get_width()) // 2, 5))
+        # Fondo para "Laberinto"
 
         # Dibujar el título "Laberinto" en la parte superior
         texto_titulo = titulo_fuente.render("Laberinto", True, BLANCO)
         pantalla.blit(texto_titulo, ((ANCHO_VENTANA - texto_titulo.get_width()) // 2, 20))
 
-        lab.mostrar_lab(pantalla, pos_jugador, margen_x, margen_y, jugador_imgs[indice_frame])  # Pasar la imagen del jugador como argumento
+        lab.mostrar_lab(pantalla, pos_jugador, margen_x, margen_y, jugador_imgs[indice_frame])
+        # Pasar la imagen del jugador como argumento
 
         pygame.display.flip()
         reloj.tick(10)
+
 
 def mensaje_final(pantalla, mensaje, color):
     reloj = pygame.time.Clock()
@@ -109,9 +112,10 @@ def mensaje_final(pantalla, mensaje, color):
 
         texto_continuar = fuente.render("Presiona Enter para continuar", True, color)
         pantalla.blit(texto_continuar, (ANCHO_VENTANA // 2 - texto_continuar.get_width() // 2, ALTO_VENTANA // 2 + 40))
-
+        pygame.mixer.music.stop()
         pygame.display.flip()
         reloj.tick(30)
+
 
 if __name__ == "__main__":
     main_lab()

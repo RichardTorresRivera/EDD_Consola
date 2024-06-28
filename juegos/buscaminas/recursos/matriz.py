@@ -1,5 +1,5 @@
 import pygame
-from recursos.constantes import *
+from juegos.buscaminas.recursos.constantes import *
 import random
 import os
 import sys

@@ -1,9 +1,6 @@
 import pygame
-import sys
-import os
-import config
-from recursos.constantes import *
-from recursos.matriz import Matriz
+from juegos.buscaminas.recursos.constantes import *
+from juegos.buscaminas.recursos.matriz import Matriz
 
 # Agregar el directorio del proyecto al sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -63,6 +60,8 @@ def mostrar_mensaje_final(pantalla, mensaje, color):
 def main():
     while True:
         reloj = pygame.time.Clock()
+        pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Buscaminas - Sympathy For The Devil.mp3"))
+        pygame.mixer.music.play(-1)
 
         # Configuración de la matriz (ajustar según la dificultad)
         filas, columnas, minas = 12, 12, 25
@@ -132,6 +131,7 @@ def main():
             sys.exit()
         elif accion == 'jugar_de_nuevo':
             continue
+
 
 if __name__ == "__main__":
     main()

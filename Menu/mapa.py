@@ -5,9 +5,18 @@ import config
 from Menu.personaje import Personaje
 from juegos.hanoi.main import main_hanoi
 from juegos.decisiones.main import main_decisiones
+from juegos.buscaminas.main import main as main_buscaminas
+from juegos.laberinto.main import main_lab
 
 # Agregar el directorio del proyecto al sys.path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+
+def escalar_imagen(image, scale):
+    w = image.get_width()
+    h = image.get_height()
+    new_image = pygame.transform.scale(image, (int(w * scale), int(h * scale)))
+    return new_image
 
 
 class Juego:
@@ -48,13 +57,13 @@ class Juego:
         for i in range(4):
             img_path = os.path.join(config.TOSHI_DIR, "moving", f"frame{i}.png")
             img = pygame.image.load(img_path)
-            img = self.escalar_imagen(img, 0.04)
+            img = escalar_imagen(img, 0.04)
             self.animation_move.append(img)
 
         for i in range(2):
             img_path = os.path.join(config.TOSHI_DIR, "stop", f"frameS{i}.png")
             img = pygame.image.load(img_path)
-            img = self.escalar_imagen(img, 0.04)
+            img = escalar_imagen(img, 0.04)
             self.animation_idle.append(img)
 
         for i in range(6):
@@ -65,18 +74,18 @@ class Juego:
         # IMAGENES DE LA CONFIGURACION
         img_config_path = os.path.join(config.GENERAL_DIR, "boton ajustes.png")
         self.img_config = pygame.image.load(img_config_path)
-        self.img_config = self.escalar_imagen(self.img_config, 0.07)
+        self.img_config = escalar_imagen(self.img_config, 0.07)
 
         img_book_path = os.path.join(config.GENERAL_DIR, "libro.png")
         self.img_book = pygame.image.load(img_book_path)
-        self.img_book = self.escalar_imagen(self.img_book, 0.08)
+        self.img_book = escalar_imagen(self.img_book, 0.08)
 
         img_panel_config_path = os.path.join(config.GENERAL_DIR, "panel_config.png")
         self.img_panel_config = pygame.image.load(img_panel_config_path)
 
         img_help_path = os.path.join(config.GENERAL_DIR, "help.png")
         self.img_help = pygame.image.load(img_help_path)
-        self.img_help = self.escalar_imagen(self.img_help, 0.9)
+        self.img_help = escalar_imagen(self.img_help, 0.9)
 
         img_handle_path = os.path.join(config.GENERAL_DIR, "slide_button.png")
         self.img_handle = pygame.image.load(img_handle_path)
@@ -100,17 +109,16 @@ class Juego:
         assert len(nombres_archivos_preview) == len(self.areas_colision)
         self.preview_areas = []
         self.level_button = []
-        self.init_game = [main_hanoi, main_decisiones, main_decisiones, main_decisiones,
-                          main_decisiones, main_decisiones]
+        self.init_game = [main_hanoi, main_buscaminas, main_hanoi, main_decisiones,
+                          main_lab, main_decisiones]
 
         for i in range(len(nombres_archivos_preview)):
             img_preview_path = os.path.join(config.NIVELES_DIR, nombres_archivos_preview[i])
             img_preview = pygame.image.load(img_preview_path)
-            img_preview = self.escalar_imagen(img_preview, 1.4)
+            img_preview = escalar_imagen(img_preview, 1.4)
             self.preview_areas.append((self.areas_colision[i], img_preview))
 
         self.level_button = pygame.Rect(158, 655, 85, 30)
-
         self.preview_position = (0, 350)
 
         path_segments = [
@@ -155,12 +163,6 @@ class Juego:
             pygame.mixer.music.set_volume(self.music_volume)
 
         self.handle_x = 563
-
-    def escalar_imagen(self, image, scale):
-        w = image.get_width()
-        h = image.get_height()
-        new_image = pygame.transform.scale(image, (int(w * scale), int(h * scale)))
-        return new_image
 
     def mapa(self):
         while self.run:

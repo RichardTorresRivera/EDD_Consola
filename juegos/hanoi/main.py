@@ -132,5 +132,6 @@ def main_hanoi():
             sys.exit()
         reloj.tick(FPS)
 
+
 if __name__ == '__main__':
     main_hanoi()
