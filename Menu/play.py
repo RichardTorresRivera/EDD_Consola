@@ -2,6 +2,7 @@ import pygame
 import os
 import sys
 import config
+from common.utils import mostrar_indicador_mouse
 from menu.level import main_level
 
 def manejar_eventos_play(estado, buttons):
@@ -19,7 +20,7 @@ def manejar_eventos_play(estado, buttons):
                     print("Mostrando levels")
                     estado[0] = config.SCREEN_LEVEL
                 # Boton cargar
-                if buttons[1].collidepoint(mouse_pos):
+                elif buttons[1].collidepoint(mouse_pos):
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                     print("Cargando partida")
                     # Aniadir logia :)
@@ -28,13 +29,8 @@ def manejar_eventos_play(estado, buttons):
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                     estado[0] = config.SCREEN_INICIO
 
-def dibujar_play(screen, fondo, buttons):
+def dibujar_play(screen, fondo):
     screen.blit(fondo, (0,0))
-    mouse_pos = pygame.mouse.get_pos()
-    if any(boton.collidepoint(mouse_pos) for boton in buttons):
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-    else:
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     pygame.display.flip()
 
 def main_play(screen, reloj, estado):
@@ -51,7 +47,8 @@ def main_play(screen, reloj, estado):
     while run_game:
         if estado[0] == config.SCREEN_PLAY:
             manejar_eventos_play(estado, buttons_game)
-            dibujar_play(screen, img_game, buttons_game)
+            mostrar_indicador_mouse(buttons_game)
+            dibujar_play(screen, img_game)
         elif estado[0] == config.SCREEN_INICIO:
             run_game = False
         elif estado[0] == config.SCREEN_LEVEL:

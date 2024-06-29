@@ -7,11 +7,11 @@ from juegos.hanoi.recursos.torre import Disco, Torre
 from juegos.hanoi.recursos import constantes
 
 # Inicialización de Pygame
-pygame.init()
-screen = pygame.display.set_mode((config.ANCHO_VENTANA, config.ALTO_VENTANA))
-pygame.display.set_caption('Torres de Hanoi')
-reloj = pygame.time.Clock()
-FPS = 60
+#pygame.init()
+#screen = pygame.display.set_mode((config.ANCHO_VENTANA, config.ALTO_VENTANA))
+#pygame.display.set_caption('Torres de Hanoi')
+#reloj = pygame.time.Clock()
+#FPS = 60
 # Fin de inicialización
 
 def imagenes_dicos(n):
@@ -109,8 +109,8 @@ def cargar_imagen(path, nombre, ancho = None, alto = None):
 
     return img
 
-def main_hanoi():
-    n = 3
+def main_hanoi(screen, reloj, estado, dificultad):
+    n = dificultad[0]+2
     img_fondo = cargar_imagen(config.FONDOS_DIR, "hanoiHD")
     img_torre = cargar_imagen(config.HANOI_DIR, "soporte", constantes.ANCHO_TORRE, constantes.ALTO_TORRE)
     
@@ -138,9 +138,10 @@ def main_hanoi():
             pygame.time.delay(2000)
             print("FELICIDADES")
             print("Numero de movimiento: ", hanoi.get_movimientos())
+            estado[0] = config.SCREEN_MAPA
             # pygame.quit()
             # sys.exit()
-        reloj.tick(FPS)
+        reloj.tick(config.FPS)
 
 
 if __name__ == '__main__':

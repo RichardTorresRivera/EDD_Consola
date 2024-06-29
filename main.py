@@ -18,6 +18,7 @@ import sys
 import pygame
 import config
 
+from common.utils import mostrar_indicador_mouse
 from menu.play import main_play
 
 # Inicializacion de Pygame
@@ -49,13 +50,8 @@ def manejar_eventos_inicio(estado, buttons):
                     sys.exit()
 
 
-def dibujar_inicio(screen, fondo, buttons):
+def dibujar_inicio(screen, fondo):
     screen.blit(fondo, (0,0))
-    mouse_pos = pygame.mouse.get_pos()
-    if any(boton.collidepoint(mouse_pos) for boton in buttons):
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-    else:
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     pygame.display.flip()
 
 
@@ -76,7 +72,8 @@ def main():
     while True:
         if estado[0] == config.SCREEN_INICIO:
             manejar_eventos_inicio(estado, buttons_inicio)
-            dibujar_inicio(screen, img_menu, buttons_inicio)
+            mostrar_indicador_mouse(buttons_inicio)
+            dibujar_inicio(screen, img_menu)
         elif estado[0] == config.SCREEN_PLAY:
             main_play(screen, reloj, estado)
         reloj.tick(config.FPS)

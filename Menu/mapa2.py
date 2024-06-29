@@ -3,14 +3,14 @@ import os
 import sys
 import config
 
+from common.utils import escalar_imagen, mostrar_indicador_mouse, fondo_loading
+from juegos.hanoi.main import main_hanoi
+from menu.paneles.panel_config import main_panel_config
+from menu.paneles.panel_exit import main_panel_exit
+from menu.paneles.panel_help import main_panel_help
 from menu.personaje import Personaje
 
-# Cambiar a funciones general
-def escalar_imagen(image, scale):
-    w = image.get_width()
-    h = image.get_height()
-    new_image = pygame.transform.scale(image, (int(w * scale), int(h * scale)))
-    return new_image
+num_game = [0]
 
 def images_mapa():
     map_frames = []
@@ -38,15 +38,16 @@ def images_toshi_stop():
         animation_idle.append(img)
     return animation_idle
 
-def images_fondo_load():
-    animation_load = []
-    for i in range(6):
-        img_path = os.path.join(config.TOSHI_DIR, "loading", f"load{i}.png")
-        img = pygame.image.load(img_path)
-        animation_load.append(img)
-    return animation_load
+def images_previews_game(nombres, areas):
+    images_areas_game = []
+    for i in range(len(nombres)):
+            img_preview_path = os.path.join(config.NIVELES_DIR, nombres[i])
+            img_preview = pygame.image.load(img_preview_path)
+            img_preview = escalar_imagen(img_preview, 1.4)
+            images_areas_game.append((areas[i], img_preview))
+    return images_areas_game
 
-def manejar_eventos_mapa():
+def manejar_eventos_mapa(estado, buttons, toshi, areas_colision, num_game):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -55,34 +56,72 @@ def manejar_eventos_mapa():
             # Click izquierdo del raton
             if event.button == 1:
                 mouse_pos = event.pos
-                # Boton Facil
-                
+                # Boton libro
+                if buttons[0].collidepoint(mouse_pos):
+                    print("mostrando libro")
+                    estado[0] = config.SCREEN_PANEL_HELP
+                # Boton ajustes
+                elif buttons[1].collidepoint(mouse_pos):
+                    print("Mostrando ajustes")
+                    estado[0] = config.SCREEN_PANEL_CONFIG
+                # Boton level
+                elif buttons[2].collidepoint(mouse_pos):
+                    print("Boton jugar apretado")
+                    i = 0
+                    for area in (areas_colision):
+                        if area.collidepoint(toshi.forma.topleft):
+                            num_game[0] = i
+                            estado[0] = config.SCREEN_GAME
+                            break
+                        i += 1
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                toshi.move_to_next_point()
+            if event.key == pygame.K_LEFT:
+                toshi.move_to_previous_point()
+            if event.key == pygame.K_ESCAPE:
+                print("mostrando salir")
+                estado[0] = config.SCREEN_PANEL_EXIT
 
-def dibujar_mapa(screen, fondo, images_buttons, buttons, toshi):
-    screen.blit(fondo[0], (0,0)) # es animacion
-    mouse_pos = pygame.mouse.get_pos()
+def actualizar_mapa(toshi):
+    toshi.update()
+
+def dibujar_mapa(screen, fondo, images_buttons, toshi, current_frame, preview_areas, buttons_mapa):
+    screen.blit(fondo[current_frame], (0,0))
     for i in range(2):
         screen.blit(images_buttons[i], (1100+i*80,20))
-
     toshi.dibujar(screen)
-    if any(boton.collidepoint(mouse_pos) for boton in buttons):
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-    else:
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+    level_button = pygame.Rect(-1, -1, 85, 30)
+    buttons_mapa[2] = level_button
+    for area, img_preview in preview_areas:
+        if area.collidepoint(toshi.forma.topleft):
+            screen.blit(img_preview, (0,350))
+            level_button = pygame.Rect(158, 655, 85, 30)
+            buttons_mapa[2] = level_button
     pygame.display.flip()
 
 def main_mapa(screen, reloj, estado, dificultad):
     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     # Cargando
-    pygame.mixer.music.stop()
-    animation_load = images_fondo_load()
-    for frame in animation_load:
-        screen.blit(frame, (0, 0))
-        pygame.display.flip()
-        pygame.time.delay(500)
+    fondo_loading(screen)
     # Ambiente
     pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Menu - Super Mario World.mp3"))
     pygame.mixer.music.play(-1)
+    # Seccion de mostrar imagenes previas
+    level_button = pygame.Rect(-1, -1, 85, 30)
+    # Areas de colison jugar
+    areas_colision = [
+        pygame.Rect(180, 75, 20, 20),
+        pygame.Rect(430, 75, 20, 20),
+        pygame.Rect(650, 140, 20, 20),
+        pygame.Rect(690, 380, 20, 20),
+        pygame.Rect(905, 445, 20, 20),
+        pygame.Rect(1240, 445, 20, 20)
+    ]
+    # Imagenes previas
+    nombres_archivos_preview = ["palabras.png", "buscaminas.png", "hanoi.png", "cartas.png", "laberinto.png", "decisiones.png"]
+    preview_areas = images_previews_game(nombres_archivos_preview, areas_colision)
+
     # Botones
     img_book_path = os.path.join(config.GENERAL_DIR, "libro.png")
     img_book = pygame.image.load(img_book_path)
@@ -95,8 +134,11 @@ def main_mapa(screen, reloj, estado, dificultad):
     settings_button = pygame.Rect(1181, 20, 50, 50)
 
     images_buttons = [img_book, img_config]
-    buttons_mapa = [help_button, settings_button]
+    buttons_mapa = [help_button, settings_button, level_button]
     # Fondo
+    current_frame = 0
+    frame_time = 0
+    frame_interval = 200
     mapa_fondo = images_mapa()
     # Jugador
     toshi_move = images_toshi_move()
@@ -110,9 +152,34 @@ def main_mapa(screen, reloj, estado, dificultad):
             [(905, 445), (1240, 445)]
         ]
     toshi = Personaje(path_segments[0][0][0], path_segments[0][0][1], toshi_move, toshi_stop, path_segments)
-    # Cards
+    # Juegos
+    init_game = [main_hanoi, main_hanoi, main_hanoi, main_hanoi, main_hanoi, main_hanoi]
+    
     run_mapa = True
     while run_mapa:
-        manejar_eventos_mapa()
-        dibujar_mapa(screen, mapa_fondo, images_buttons, buttons_mapa, toshi)
+        if estado[0] == config.SCREEN_MAPA:
+            manejar_eventos_mapa(estado, buttons_mapa, toshi, areas_colision, num_game)
+            mostrar_indicador_mouse(buttons_mapa)
+            actualizar_mapa(toshi)
+            # Actualizar frame
+            frame_time += reloj.get_time()
+            if frame_time >= frame_interval:
+                current_frame = (current_frame + 1) % len(mapa_fondo)
+                frame_time = 0
+            dibujar_mapa(screen, mapa_fondo, images_buttons, toshi, current_frame, preview_areas, buttons_mapa)
+        elif estado[0] == config.SCREEN_PANEL_EXIT:
+            main_panel_exit(screen, reloj, estado)
+        elif estado[0] == config.SCREEN_PANEL_HELP:
+            main_panel_help(screen, reloj, estado)
+        elif estado[0] == config.SCREEN_PANEL_CONFIG:
+            main_panel_config(screen, reloj, estado)
+        elif estado[0] == config.SCREEN_INICIO:
+            run_mapa = False
+        elif estado[0] == config.SCREEN_GAME:
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+            fondo_loading(screen)
+            init_game[num_game[0]](screen, reloj, estado, dificultad)
+            fondo_loading(screen)
+            pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Menu - Super Mario World.mp3"))
+            pygame.mixer.music.play(-1)
         reloj.tick(config.FPS)

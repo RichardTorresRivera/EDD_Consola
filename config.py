@@ -25,7 +25,7 @@ CARTAS_DIR = os.path.join(JUEGOS_DIR, "cartas")
 HANOI_DIR = os.path.join(JUEGOS_DIR, "hanoi")
 LABERINTOS_DIR = os.path.join(JUEGOS_DIR, "laberintos")
 
-#Directorio de musica
+# Directorio de musica
 SFX_DIR = os.path.join(SOUNDS_DIR, "sound effects")
 SOUNDTRACK_DIR = os.path.join(SOUNDS_DIR, "soundtrack 8-bits")
 
@@ -35,6 +35,9 @@ SCREEN_PLAY = 1
 SCREEN_LEVEL = 2
 SCREEN_MAPA = 3
 SCREEN_GAME = 4
+SCREEN_PANEL_HELP = 5
+SCREEN_PANEL_CONFIG = 6
+SCREEN_PANEL_EXIT = 7
 
 ANCHO_VENTANA = 1280
 ALTO_VENTANA = 720

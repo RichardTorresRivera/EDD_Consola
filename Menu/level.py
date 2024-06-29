@@ -2,6 +2,7 @@ import pygame
 import os
 import sys
 import config
+from common.utils import mostrar_indicador_mouse
 from menu.mapa2 import main_mapa
 
 def manejar_eventos_play(estado, buttons, dificultad):
@@ -29,13 +30,8 @@ def manejar_eventos_play(estado, buttons, dificultad):
                     estado[0] = config.SCREEN_MAPA
                     dificultad[0] = 3
 
-def dibujar_level(screen, fondo, buttons):
+def dibujar_level(screen, fondo):
     screen.blit(fondo, (0,0))
-    mouse_pos = pygame.mouse.get_pos()
-    if any(boton.collidepoint(mouse_pos) for boton in buttons):
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
-    else:
-        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     pygame.display.flip()
 
 def main_level(screen, reloj, estado):
@@ -53,7 +49,10 @@ def main_level(screen, reloj, estado):
     while run_level:
         if estado[0] == config.SCREEN_LEVEL:
             manejar_eventos_play(estado, buttons_level, dificultad)
-            dibujar_level(screen, img_level, buttons_level)
+            mostrar_indicador_mouse(buttons_level)
+            dibujar_level(screen, img_level)
         elif estado[0] == config.SCREEN_MAPA:
             main_mapa(screen, reloj, estado, dificultad)
+        elif estado[0] == config.SCREEN_INICIO:
+            run_level = False
         reloj.tick(config.FPS)
