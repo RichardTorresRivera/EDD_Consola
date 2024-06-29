@@ -24,11 +24,9 @@ jugador_imgs = [
 ]
 jugador_imgs = [pygame.transform.scale(img, (TAMAÑO_CELDA, TAMAÑO_CELDA)) for img in jugador_imgs]
 
-def main_lab():
+def main_lab(filas,columnas):
     reloj = pygame.time.Clock()
 
-    filas = 10
-    columnas = 10
     lab = Grafo(filas, columnas)
     pos_jugador = (0, 0)
     indice_frame = 0  # Indice inicial del frame
@@ -39,7 +37,7 @@ def main_lab():
 
     # Calcular los márgenes para centrar el laberinto en la pantalla
     margen_x = (ANCHO_VENTANA - ancho_laberinto) // 2
-    margen_y = (ALTO_VENTANA - alto_laberinto) // 2
+    margen_y = (ALTO_VENTANA - alto_laberinto) // 2 + 30
 
     # Cargar la imagen de fondo para "Laberinto"
     fondo_laberinto_img = pygame.image.load('assets/images/general/cuadro.png')
@@ -87,7 +85,7 @@ def main_lab():
         lab.mostrar_lab(pantalla, pos_jugador, margen_x, margen_y, jugador_imgs[indice_frame])  # Pasar la imagen del jugador como argumento
 
         pygame.display.flip()
-        reloj.tick(10)
+        reloj.tick(5)
 
 def mensaje_final(pantalla, mensaje, color):
     reloj = pygame.time.Clock()
@@ -110,4 +108,6 @@ def mensaje_final(pantalla, mensaje, color):
         reloj.tick(30)
 
 if __name__ == "__main__":
-    main_lab()
+    filas = 9 # 9 12 15
+    columnas = 9 # 9 12 15
+    main_lab(filas,columnas)

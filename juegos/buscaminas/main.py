@@ -54,12 +54,11 @@ def mostrar_mensaje_final(pantalla, mensaje, color):
         pygame.display.flip()
         reloj.tick(30)
 
-def main():
+def main(filas,columnas,minas):
     while True:
         reloj = pygame.time.Clock()
 
-        # Configuración de la matriz (ajustar según la dificultad)
-        filas, columnas, minas = 12, 12, 25
+        # Crea la matriz con los valores tomados (Dificultad)
         matriz = Matriz(filas, columnas, minas)
         tamaño_celda = TAMAÑO_CELDA
 
@@ -67,7 +66,7 @@ def main():
         tablero_ancho = columnas * tamaño_celda
         tablero_alto = filas * tamaño_celda
         margen_x = (ANCHO - tablero_ancho) // 2
-        margen_y = (ALTO - tablero_alto) // 2
+        margen_y = (ALTO - tablero_alto) // 2 + 60
 
         game_over = False
         ganar = False
@@ -128,4 +127,7 @@ def main():
             continue
 
 if __name__ == "__main__":
-    main()
+    filas = 6 # 9 12
+    columnas = 6 # 9 12
+    minas = 4 # 10 25
+    main(filas,columnas,minas)
