@@ -104,3 +104,7 @@ class Personaje:
     def dibujar(self, screen):
         imagen_flip = pygame.transform.flip(self.image, self.flip, False)
         screen.blit(imagen_flip, self.forma.topleft)
+    
+    def mover_a_punto(self, x, y):
+        self.cambiar_forma(x, y, self.forma.width, self.forma.height)
+        self.moving = False

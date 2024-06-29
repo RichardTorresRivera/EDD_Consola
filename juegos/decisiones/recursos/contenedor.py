@@ -1,10 +1,7 @@
-import sys
 import os
 import config
 import pygame
 import textwrap
-
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 class Contenedor:
     def __init__(self, x, y, ancho, alto, color, texto):
@@ -14,9 +11,14 @@ class Contenedor:
         self.fuente = pygame.font.Font(os.path.join(config.FONTS_DIR, "minecraft.ttf"), 23)
     
     def dibujar(self, screen):
-        pygame.draw.rect(screen, self.color, self.forma, border_radius = 20)
+        # Dibujar el borde blanco
+        borde_rect = self.forma.inflate(8, 8)  # Inflar el rectángulo para hacer el borde
+        pygame.draw.rect(screen, (255, 255, 255), borde_rect, border_radius=20)
+        
+        # Dibujar el contenedor
+        pygame.draw.rect(screen, self.color, self.forma, border_radius=20)
+        
         lineas = textwrap.wrap(self.texto, width=30 if self.forma.width < 1000 else 90)
-
         y_offset = (self.forma.height - len(lineas) * self.fuente.get_height()) // 2
         for linea in lineas:
             text_superficie = self.fuente.render(linea, False, (255, 255, 255))
@@ -30,4 +32,3 @@ class Contenedor:
     
     def actualizar(self, texto):
         self.texto = texto
-    

@@ -1,13 +1,7 @@
-# Colores
-NEGRO = (0, 0, 0)
-BLANCO = (255, 255, 255)
-ROJO = (255, 0, 0)
-VERDE = (0, 255, 0)
-AZUL = (0, 0, 255)
-MORADO = (128, 0, 128)
-AQUA = (0, 255, 255)
-FUCSIA = (255, 0, 255)
-AMARILLO = (255, 255, 0)
+# Colores de contenedores
+CR_MSG = (136, 16, 4)
+CR_OPC_A = (34, 96, 190)
+CR_OPC_B = (176, 74, 81)
 
 # Botones
 POSY_BOTON = 580

@@ -4,6 +4,7 @@ import sys
 import config
 
 from common.utils import escalar_imagen, mostrar_indicador_mouse, fondo_loading
+from juegos.decisiones.main import main_decisiones
 from juegos.hanoi.main import main_hanoi
 from menu.paneles.panel_config import main_panel_config
 from menu.paneles.panel_exit import main_panel_exit
@@ -77,11 +78,40 @@ def manejar_eventos_mapa(estado, buttons, toshi, areas_colision, num_game):
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RIGHT:
                 toshi.move_to_next_point()
-            if event.key == pygame.K_LEFT:
+            elif event.key == pygame.K_LEFT:
                 toshi.move_to_previous_point()
-            if event.key == pygame.K_ESCAPE:
+            elif event.key == pygame.K_h:
+                print("mostrando libro")
+                estado[0] = config.SCREEN_PANEL_HELP
+            elif event.key == pygame.K_s:
+                print("Mostrando ajustes")
+                estado[0] = config.SCREEN_PANEL_CONFIG
+            elif event.key == pygame.K_ESCAPE:
                 print("mostrando salir")
                 estado[0] = config.SCREEN_PANEL_EXIT
+            elif event.key == pygame.K_RETURN:
+                i = 0
+                for area in (areas_colision):
+                    if area.collidepoint(toshi.forma.topleft):
+                        num_game[0] = i
+                        estado[0] = config.SCREEN_GAME
+                        break
+                    i += 1
+            # Manejo de teclas 1 a 6
+            elif event.key in [pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5, pygame.K_6]:
+                keys_to_indices = {
+                    pygame.K_1: 0,
+                    pygame.K_2: 1,
+                    pygame.K_3: 2,
+                    pygame.K_4: 3,
+                    pygame.K_5: 4,
+                    pygame.K_6: 5
+                }
+                index = keys_to_indices[event.key]
+                if index < len(areas_colision):
+                    target_x, target_y = areas_colision[index].center
+                    toshi.mover_a_punto(target_x, target_y)
+
 
 def actualizar_mapa(toshi):
     toshi.update()
@@ -153,7 +183,7 @@ def main_mapa(screen, reloj, estado, dificultad):
         ]
     toshi = Personaje(path_segments[0][0][0], path_segments[0][0][1], toshi_move, toshi_stop, path_segments)
     # Juegos
-    init_game = [main_hanoi, main_hanoi, main_hanoi, main_hanoi, main_hanoi, main_hanoi]
+    init_game = [main_hanoi, main_hanoi, main_hanoi, main_hanoi, main_hanoi, main_decisiones]
     
     run_mapa = True
     while run_mapa:
