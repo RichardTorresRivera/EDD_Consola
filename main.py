@@ -1,25 +1,10 @@
-# Archivo principal del juego
-"""
-from juegos.hanoi.main import main_hanoi
-from juegos.decisiones.main import main_decisiones
-from menu.inicio import Menu
-
-def main():
-    menu = Menu()
-    nivel_seleccionado = menu.mostrar_menu() # Comentar si quieres probar el main de tu archivo
-
-if __name__ == "__main__":
-    main()
-"""
-
-#"""
 import os
 import sys
 import pygame
 import config
 
 from common.utils import mostrar_indicador_mouse
-from menu.play import main_play
+from Menu.play import main_play
 
 # Inicializacion de Pygame
 pygame.init()
@@ -67,7 +52,8 @@ def main():
     img_menu_path = os.path.join(config.MENU_DIR, "menu.png")
     img_menu = pygame.image.load(img_menu_path)
     # Estado de juego (arreglo por referencia)
-    estado = [config.SCREEN_INICIO]
+    estado = [config.SCREEN_INICIO, config.VOLUME_INIT, config.VFX_INIT, False,
+              config.VOLUME_INIT, config.VFX_INIT, config.SLIDER_POS_INIT, config.SLIDER_POS_INIT]
     # Bucle principal
     while True:
         if estado[0] == config.SCREEN_INICIO:
@@ -80,4 +66,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-#"""

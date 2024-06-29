@@ -1,2 +1,4 @@
-music_volume=0.49375
-music_slider_pos=624
+volumen=0.55625
+vfx=0.5
+slider_volumen_pos=0.55625
+slider_vfx_pos=0.5

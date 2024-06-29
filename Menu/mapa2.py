@@ -6,10 +6,10 @@ import config
 from common.utils import escalar_imagen, mostrar_indicador_mouse, fondo_loading
 from juegos.decisiones.main import main_decisiones
 from juegos.hanoi.main import main_hanoi
-from menu.paneles.panel_config import main_panel_config
-from menu.paneles.panel_exit import main_panel_exit
-from menu.paneles.panel_help import main_panel_help
-from menu.personaje import Personaje
+from Menu.paneles.panel_config import main_panel_config
+from Menu.paneles.panel_exit import main_panel_exit
+from Menu.paneles.panel_help import main_panel_help
+from Menu.personaje import Personaje
 
 num_game = [0]
 

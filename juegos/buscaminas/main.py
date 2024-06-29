@@ -1,7 +1,7 @@
 import pygame
 import sys
-from recursos.constantes import *
-from recursos.matriz import Matriz
+from juegos.buscaminas.recursos.constantes import *
+from juegos.buscaminas.recursos.matriz import Matriz
 
 # Inicializar pygame
 pygame.init()

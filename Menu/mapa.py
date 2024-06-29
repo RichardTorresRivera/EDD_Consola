@@ -1,11 +1,10 @@
 import os
 import pygame
 import config
-from menu.personaje import Personaje
+from Menu.personaje import Personaje
+from mapa2 import escalar_imagen
 from juegos.hanoi.main import main_hanoi
 from juegos.decisiones.main import main_decisiones
-from juegos.buscaminas.main import main as main_buscaminas
-from juegos.laberinto.main import main_lab
 
 class Juego:
     def __init__(self):
@@ -97,8 +96,8 @@ class Juego:
         assert len(nombres_archivos_preview) == len(self.areas_colision)
         self.preview_areas = []
         self.level_button = []
-        self.init_game = [main_hanoi, main_buscaminas, main_hanoi, main_decisiones,
-                          main_lab, main_decisiones]
+        self.init_game = [main_hanoi, main_hanoi, main_hanoi, main_decisiones,
+                          main_decisiones, main_decisiones]
 
         for i in range(len(nombres_archivos_preview)):
             img_preview_path = os.path.join(config.NIVELES_DIR, nombres_archivos_preview[i])
