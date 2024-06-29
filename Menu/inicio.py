@@ -2,11 +2,7 @@ import os
 import sys
 import config
 import pygame
-from mapa import Juego
-
-# Agregar el directorio del proyecto al sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
+from  menu.mapa import Juego
 
 class Menu:
     def __init__(self):
@@ -44,24 +40,21 @@ class Menu:
 
     def mostrar_menu(self):
         running = True
-
         while running:
+            mouse_pos_button = pygame.mouse.get_pos()
             if self.screen_status == self.inicio:
-                mouse_pos = pygame.mouse.get_pos()
                 self.screen.blit(self.img, (0, 0))
-                if self.boton_jugar.collidepoint(mouse_pos) or self.boton_salir.collidepoint(mouse_pos):
+                if self.boton_jugar.collidepoint(mouse_pos_button) or self.boton_salir.collidepoint(mouse_pos_button):
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
                 else:
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
             elif self.screen_status == self.level:
                 self.screen.blit(self.game, (0, 0))
-                mouse_pos = pygame.mouse.get_pos()
-                if (self.boton_nuevo.collidepoint(mouse_pos) or self.boton_cargar.collidepoint(mouse_pos)
-                        or self.boton_volver.collidepoint(mouse_pos)):
+                if (self.boton_nuevo.collidepoint(mouse_pos_button) or self.boton_cargar.collidepoint(mouse_pos_button)
+                        or self.boton_volver.collidepoint(mouse_pos_button)):
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
                 else:
                     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -78,7 +71,7 @@ class Menu:
                                 if event.type == pygame.MOUSEBUTTONDOWN:
                                     mouse_pos = event.pos
                                     if self.boton_nuevo.collidepoint(mouse_pos):
-                                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+                                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                                         self.screen.blit(self.levels, (0, 0))
                                         self.screen_status = self.choose_level
                                         pygame.display.update()
@@ -89,25 +82,25 @@ class Menu:
                                                 if event.type == pygame.MOUSEBUTTONDOWN:
                                                     mouse_pos = event.pos
                                                     if self.nivel_facil.collidepoint(mouse_pos):
-                                                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+                                                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                                                         self.level = 1
                                                         juego = Juego()
                                                         juego.mapa()
                                                         return self.level
                                                     elif self.nivel_medio.collidepoint(mouse_pos):
-                                                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+                                                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                                                         self.level = 2
                                                         return self.level
                                                     elif self.nivel_dificil.collidepoint(mouse_pos):
-                                                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+                                                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                                                         self.level = 3
                                                         return self.level
                                             pygame.display.update()
                                     elif self.boton_cargar.collidepoint(mouse_pos):
-                                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+                                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                                         # Lógica para cargar el juego
                                     elif self.boton_volver.collidepoint(mouse_pos):
-                                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+                                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
                                         self.screen_status = self.inicio
                                         running = True
                             if running:
@@ -115,7 +108,7 @@ class Menu:
                             pygame.display.update()
 
                     elif self.boton_salir.collidepoint(mouse_pos):
-                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+                        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
                         pygame.quit()
                         sys.exit()
             pygame.display.update()

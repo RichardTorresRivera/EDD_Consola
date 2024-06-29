@@ -42,7 +42,7 @@ def llenar_torre(n, torre):
         torre.apilar(discos[i-1])
     return discos
 
-def manejar_eventos(hanoi, torres, discos):
+def manejar_eventos(hanoi, torres, discos, sounds):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -61,6 +61,7 @@ def manejar_eventos(hanoi, torres, discos):
                                 hanoi.set_disco_mover(disco)
                                 hanoi.set_torre_origen(torre)
                                 hanoi.set_flotando(True)
+                                sounds[0].play()
                             else:
                                 print("Movimiento invalido: La torre esta vacia, no hay discos para mover")
                         else:
@@ -73,6 +74,7 @@ def manejar_eventos(hanoi, torres, discos):
                                 discos[index].set_torre(torre)
                                 torre.apilar(disco)
                                 hanoi.set_flotando(False)
+                                sounds[1].play()
                                 if (hanoi.get_torre_origen() == hanoi.get_torre_destino()):
                                     print("Mmmm")
                                 else:
@@ -117,19 +119,27 @@ def main_hanoi():
 
     hanoi = Hanoi(torres)
     pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Torre Hanoi - Stairway to Heaven.mp3"))
+    pygame.mixer.music.set_volume(1.0)
     pygame.mixer.music.play(-1)
+    sound_push = pygame.mixer.Sound(os.path.join(config.SFX_DIR, "Hanoi - Push.mp3"))
+    sound_pop = pygame.mixer.Sound(os.path.join(config.SFX_DIR, "Hanoi y Cartas - Pop.mp3"))
+    sound_push.set_volume(0.5)
+    sound_pop.set_volume(0.5)
+    sounds = [sound_push, sound_pop]
+    
     jugar_hanoi = True
     while jugar_hanoi:
-        manejar_eventos(hanoi, torres, discos)
+        manejar_eventos(hanoi, torres, discos, sounds)
         actualizar(discos)
         dibujar(screen, img_fondo, torres, discos)
         if hanoi.game_over(n):
             jugar_hanoi = False
+            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
             pygame.time.delay(2000)
             print("FELICIDADES")
             print("Numero de movimiento: ", hanoi.get_movimientos())
-            pygame.quit()
-            sys.exit()
+            # pygame.quit()
+            # sys.exit()
         reloj.tick(FPS)
 
 if __name__ == '__main__':

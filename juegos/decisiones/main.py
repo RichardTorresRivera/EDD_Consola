@@ -135,8 +135,8 @@ def main_decisiones():
             pygame.time.delay(4000)
             print("Fin del juego")
             jugar_decisiones = False
-            pygame.quit()
-            sys.exit()
+            #pygame.quit()
+            #sys.exit()
         reloj.tick(FPS)
 
 if __name__ == '__main__':

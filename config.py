@@ -29,6 +29,12 @@ LABERINTOS_DIR = os.path.join(JUEGOS_DIR, "laberintos")
 SFX_DIR = os.path.join(SOUNDS_DIR, "sound effects")
 SOUNDTRACK_DIR = os.path.join(SOUNDS_DIR, "soundtrack 8-bits")
 
+# Pantallas
+SCREEN_INICIO = 0
+SCREEN_PLAY = 1
+SCREEN_LEVEL = 2
+SCREEN_MAPA = 3
+SCREEN_GAME = 4
 
 ANCHO_VENTANA = 1280
 ALTO_VENTANA = 720

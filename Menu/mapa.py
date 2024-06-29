@@ -1,14 +1,9 @@
 import os
-import sys
 import pygame
 import config
-from personaje import Personaje
+from menu.personaje import Personaje
 from juegos.hanoi.main import main_hanoi
 from juegos.decisiones.main import main_decisiones
-
-# Agregar el directorio del proyecto al sys.path
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 
 class Juego:
     def __init__(self):
