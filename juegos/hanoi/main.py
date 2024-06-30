@@ -3,6 +3,7 @@ import os
 import sys
 import config
 from Menu.paneles.panel_pause import main_panel_pause
+from Menu.paneles.panel_book import main_panel_book
 from common.colores import *
 from common.utils import mensaje_final
 from common.music_config import cargar_configuracion, cargar_vfx
@@ -10,6 +11,7 @@ from juegos.hanoi.recursos.hanoi import Hanoi
 from juegos.hanoi.recursos.torre import Disco, Torre
 from juegos.hanoi.recursos import constantes
 from common.pause_button import cargar_boton_pausa, dibujar_boton_pausa, manejar_eventos_boton_pausa
+from common.help_button import cargar_boton_help, dibujar_boton_help, manejar_eventos_boton_help
 
 # Inicialización de Pygame
 #pygame.init()
@@ -48,9 +50,10 @@ def llenar_torre(n, torre):
         torre.apilar(discos[i-1])
     return discos
 
-def manejar_eventos(hanoi, torres, discos, sounds, estado, button_pause_rect):
+def manejar_eventos(hanoi, torres, discos, sounds, estado, button_pause_rect, button_book_rect):
     for event in pygame.event.get():
         manejar_eventos_boton_pausa(event, estado, button_pause_rect)
+        manejar_eventos_boton_help(event, estado, button_book_rect)
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
@@ -93,7 +96,7 @@ def actualizar(discos):
     for i in range(len(discos)):
         discos[i].actualizar()
 
-def dibujar(screen, fondo, torres, discos, img_boton_pausa, boton_pausa):
+def dibujar(screen, fondo, torres, discos, img_boton_pausa, boton_pausa, img_boton_help, boton_book):
     screen.blit(fondo, (0,0))
     for i in range(3):
         torres[i].dibujar(screen)
@@ -101,11 +104,14 @@ def dibujar(screen, fondo, torres, discos, img_boton_pausa, boton_pausa):
         discos[i].dibujar(screen)
 
     dibujar_boton_pausa(screen, img_boton_pausa)
+    dibujar_boton_help(screen, img_boton_help)
 
     mouse_pos = pygame.mouse.get_pos()
     if any(torre.forma.collidepoint(mouse_pos) for torre in torres):
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
     elif boton_pausa.collidepoint(mouse_pos):
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+    elif boton_book.collidepoint(mouse_pos):
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
     else:
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
@@ -140,13 +146,14 @@ def main_hanoi(screen, reloj, estado, dificultad):
 
     # Cargar imagen y rectangulo del boton pause
     img_boton_pausa, button_pause_rect = cargar_boton_pausa()
+    img_boton_book, button_book_rect = cargar_boton_help()
     
     jugar_hanoi = True
     while jugar_hanoi:
         if estado[0] == config.SCREEN_GAME:
-            manejar_eventos(hanoi, torres, discos, sounds, estado, button_pause_rect)
+            manejar_eventos(hanoi, torres, discos, sounds, estado, button_pause_rect, button_book_rect)
             actualizar(discos)
-            dibujar(screen, img_fondo, torres, discos, img_boton_pausa, button_pause_rect)
+            dibujar(screen, img_fondo, torres, discos, img_boton_pausa, button_pause_rect, img_boton_book, button_book_rect)
             if hanoi.game_over(n):
                 jugar_hanoi = False
                 pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
@@ -159,6 +166,8 @@ def main_hanoi(screen, reloj, estado, dificultad):
                 # sys.exit()
         elif estado[0] == config.SCREEN_PANEL_PAUSE:
             main_panel_pause(screen, reloj, estado)
+        elif estado[0] == config.SCREEN_PANEL_BOOK:
+            main_panel_book(screen, reloj, estado)
         elif estado[0] == config.SCREEN_MAPA:
             jugar_hanoi = False
         reloj.tick(config.FPS)

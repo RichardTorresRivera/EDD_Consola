@@ -4,6 +4,7 @@ import csv
 import pygame
 import config
 from Menu.paneles.panel_pause import main_panel_pause
+from Menu.paneles.panel_book import main_panel_book
 from common.colores import *
 from common.utils import mensaje_final
 from common.music_config import cargar_configuracion, cargar_vfx
@@ -12,6 +13,7 @@ from juegos.decisiones.recursos.contenedor import Contenedor
 from juegos.decisiones.recursos.decisiones import Decisiones
 from juegos.decisiones.recursos import constantes
 from common.pause_button import cargar_boton_pausa, dibujar_boton_pausa, manejar_eventos_boton_pausa
+from common.help_button import cargar_boton_help, dibujar_boton_help, manejar_eventos_boton_help
 
 # Inicialización de Pygame
 #pygame.init()
@@ -56,9 +58,10 @@ def transicion(screen, speed):
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
         pygame.time.delay(15)
 
-def manejar_eventos(screen, decisiones, botones, sound, estado, button_pause_rect):
+def manejar_eventos(screen, decisiones, botones, sound, estado, button_pause_rect, button_book_rect):
     for event in pygame.event.get():
         manejar_eventos_boton_pausa(event, estado, button_pause_rect)
+        manejar_eventos_boton_help(event, estado, button_book_rect)
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
@@ -79,17 +82,20 @@ def actualizar(decisiones, mensaje, boton_opcion_a, boton_opcion_b):
     boton_opcion_a.actualizar(decisiones.get_opc_a())
     boton_opcion_b.actualizar(decisiones.get_opc_b())
 
-def dibujar(screen, fondo, mensaje, botones, img_boton_pausa, boton_pausa):
+def dibujar(screen, fondo, mensaje, botones, img_boton_pausa, boton_pausa, img_boton_help, boton_book):
     screen.blit(fondo, (0, 0))
     for boton in botones:
         if boton.get_texto() != "":
             boton.dibujar(screen)
     mensaje.dibujar(screen)
     dibujar_boton_pausa(screen, img_boton_pausa)
+    dibujar_boton_help(screen, img_boton_help)
     mouse_pos = pygame.mouse.get_pos()
     if any(boton.forma.collidepoint(mouse_pos) for boton in botones):
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
     elif boton_pausa.collidepoint(mouse_pos):
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+    elif boton_book.collidepoint(mouse_pos):
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
     else:
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
@@ -119,13 +125,14 @@ def main_decisiones(screen, reloj, estado, dificultad):
 
     fuente = pygame.font.Font(os.path.join(config.FONTS_DIR, "minecraft.ttf"), 45)
     img_boton_pausa, button_pause_rect = cargar_boton_pausa()
+    img_boton_book, button_book_rect = cargar_boton_help()
     # Lista de botones
     botones = [boton_opcion_a, boton_opcion_b]
     while jugar_decisiones:
         if estado[0] == config.SCREEN_GAME:
-            manejar_eventos(screen, decisiones, botones, sound_click, estado, button_pause_rect)
+            manejar_eventos(screen, decisiones, botones, sound_click, estado, button_pause_rect, button_book_rect)
             actualizar(decisiones, mensaje, boton_opcion_a, boton_opcion_b)
-            dibujar(screen, decisiones.get_fondo(), mensaje, botones, img_boton_pausa, button_pause_rect)
+            dibujar(screen, decisiones.get_fondo(), mensaje, botones, img_boton_pausa, button_pause_rect, img_boton_book, button_book_rect)
             if decisiones.game_over():
                 jugar_decisiones = False
                 pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
@@ -137,6 +144,8 @@ def main_decisiones(screen, reloj, estado, dificultad):
                 #sys.exit()
         elif estado[0] == config.SCREEN_PANEL_PAUSE:
             main_panel_pause(screen, reloj, estado)
+        elif estado[0] == config.SCREEN_PANEL_BOOK:
+            main_panel_book(screen, reloj, estado)
         elif estado[0] == config.SCREEN_MAPA:
             jugar_decisiones = False
         reloj.tick(config.FPS)

@@ -75,6 +75,7 @@ def manejar_eventos_mapa(estado, buttons, toshi, areas_colision, num_game):
                         if area.collidepoint(toshi.forma.topleft):
                             num_game[0] = i
                             estado[0] = config.SCREEN_GAME
+                            estado[9] = i
                             break
                         i += 1
         elif event.type == pygame.KEYDOWN:
@@ -97,6 +98,7 @@ def manejar_eventos_mapa(estado, buttons, toshi, areas_colision, num_game):
                     if area.collidepoint(toshi.forma.topleft):
                         num_game[0] = i
                         estado[0] = config.SCREEN_GAME
+                        estado[9] = i
                         break
                     i += 1
             # Manejo de teclas 1 a 6

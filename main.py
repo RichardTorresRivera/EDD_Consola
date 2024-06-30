@@ -53,7 +53,7 @@ def main():
     img_menu = pygame.image.load(img_menu_path)
     # Estado de juego (arreglo por referencia)
     estado = [config.SCREEN_INICIO, config.VOLUME_INIT, config.VFX_INIT, False,
-              config.VOLUME_INIT, config.VFX_INIT, config.SLIDER_POS_INIT, config.SLIDER_POS_INIT, set()]
+              config.VOLUME_INIT, config.VFX_INIT, config.SLIDER_POS_INIT, config.SLIDER_POS_INIT, set(), -1]
     # Bucle principal
     while True:
         if estado[0] == config.SCREEN_INICIO:
