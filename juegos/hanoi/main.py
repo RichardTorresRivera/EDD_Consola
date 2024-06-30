@@ -154,6 +154,7 @@ def main_hanoi(screen, reloj, estado, dificultad):
                 mensaje = "¡Felicidades lograste completar el desafio!$" + "Numero de movimientos: " + str(hanoi.get_movimientos())
                 mensaje_final(screen, mensaje, GOLD, reloj, fuente)
                 estado[0] = config.SCREEN_MAPA
+                estado[8].add("hanoi")
                 # pygame.quit()
                 # sys.exit()
         elif estado[0] == config.SCREEN_PANEL_PAUSE:

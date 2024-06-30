@@ -68,11 +68,13 @@ def main_lab(screen, reloj, estado, dificultad):
 
         if pos_jugador == lab.salida:
             jugar_lab = False
+
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
             pygame.time.delay(2000)
             mensaje_final(screen, "¡Felicidades, has llegado a la salida!", GOLD, reloj, fuente)
             estado[0] = config.SCREEN_MAPA
             print("FELICIDADES")
+            estado[8].add("laberinto")
 
         # Actualizar el índice del frame para la animación
         indice_frame = (indice_frame + 1) % len(jugador_imgs)

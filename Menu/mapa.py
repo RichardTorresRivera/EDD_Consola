@@ -150,9 +150,7 @@ def main_mapa(screen, reloj, estado, dificultad):
         pygame.Rect(905, 445, 20, 20),
         pygame.Rect(1240, 445, 20, 20)
     ]
-    # Imagenes previas
-    nombres_archivos_preview = ["palabras.png", "buscaminas.png", "hanoi.png", "cartas.png", "laberinto.png", "decisiones.png"]
-    preview_areas = images_previews_game(nombres_archivos_preview, areas_colision)
+
 
     # Botones
     img_book_path = os.path.join(config.GENERAL_DIR, "libro.png")
@@ -189,6 +187,16 @@ def main_mapa(screen, reloj, estado, dificultad):
     
     run_mapa = True
     while run_mapa:
+        # Imagenes previas
+        nombres_archivos_preview = ["palabras", "buscaminas", "hanoi", "cartas", "laberinto", "decisiones"]
+        nombres_niveles = []
+        for nivel in nombres_archivos_preview:
+            if nivel in estado[8]:
+                nombres_niveles.append(f'{nivel}_completo.png')
+            else:
+                nombres_niveles.append(f'{nivel}_incompleto.png')
+        preview_areas = images_previews_game(nombres_niveles, areas_colision)
+
         if estado[0] == config.SCREEN_MAPA:
             manejar_eventos_mapa(estado, buttons_mapa, toshi, areas_colision, num_game)
             mostrar_indicador_mouse(buttons_mapa)

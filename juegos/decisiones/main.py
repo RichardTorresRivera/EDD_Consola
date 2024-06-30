@@ -132,6 +132,7 @@ def main_decisiones(screen, reloj, estado, dificultad):
                 pygame.time.delay(3000)
                 mensaje_final(screen, "Felicidades, diste fin a la aventura", GOLD, reloj, fuente)
                 estado[0] = config.SCREEN_MAPA
+                estado[8].add("decisiones")
                 #pygame.quit()
                 #sys.exit()
         elif estado[0] == config.SCREEN_PANEL_PAUSE:
