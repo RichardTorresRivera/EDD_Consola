@@ -21,8 +21,9 @@ def manejar_eventos_panel_help(estado, buttons):
 
 def dibujar_panel_help(screen, img_help):
     screen.blit(img_help, (400, 65))
-    img_rect = pygame.Rect(400, 65, img_help.get_width(), img_help.get_height())
-    pygame.display.update(img_rect)
+    #img_rect = pygame.Rect(400, 65, img_help.get_width(), img_help.get_height())
+    #pygame.display.update(img_rect)
+    pygame.display.flip()
 
 def main_panel_help(screen, reloj, estado):
     # Botones

@@ -34,8 +34,9 @@ def manejar_eventos_panel_exit(estado, buttons):
 
 def dibujar_panel_exit(screen, img_exit):
     screen.blit(img_exit, (480, 195))
-    img_rect = pygame.Rect(480, 195, img_exit.get_width(), img_exit.get_height())
-    pygame.display.update(img_rect)
+    #img_rect = pygame.Rect(480, 195, img_exit.get_width(), img_exit.get_height())
+    #pygame.display.update(img_rect)
+    pygame.display.flip()
 
 def main_panel_exit(screen, reloj, estado):
     # Botones

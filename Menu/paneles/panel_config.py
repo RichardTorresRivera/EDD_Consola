@@ -91,7 +91,7 @@ def actualizar_panel_config():
 def dibujar_panel_config(screen, img_config, sliders, img_handle, estado):
     pygame.draw.rect(screen, (200, 200, 200), sliders[0])
     pygame.draw.rect(screen, (200, 200, 200), sliders[1])
-    img_rect = pygame.Rect(500, 195, img_config.get_width(), img_config.get_height())
+    #img_rect = pygame.Rect(500, 195, img_config.get_width(), img_config.get_height())
     screen.blit(img_config, (500, 195))
 
     handle_x = sliders[0].x + int(estado[1] * (sliders[0].width - img_handle.get_width()))
@@ -101,7 +101,8 @@ def dibujar_panel_config(screen, img_config, sliders, img_handle, estado):
     handle_x = sliders[1].x + int(estado[2] * (sliders[1].width - img_handle.get_width()))
     handle_y = sliders[1].y + (sliders[1].height - img_handle.get_height()) // 2
     screen.blit(img_handle, (handle_x, handle_y))
-    pygame.display.update(img_rect)
+    #pygame.display.update(img_rect)
+    pygame.display.flip()
 
 def main_panel_config(screen, reloj, estado):
     button_aceptar = pygame.Rect(593, 460, 30, 30)
