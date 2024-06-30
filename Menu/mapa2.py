@@ -2,7 +2,7 @@ import pygame
 import os
 import sys
 import config
-
+from Menu.music_config import cargar_configuracion
 from common.utils import escalar_imagen, mostrar_indicador_mouse, fondo_loading
 from juegos.decisiones.main import main_decisiones
 from juegos.hanoi.main import main_hanoi
@@ -208,8 +208,10 @@ def main_mapa(screen, reloj, estado, dificultad):
         elif estado[0] == config.SCREEN_GAME:
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
             fondo_loading(screen)
+            cargar_configuracion(estado)
             init_game[num_game[0]](screen, reloj, estado, dificultad)
             fondo_loading(screen)
+            cargar_configuracion(estado)
             pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Menu - Super Mario World.mp3"))
             pygame.mixer.music.play(-1)
         reloj.tick(config.FPS)
