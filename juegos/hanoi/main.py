@@ -2,6 +2,8 @@ import pygame
 import os
 import sys
 import config
+from common.colores import *
+from common.utils import mensaje_final
 from common.music_config import cargar_configuracion, cargar_vfx
 from juegos.hanoi.recursos.hanoi import Hanoi
 from juegos.hanoi.recursos.torre import Disco, Torre
@@ -14,6 +16,7 @@ from juegos.hanoi.recursos import constantes
 #reloj = pygame.time.Clock()
 #FPS = 60
 # Fin de inicialización
+
 
 def imagenes_dicos(n):
     img_discos = []
@@ -125,6 +128,8 @@ def main_hanoi(screen, reloj, estado, dificultad):
     sound_pop = cargar_vfx("Hanoi y Cartas - Pop.mp3", estado)
     sound_push = cargar_vfx("Hanoi - Push.mp3", estado)
     sounds = [sound_pop, sound_push]
+
+    fuente = pygame.font.Font(os.path.join(config.FONTS_DIR, "minecraft.ttf"), 45)
     
     jugar_hanoi = True
     while jugar_hanoi:
@@ -135,8 +140,8 @@ def main_hanoi(screen, reloj, estado, dificultad):
             jugar_hanoi = False
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
             pygame.time.delay(2000)
-            print("FELICIDADES")
-            print("Numero de movimiento: ", hanoi.get_movimientos())
+            mensaje = "¡Felicidades lograste completar el desafio!$" + "Numero de movimientos: " + str(hanoi.get_movimientos())
+            mensaje_final(screen, mensaje, GOLD, reloj, fuente)
             estado[0] = config.SCREEN_MAPA
             # pygame.quit()
             # sys.exit()

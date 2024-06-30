@@ -1,16 +1,16 @@
 id,msg,opc_a,opc_b,id_a,id_b
-1,"Toshi logra encontrar la aldea de la tribu Shu, pero esta se encuentra vigilada por un guardia.",Persuadir al guardia para obtener ayuda.,Amenazarlo para obtener informacion.,2,3
-2,"El guardia esta de tu lado y te proporciona un mapa con la ubicacion del contenedor. Te diriges a la ubicacion y encuentras al ladron.",Luchar directamente contra el ladron.,Preparar una emboscada.,4,5
-3,"El guardia enfurece y Toshi es llevado a la carcel.",Intentar escapar usando una herramienta oculta.,Pedir perdon al guardia y rogar que te libere.,6,7
-4,"El ladron es mas fuerte de lo que parece y te derrota.",Recuperarte y buscar una nueva estrategia.,Abandonar la mision y regresar a tu tribu.,8,9
-5,"Logras derribar al ladron, te agradece por perdonarle la vida y te devuelve el contenedor.",Buscar una salida segura.,Descansar y recuperar fuerzas.,10,11
-6,"Logras escapar y encuentras una cueva oculta que te lleva a la guarida del ladron.",Enfrentarlo cara a cara.,Buscar una manera de robar el contenedor sin ser visto.,12,13
-7,"Convences al guardia y el decide ayudarte a recuperar el contenedor, ambos se dirigen a la ubicaion del ladron.",Elaborar un plan con el guardia para atacar al ladron.,Preparar una distraccion y recuperar el contenedor.,14,15
-8,"Preparas una emboscada con ayuda del guardia y logras capturar al ladron, vualves a tu tribu victorioso.",,,,
-9,"Llegas a tu tribu con las manos vacias, muchos te miran con mala cara.",,,,
-10,"Logras salir de la aldea de la tribu Shu, vuelves victorioso a tu aldea.",,,,
-11,"Mientras estas descansando pasa un miembro de la tribu Shu, alerta a los demas miembros,eres capturado y encarcelado.",,,,
-12,"Le das pelea al ladron y te ganas su respeto, recuperas el contenedor, vuelves sigilosamente a tu tribu.",,,,
-13,"Fallas en tu intento de ser sigiloso y eres capturado y encarcelado.",,,,
-14,"Elaboras un buen plan con el guardia y atacan juntos al ladron, resultan victoriosos y vuelves a tu tribu.",,,,
-15,"El guardia distrae al ladron e intentas recuperar el contenedor. Todo parece ir bien hasta que el ladron se da cuenta y llama a sus aliados, tu y el guardia son capturados y encarcelados.",,,,
+1,"Toshi logra encontrar la aldea de la tribu Shu, pero esta se encuentra vigilada por un guardia. El ambiente es tenso, y Toshi debe decidir su enfoque.",Persuadir al guardia para obtener ayuda.,Amenazarlo para obtener informacion.,2,3
+2,"El guardia esta de tu lado y te proporciona un mapa con la ubicacion del contenedor. Te diriges a la ubicacion y encuentras al ladron, un hombre astuto y preparado. Que deberias hacer?",Luchar directamente contra el ladron.,Preparar una emboscada.,4,5
+3,"El guardia enfurece y Toshi es llevado a la carcel. La celda es oscura y humeda, y las opciones para escapar son limitadas.",Intentar escapar usando una herramienta oculta.,Pedir perdon al guardia y rogar que te libere.,6,7
+4,"El ladron es mas fuerte de lo que parece y te derrota. Toshi queda malherido, cuestionandose su proxima jugada.",Recuperarte y buscar una nueva estrategia.,Abandonar la mision y regresar a tu tribu.,8,9
+5,"Logras derribar al ladron, te agradece por perdonarle la vida y te devuelve el contenedor. Sin embargo, el peligro aun no ha pasado.",Buscar una salida segura.,Descansar y recuperar fuerzas.,10,11
+6,"Logras escapar y encuentras una cueva oculta que te lleva a la guarida del ladron. La cueva es estrecha y oscura, llena de peligros.",Enfrentarlo cara a cara.,Buscar una manera de robar el contenedor sin ser visto.,12,13
+7,"Convences al guardia y el decide ayudarte a recuperar el contenedor, ambos se dirigen a la ubicacion del ladron, formulan un plan.",Elaborar un plan con el guardia para atacar al ladron.,Preparar una distraccion y recuperar el contenedor.,14,15
+8,"Preparas una emboscada con ayuda del guardia y logras capturar al ladron. Vuelves a tu tribu victorioso, siendo recibido como un heroe.",,,,
+9,"Llegas a tu tribu con las manos vacias, muchos te miran con mala cara, decepcionados por tu fracaso. Toshi siente el peso de la derrota.",,,,
+10,"Logras salir de la aldea de la tribu Shu, vuelves victorioso a tu aldea. La tribu celebra tu regreso triunfal.",,,,
+11,"Mientras estas descansando, pasa un miembro de la tribu Shu, alerta a los demas miembros y eres capturado y encarcelado. La celda es oscura y fria.",,,,
+12,"Le das pelea al ladron y te ganas su respeto. Recuperas el contenedor y vuelves sigilosamente a tu tribu, evitando mas conflictos.",,,,
+13,"Fallas en tu intento de ser sigiloso y eres capturado y encarcelado. La celda es opresiva, y las esperanzas de escapar se desvanecen.",,,,
+14,"Elaboras un buen plan con el guardia y atacan juntos al ladron. Resultan victoriosos y vuelves a tu tribu, siendo recibido con jubilo.",,,,
+15,"El guardia distrae al ladron e intentas recuperar el contenedor. Todo parece ir bien hasta que el ladron se da cuenta y llama a sus aliados. Tu y el guardia son capturados y encarcelados.",,,,

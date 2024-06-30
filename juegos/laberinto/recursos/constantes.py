@@ -6,6 +6,7 @@ ROJO = (255, 0, 0)
 VERDE = (0, 255, 0)
 VERDE_O = (24, 51, 11)
 VERDE_P = (89, 117, 44)
+GOLD = (255, 201, 14)
 
 # Configuración de pantalla
 ANCHO_VENTANA = 1280
