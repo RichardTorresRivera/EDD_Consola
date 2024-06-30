@@ -2,7 +2,7 @@ import pygame
 import os
 import sys
 import config
-from Menu.music_config import cargar_configuracion
+from common.music_config import cargar_configuracion
 from juegos.hanoi.recursos.hanoi import Hanoi
 from juegos.hanoi.recursos.torre import Disco, Torre
 from juegos.hanoi.recursos import constantes

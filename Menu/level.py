@@ -3,7 +3,7 @@ import os
 import sys
 import config
 from common.utils import mostrar_indicador_mouse
-from Menu.mapa2 import main_mapa
+from Menu.mapa import main_mapa
 
 def manejar_eventos_play(estado, buttons, dificultad):
     for event in pygame.event.get():

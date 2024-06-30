@@ -2,7 +2,7 @@ import pygame
 import os
 import sys
 import config
-from Menu.music_config import cargar_configuracion
+from common.music_config import cargar_configuracion
 from common.utils import escalar_imagen, mostrar_indicador_mouse, fondo_loading
 from juegos.buscaminas.main import main_buscaminas
 from juegos.hanoi.main import main_hanoi
