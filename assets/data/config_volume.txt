@@ -1,4 +1,4 @@
-volumen=0.5
-vfx=1
-slider_volumen_pos=0.5
-slider_vfx_pos=1
+volumen=0.90625
+vfx=0.275
+slider_volumen_pos=0.90625
+slider_vfx_pos=0.275

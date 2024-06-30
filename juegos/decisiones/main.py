@@ -3,7 +3,9 @@ import os
 import csv
 import pygame
 import config
-from common import colores
+from common.colores import *
+from common.utils import mensaje_final
+from common.music_config import cargar_configuracion, cargar_vfx
 from juegos.decisiones.recursos.arbol import ArbolBinario, Nodo
 from juegos.decisiones.recursos.contenedor import Contenedor
 from juegos.decisiones.recursos.decisiones import Decisiones
@@ -43,16 +45,16 @@ def crear_escenarios(lista_imagenes):
 
 def transicion(screen, speed):
     fade = pygame.Surface(screen.get_size())
-    fade.fill(colores.BLANCO)
+    fade.fill(BLANCO)
     for alpha in range(0, 255, speed):
         fade.set_alpha(alpha)
-        screen.fill(colores.NEGRO)
+        screen.fill(NEGRO)
         screen.blit(fade, (0, 0))
         pygame.display.update()
         pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
         pygame.time.delay(15)
 
-def manejar_eventos(screen, decisiones, botones):
+def manejar_eventos(screen, decisiones, botones, sound):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -66,6 +68,7 @@ def manejar_eventos(screen, decisiones, botones):
                             decisiones.opc_a()
                         else:
                             decisiones.opc_b()
+                        sound.play()
                         transicion(screen, 5)
 
 def actualizar(decisiones, mensaje, boton_opcion_a, boton_opcion_b):
@@ -102,18 +105,23 @@ def main_decisiones(screen, reloj, estado, dificultad):
     boton_opcion_a = Contenedor(150, constantes.POSY_BOTON, constantes.ANCHO_BOTON, constantes.ALTO_BOTON, constantes.CR_OPC_A, decisiones.get_opc_a())
     boton_opcion_b = Contenedor(680, constantes.POSY_BOTON, constantes.ANCHO_BOTON, constantes.ALTO_BOTON, constantes.CR_OPC_B, decisiones.get_opc_b())
     botones = [boton_opcion_a, boton_opcion_b]
+    # Ambiente
+    cargar_configuracion(estado)
+    sound_click = cargar_vfx("Decisiones - Click.mp3", estado)
 
     pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Toma Decisiones - Raincloud.mp3"))
     pygame.mixer.music.play(-1)
+
+    fuente = pygame.font.Font(os.path.join(config.FONTS_DIR, "minecraft.ttf"), 45)
     while jugar_decisiones:
-        manejar_eventos(screen, decisiones, botones)
+        manejar_eventos(screen, decisiones, botones, sound_click)
         actualizar(decisiones, mensaje, boton_opcion_a, boton_opcion_b)
         dibujar(screen, decisiones.get_fondo(), mensaje, botones)
         if decisiones.game_over():
             jugar_decisiones = False
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-            pygame.time.delay(4000)
-            print("Fin del juego")
+            pygame.time.delay(3000)
+            mensaje_final(screen, "Felicidades, diste fin a la aventura", GOLD, reloj, fuente)
             estado[0] = config.SCREEN_MAPA
             #pygame.quit()
             #sys.exit()

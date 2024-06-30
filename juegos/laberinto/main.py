@@ -2,6 +2,7 @@ import pygame
 import sys
 import os
 import config
+from common.utils import mensaje_final
 from juegos.laberinto.recursos.constantes import *
 from juegos.laberinto.recursos.grafo import Grafo
 
@@ -13,7 +14,7 @@ def main_lab(screen, reloj, estado, dificultad):
     fondo_img = pygame.transform.scale(fondo_img, (ANCHO_VENTANA, ALTO_VENTANA))
 
     # Fuente para el texto
-    fuente = pygame.font.Font(ruta_fuente, 30)
+    fuente = pygame.font.Font(ruta_fuente, 45)
     titulo_fuente = pygame.font.Font(ruta_fuente, 48)
 
     # Cargar las imágenes del jugador
@@ -66,10 +67,10 @@ def main_lab(screen, reloj, estado, dificultad):
             pos_jugador = nueva_pos
 
         if pos_jugador == lab.salida:
-            mensaje_final(screen, "¡Felicidades, has llegado a la salida!", VERDE, reloj, fuente)
             jugar_lab = False
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
             pygame.time.delay(2000)
+            mensaje_final(screen, "¡Felicidades, has llegado a la salida!", GOLD, reloj, fuente)
             estado[0] = config.SCREEN_MAPA
             print("FELICIDADES")
 
@@ -88,22 +89,3 @@ def main_lab(screen, reloj, estado, dificultad):
 
         pygame.display.flip()
         reloj.tick(8)
-
-def mensaje_final(screen, mensaje, color, reloj, fuente):
-    while True:
-        for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            elif evento.type == pygame.KEYDOWN and evento.key == pygame.K_RETURN:
-                return
-
-        screen.fill(VERDE_O)
-        texto = fuente.render(mensaje, True, color)
-        screen.blit(texto, (ANCHO_VENTANA // 2 - texto.get_width() // 2, ALTO_VENTANA // 2 - texto.get_height() // 2))
-
-        texto_continuar = fuente.render("Presiona Enter para continuar", True, color)
-        screen.blit(texto_continuar, (ANCHO_VENTANA // 2 - texto_continuar.get_width() // 2, ALTO_VENTANA // 2 + 40))
-
-        pygame.display.flip()
-        reloj.tick(config.FPS)
