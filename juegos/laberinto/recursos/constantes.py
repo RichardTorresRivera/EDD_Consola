@@ -12,7 +12,7 @@ ANCHO_VENTANA = 1280
 ALTO_VENTANA = 720
 
 # Tamaño de celda
-TAMAÑO_CELDA = 40
+TAMANIO_CELDA = 40
 
 # Fuente
 ruta_fuente = 'assets/fonts/Minecraft.ttf'

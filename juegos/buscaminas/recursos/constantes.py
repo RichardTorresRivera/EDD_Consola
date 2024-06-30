@@ -1,15 +1,3 @@
-# constantes.py
-# Configuración de colores
-
-
-NEGRO = (38, 32, 23)
-BLANCO = (255, 255, 255)
-GRIS = (200, 200, 200)
-ROJO = (255, 0, 0)
-MARRON_CLARO = (156, 108, 37)
-MARRON = (139, 69, 19)
-GOLD = (255, 201, 14)
-
 # Colores para los números
 COLORES_NUMEROS = {
     1: (255, 201, 14),
@@ -21,10 +9,5 @@ COLORES_NUMEROS = {
     7: (165, 0, 255),
     8: (117, 0, 181)
 }
-
-# Configuración de pantalla
-ANCHO = 1280
-ALTO = 720
-TAMAÑO_CELDA = 40
-
-ruta_fuente = 'assets/fonts/Minecraft.ttf'
+# Imagen de tablero
+TAMANIO_CELDA = 40
