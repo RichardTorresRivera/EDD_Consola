@@ -26,9 +26,7 @@ class Grafo:
         self.grafo[inicio] = []
         self.agregar_aristas(inicio)
 
-        self.salida = (random.randint(0, self.filas - 1), random.randint(0, self.columnas - 1))
-        while self.salida == inicio or self.salida not in self.grafo:
-            self.salida = (random.randint(0, self.filas - 1), random.randint(0, self.columnas - 1))
+        self.salida = (self.filas - 1, self.columnas - 1)
 
     def obtener_mov_validos(self, posicion):
         return self.grafo.get(posicion, [])

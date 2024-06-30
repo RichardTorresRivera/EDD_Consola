@@ -87,7 +87,7 @@ def main_lab(screen, reloj, estado, dificultad):
         lab.mostrar_lab(screen, pos_jugador, margen_x, margen_y, jugador_imgs[indice_frame])  # Pasar la imagen del jugador como argumento
 
         pygame.display.flip()
-        reloj.tick(config.FPS)
+        reloj.tick(8)
 
 def mensaje_final(screen, mensaje, color, reloj, fuente):
     while True:
