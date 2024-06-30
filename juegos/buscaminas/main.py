@@ -2,6 +2,7 @@ import pygame
 import os
 import sys
 from common.music_config import cargar_vfx
+from common.utils import mensaje_final
 import config
 from common.colores import *
 from juegos.buscaminas.recursos.matriz import Matriz
@@ -51,9 +52,10 @@ def main_buscaminas(screen, reloj, estado, dificultad):
                             if not matriz.revelar(fila, columna):
                                 sonido_bomba.play()
                                 juagar_buscaminas = False
-                                matriz.mostrar_bombas(screen, tamaño_celda, margen_x, margen_y)
-                                print("perdiste")
                                 pygame.time.delay(2000)
+                                matriz.mostrar_bombas(screen, tamaño_celda, margen_x, margen_y)
+                                mensaje = "¡Tocaste una bomba!$"
+                                mensaje_final(screen, mensaje, ROJO, reloj, fuente)
                                 estado[0] = config.SCREEN_MAPA
                             else:
                                 sonido_click.play()
@@ -85,7 +87,8 @@ def main_buscaminas(screen, reloj, estado, dificultad):
             juagar_buscaminas = False
             pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
             pygame.time.delay(2000)
-            print("FELICIDADES")
+            mensaje = "¡Felicidades, ganaste!$"
+            mensaje_final(screen, mensaje, GOLD, reloj, fuente)
             estado[0] = config.SCREEN_MAPA
         reloj.tick(config.FPS)
 
