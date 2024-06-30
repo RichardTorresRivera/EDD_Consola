@@ -5,6 +5,9 @@ import config
 from juegos.buscaminas.recursos.constantes import *
 from common.colores import *
 
+bomba_img = pygame.image.load('assets/images/juegos/buscaminas/bomba.png')
+bomba_img = pygame.transform.scale(bomba_img, (20, 20))
+
 class Matriz:
     def __init__(self, filas, columnas, minas):
         self.filas = filas
@@ -132,3 +135,11 @@ class Matriz:
                 if self.tablero[i][j] == -1 and self.revelado[i][j]:
                     return True
         return False
+    
+    def mostrar_bombas(self, pantalla, tamaño_celda, margen_x, margen_y):
+        for i in range(self.filas):
+            for j in range(self.columnas):
+                if self.tablero[i][j] == -1:
+                    x = margen_x + j * tamaño_celda
+                    y = margen_y + i * tamaño_celda
+                    pantalla.blit(bomba_img, (x + 10, y + 10))

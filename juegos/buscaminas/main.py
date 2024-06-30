@@ -1,6 +1,7 @@
 import pygame
 import os
 import sys
+from common.music_config import cargar_vfx
 import config
 from common.colores import *
 from juegos.buscaminas.recursos.matriz import Matriz
@@ -11,6 +12,9 @@ def main_buscaminas(screen, reloj, estado, dificultad):
     pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Buscaminas - Sympathy For The Devil.mp3"))
     pygame.mixer.music.set_volume(1.0)
     pygame.mixer.music.play(-1)
+    # Carga de sonidos
+    sonido_click = cargar_vfx("Buscaminas - Grass.mp3", estado)
+    sonido_bomba = cargar_vfx("Buscaminas - Bomb.mp3", estado)
     # Fondo
     fondo_img = pygame.image.load(os.path.join(config.FONDOS_DIR, "buscaminasHD.png"))
     # Fuente
@@ -45,10 +49,14 @@ def main_buscaminas(screen, reloj, estado, dificultad):
                     if evento.button == 1:  # Botón izquierdo del ratón
                         if not matriz.revelado[fila][columna]:
                             if not matriz.revelar(fila, columna):
+                                sonido_bomba.play()
                                 juagar_buscaminas = False
+                                matriz.mostrar_bombas(screen, tamaño_celda, margen_x, margen_y)
                                 print("perdiste")
                                 pygame.time.delay(2000)
                                 estado[0] = config.SCREEN_MAPA
+                            else:
+                                sonido_click.play()
                     elif evento.button == 3:  # Botón derecho del ratón
                         matriz.colocar_bandera(fila, columna)
 
