@@ -1,11 +1,17 @@
 import pygame
 from levels import LevelManager
 from tutorials import show_tutorial
+import os
 
 def main():
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
     pygame.display.set_caption("Stack Adventure")
+
+    # Cargar y reproducir la música de fondo
+    pygame.mixer.music.load(os.path.join('recursos', 'Contar Palabras - Words.mp3'))
+    pygame.mixer.music.set_volume(0.5)
+    pygame.mixer.music.play(-1)
 
     # Mostrar el tutorial inicial
     show_tutorial(screen)

@@ -1,10 +1,10 @@
 import pygame
 import random
+import os
 
 class CompleteWordsPuzzle:
-    def __init__(self, screen, level_manager):
+    def __init__(self, screen):
         self.screen = screen
-        self.level_manager = level_manager
         self.word_list = ["PILA", "COLA", "ARBOL", "GRAFO", "LISTAENLAZADA"]
         self.words_guessed = []
         self.lives = 3
@@ -17,6 +17,10 @@ class CompleteWordsPuzzle:
         self.user_text = ''
         self.message = ''
         self.final_message = False
+
+        # Cargar el fondo de pantalla
+        self.background = pygame.image.load(os.path.join('recursos', 'palabrasHD.png')).convert()
+        self.background = pygame.transform.scale(self.background, (800, 600))
 
     def reset_puzzle(self):
         if len(self.words_guessed) < len(self.word_list):
@@ -98,9 +102,9 @@ class CompleteWordsPuzzle:
             if len(self.words_guessed) == len(self.word_list):
                 self.message = [
                     "¡Has adivinado todas las palabras!",
-                    "Las palabras : Gracias por rescatarnos y te dare la siguiente información",
-                    "el siguiente camino que es un buscaminas",
-                    "se encuentra en un campo minado cerca, ¡Buena suerte!",
+                    "Las palabras agradecen y dan información",
+                    "del siguiente camino que es un buscaminas",
+                    "que se encuentra en un campo minado cerca.",
                     "",
                     "Presiona 1 para reiniciar el juego",
                     "Presiona 2 para continuar al siguiente nivel"
@@ -121,7 +125,7 @@ class CompleteWordsPuzzle:
             self.waiting_for_key = True
 
     def draw(self):
-        self.screen.fill((0, 0, 0))
+        self.screen.blit(self.background, (0, 0))
         if isinstance(self.message, list):
             y_offset = 100
             for line in self.message:
