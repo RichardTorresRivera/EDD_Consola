@@ -4,8 +4,10 @@ import sys
 import config
 
 from common.utils import escalar_imagen, mostrar_indicador_mouse, fondo_loading
-from juegos.decisiones.main import main_decisiones
+from juegos.buscaminas.main import main_buscaminas
 from juegos.hanoi.main import main_hanoi
+from juegos.laberinto.main import main_lab
+from juegos.decisiones.main import main_decisiones
 from Menu.paneles.panel_config import main_panel_config
 from Menu.paneles.panel_exit import main_panel_exit
 from Menu.paneles.panel_help import main_panel_help
@@ -183,7 +185,7 @@ def main_mapa(screen, reloj, estado, dificultad):
         ]
     toshi = Personaje(path_segments[0][0][0], path_segments[0][0][1], toshi_move, toshi_stop, path_segments)
     # Juegos
-    init_game = [main_hanoi, main_hanoi, main_hanoi, main_hanoi, main_hanoi, main_decisiones]
+    init_game = [main_hanoi, main_buscaminas, main_hanoi, main_hanoi, main_lab, main_decisiones]
     
     run_mapa = True
     while run_mapa:

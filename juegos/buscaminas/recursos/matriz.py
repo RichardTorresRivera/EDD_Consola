@@ -1,6 +1,9 @@
 import pygame
-from recursos.constantes import *
 import random
+import os
+import config
+from juegos.buscaminas.recursos.constantes import *
+from common.colores import *
 
 class Matriz:
     def __init__(self, filas, columnas, minas):
@@ -90,7 +93,7 @@ class Matriz:
         return True
 
     def mostrar(self, pantalla, tamaño_celda, margen_x, margen_y):
-        fuente = pygame.font.Font(ruta_fuente, 30)  # Fuente para el texto
+        fuente = pygame.font.Font(os.path.join(config.FONTS_DIR, "minecraft.ttf"), 30)
 
         # Calcula la posición del tablero para centrarlo en la pantalla
         tablero_ancho = self.columnas * tamaño_celda

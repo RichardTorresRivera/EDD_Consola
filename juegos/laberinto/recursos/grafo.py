@@ -1,6 +1,6 @@
 import random
 import pygame
-from recursos.constantes import *
+from juegos.laberinto.recursos.constantes import *
 
 class Grafo:
     def __init__(self, filas, columnas):
@@ -35,12 +35,12 @@ class Grafo:
 
     def mostrar_lab(self, pantalla, jugador, margen_x, margen_y, jugador_img):
         # Dibujar fondo VERDE_P del laberinto
-        pygame.draw.rect(pantalla, VERDE_P, (margen_x, margen_y, self.columnas * TAMAÑO_CELDA, self.filas * TAMAÑO_CELDA))
+        pygame.draw.rect(pantalla, VERDE_P, (margen_x, margen_y, self.columnas * TAMANIO_CELDA, self.filas * TAMANIO_CELDA))
 
         for fila in range(self.filas):
             for columna in range(self.columnas):
-                x = margen_x + columna * TAMAÑO_CELDA
-                y = margen_y + fila * TAMAÑO_CELDA
+                x = margen_x + columna * TAMANIO_CELDA
+                y = margen_y + fila * TAMANIO_CELDA
 
                 # Dibujar jugador como imagen
                 if (fila, columna) == jugador:
@@ -48,17 +48,17 @@ class Grafo:
 
                 # Dibujar salida
                 elif (fila, columna) == self.salida:
-                    pygame.draw.rect(pantalla, VERDE, (x, y, TAMAÑO_CELDA, TAMAÑO_CELDA))
+                    pygame.draw.rect(pantalla, VERDE, (x, y, TAMANIO_CELDA, TAMANIO_CELDA))
 
                 # Dibujar muros
                 if (fila, columna) in self.grafo:
                     if (fila, columna + 1) not in self.grafo[(fila, columna)]:
-                        pygame.draw.line(pantalla, VERDE_O, (x + TAMAÑO_CELDA, y), (x + TAMAÑO_CELDA, y + TAMAÑO_CELDA), 5)  # Muro derecha
+                        pygame.draw.line(pantalla, VERDE_O, (x + TAMANIO_CELDA, y), (x + TAMANIO_CELDA, y + TAMANIO_CELDA), 5)  # Muro derecha
                     if (fila, columna - 1) not in self.grafo[(fila, columna)]:
-                        pygame.draw.line(pantalla, VERDE_O, (x, y), (x, y + TAMAÑO_CELDA), 5)  # Muro izquierda
+                        pygame.draw.line(pantalla, VERDE_O, (x, y), (x, y + TAMANIO_CELDA), 5)  # Muro izquierda
                     if (fila + 1, columna) not in self.grafo[(fila, columna)]:
-                        pygame.draw.line(pantalla, VERDE_O, (x, y + TAMAÑO_CELDA), (x + TAMAÑO_CELDA, y + TAMAÑO_CELDA), 5)  # Muro abajo
+                        pygame.draw.line(pantalla, VERDE_O, (x, y + TAMANIO_CELDA), (x + TAMANIO_CELDA, y + TAMANIO_CELDA), 5)  # Muro abajo
                     if (fila - 1, columna) not in self.grafo[(fila, columna)]:
-                        pygame.draw.line(pantalla, VERDE_O, (x, y), (x + TAMAÑO_CELDA, y), 5)  # Muro arriba
+                        pygame.draw.line(pantalla, VERDE_O, (x, y), (x + TAMANIO_CELDA, y), 5)  # Muro arriba
 
 
