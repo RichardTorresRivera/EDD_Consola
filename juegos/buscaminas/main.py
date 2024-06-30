@@ -12,7 +12,7 @@ def main_buscaminas(screen, reloj, estado, dificultad):
     pygame.mixer.music.set_volume(1.0)
     pygame.mixer.music.play(-1)
     # Fondo
-    fondo_img = pygame.image.load('assets/images/fondos/buscaminasHD.png')
+    fondo_img = pygame.image.load(os.path.join(config.FONDOS_DIR, "buscaminasHD.png"))
     # Fuente
     fuente = pygame.font.Font(os.path.join(config.FONTS_DIR, "minecraft.ttf"), 30)
     fuente_minas = pygame.font.Font(os.path.join(config.FONTS_DIR, "minecraft.ttf"), 24)
@@ -82,4 +82,4 @@ def main_buscaminas(screen, reloj, estado, dificultad):
         reloj.tick(config.FPS)
 
 if __name__ == "__main__":
-    print("hola mundo")
+    main_buscaminas()

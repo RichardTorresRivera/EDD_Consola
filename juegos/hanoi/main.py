@@ -2,7 +2,7 @@ import pygame
 import os
 import sys
 import config
-from common.music_config import cargar_configuracion
+from common.music_config import cargar_configuracion, cargar_vfx
 from juegos.hanoi.recursos.hanoi import Hanoi
 from juegos.hanoi.recursos.torre import Disco, Torre
 from juegos.hanoi.recursos import constantes
@@ -121,12 +121,10 @@ def main_hanoi(screen, reloj, estado, dificultad):
     hanoi = Hanoi(torres)
     cargar_configuracion(estado)
     pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Torre Hanoi - Stairway to Heaven.mp3"))
-    pygame.mixer.music.set_volume(1.0)
-    sound_push = pygame.mixer.Sound(os.path.join(config.SFX_DIR, "Hanoi - Push.mp3"))
-    sound_pop = pygame.mixer.Sound(os.path.join(config.SFX_DIR, "Hanoi y Cartas - Pop.mp3"))
-    sound_push.set_volume(0.5)
-    sound_pop.set_volume(0.5)
-    sounds = [sound_push, sound_pop]
+    pygame.mixer.music.play(-1)
+    sound_pop = cargar_vfx("Hanoi y Cartas - Pop.mp3", estado)
+    sound_push = cargar_vfx("Hanoi - Push.mp3", estado)
+    sounds = [sound_pop, sound_push]
     
     jugar_hanoi = True
     while jugar_hanoi:

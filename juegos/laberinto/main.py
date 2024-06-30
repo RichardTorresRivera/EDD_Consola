@@ -9,7 +9,7 @@ def main_lab(screen, reloj, estado, dificultad):
     pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Laberinto - Enjoy The Silence.mp3"))
     pygame.mixer.music.set_volume(1.0)
     pygame.mixer.music.play(-1)
-    fondo_img = pygame.image.load('assets/images/fondos/laberintoHD.png')
+    fondo_img = pygame.image.load(os.path.join(config.FONDOS_DIR, "laberintoHD.png"))
     fondo_img = pygame.transform.scale(fondo_img, (ANCHO_VENTANA, ALTO_VENTANA))
 
     # Fuente para el texto
@@ -18,8 +18,8 @@ def main_lab(screen, reloj, estado, dificultad):
 
     # Cargar las imágenes del jugador
     jugador_imgs = [
-        pygame.image.load('assets/images/toshi/stop/frameS0.png').convert_alpha(),
-        pygame.image.load('assets/images/toshi/stop/frameS1.png').convert_alpha()
+        pygame.image.load(os.path.join(config.TOSHI_DIR, "stop", "frameS0.png")).convert_alpha(),
+        pygame.image.load(os.path.join(config.TOSHI_DIR, "stop", "frameS1.png")).convert_alpha()
     ]
     jugador_imgs = [pygame.transform.scale(img, (TAMANIO_CELDA, TAMANIO_CELDA)) for img in jugador_imgs]
     filas = (dificultad[0] + 2)*3
@@ -37,7 +37,7 @@ def main_lab(screen, reloj, estado, dificultad):
     margen_y = (ALTO_VENTANA - alto_laberinto) // 2 + 30
 
     # Cargar la imagen de fondo para "Laberinto"
-    fondo_laberinto_img = pygame.image.load('assets/images/general/cuadro.png')
+    fondo_laberinto_img = pygame.image.load(os.path.join(config.GENERAL_DIR, "cuadro.png"))
     fondo_laberinto_img = pygame.transform.scale(fondo_laberinto_img, (300, 70))
     jugar_lab = True
 
