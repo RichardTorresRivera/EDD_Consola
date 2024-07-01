@@ -24,18 +24,13 @@ def manejar_eventos_panel_book(estado, buttons):
 
 def main_panel_book(screen, reloj, estado):
     # Botones
-    button_ok = pygame.Rect(1092, 124, 55, 41) # cambiar
+    button_ok = pygame.Rect(1140, 75, 68, 41) # cambiar
     buttons_panel_book = [button_ok]
-    #estado[9] #num_game
-    nombres_book = ["LibroWords.png","LibroMinesWeeper.png","LibroHanoi.png","LibroVacio.png","LibroLabyrinth.png","LibroDecision.png"]
-    # Imagenes
-    img_book_path = os.path.join(config.LIBROS_DIR, nombres_book[estado[9]])
-    img_book = pygame.image.load(img_book_path)
-    img_book = escalar_imagen(img_book, 0.9)
     # Bucle principal
     run_panel_book = True
     while run_panel_book:
         if estado[0] == config.SCREEN_PANEL_BOOK:
+            pygame.draw.rect(screen, (255, 255, 255), button_ok)
             manejar_eventos_panel_book(estado, buttons_panel_book)
             mostrar_indicador_mouse(buttons_panel_book)
             if estado[9] == 0:
