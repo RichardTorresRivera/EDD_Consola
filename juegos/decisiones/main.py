@@ -128,6 +128,7 @@ def main_decisiones(screen, reloj, estado, dificultad):
     img_boton_book, button_book_rect = cargar_boton_help()
     # Lista de botones
     botones = [boton_opcion_a, boton_opcion_b]
+    estado[0] = config.SCREEN_PANEL_BOOK
     while jugar_decisiones:
         if estado[0] == config.SCREEN_GAME:
             manejar_eventos(screen, decisiones, botones, sound_click, estado, button_pause_rect, button_book_rect)

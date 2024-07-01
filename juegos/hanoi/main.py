@@ -112,8 +112,10 @@ def dibujar(screen, fondo, torres, discos, img_boton_pausa, boton_pausa, img_bot
 
     dibujar_boton_pausa(screen, img_boton_pausa)
     dibujar_boton_help(screen, img_boton_help)
-
-    texto = fuente.render(f"Movimientos: {movimientos}", True,BLANCO)
+    if (movimientos <= 3):
+        texto = fuente.render(f"Movimientos restantes: {movimientos}", True, ROJO)
+    else:
+        texto = fuente.render(f"Movimientos restantes: {movimientos}", True, BLANCO)
     screen.blit(texto, (config.ANCHO_VENTANA // 2 - texto.get_width() // 2, 10))
 
     if img_actual:
@@ -159,7 +161,7 @@ def main_hanoi(screen, reloj, estado, dificultad):
 
     fuente_mov = pygame.font.Font(os.path.join(config.FONTS_DIR, "minecraft.ttf"), 25)
 
-    # Cargar imagen y rectangulo del boton pause
+    # Cargar imagen y rectangulo del boton pause y help
     img_boton_pausa, button_pause_rect = cargar_boton_pausa()
     img_boton_book, button_book_rect = cargar_boton_help()
 
@@ -173,13 +175,13 @@ def main_hanoi(screen, reloj, estado, dificultad):
     images = [img_torre_vacia, img_mmm, img_bien_hecho, img_mov_invalido, img_defecto]
 
     img_actual = images[4]
-    
+    estado[0] = config.SCREEN_PANEL_BOOK
     jugar_hanoi = True
     while jugar_hanoi:
         if estado[0] == config.SCREEN_GAME:
             img_actual = manejar_eventos(hanoi, torres, discos, sounds, estado, button_pause_rect, button_book_rect, images, img_actual)
             actualizar(discos)
-            dibujar(screen, img_fondo, torres, discos, img_boton_pausa, button_pause_rect, img_boton_book, button_book_rect, hanoi.get_movimientos(), fuente_mov, img_actual)
+            dibujar(screen, img_fondo, torres, discos, img_boton_pausa, button_pause_rect, img_boton_book, button_book_rect, pow(2, n)-1-hanoi.get_movimientos(), fuente_mov, img_actual)
             if hanoi.game_over(n):
                 jugar_hanoi = False
                 pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)

@@ -2,13 +2,18 @@ import pygame
 import sys
 import os
 import config
+from Menu.paneles.panel_pause import main_panel_pause
+from Menu.paneles.panel_book import main_panel_book
 from common.utils import mensaje_final
+from common.music_config import cargar_configuracion
 from juegos.laberinto.recursos.constantes import *
 from juegos.laberinto.recursos.grafo import Grafo
+from common.pause_button import cargar_boton_pausa, dibujar_boton_pausa, manejar_eventos_boton_pausa
+from common.help_button import cargar_boton_help, dibujar_boton_help, manejar_eventos_boton_help
 
 def main_lab(screen, reloj, estado, dificultad):
+    cargar_configuracion(estado)
     pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Laberinto - Enjoy The Silence.mp3"))
-    pygame.mixer.music.set_volume(1.0)
     pygame.mixer.music.play(-1)
     fondo_img = pygame.image.load(os.path.join(config.FONDOS_DIR, "laberintoHD.png"))
     fondo_img = pygame.transform.scale(fondo_img, (ANCHO_VENTANA, ALTO_VENTANA))
@@ -40,54 +45,72 @@ def main_lab(screen, reloj, estado, dificultad):
     # Cargar la imagen de fondo para "Laberinto"
     fondo_laberinto_img = pygame.image.load(os.path.join(config.GENERAL_DIR, "cuadro.png"))
     fondo_laberinto_img = pygame.transform.scale(fondo_laberinto_img, (300, 70))
+    # Cargar imagen y rectangulo del boton pause y help
+    img_boton_pausa, boton_pausa = cargar_boton_pausa()
+    img_boton_book, boton_book = cargar_boton_help()
+    # Bucle principal
     jugar_lab = True
-
+    estado[0] = config.SCREEN_PANEL_BOOK
     while jugar_lab:
-        for evento in pygame.event.get():
-            if evento.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
+        if estado[0] == config.SCREEN_GAME:
+            for evento in pygame.event.get():
+                manejar_eventos_boton_pausa(evento, estado, boton_pausa)
+                manejar_eventos_boton_help(evento, estado, boton_book)
+                if evento.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
 
-        # Obtener el estado del teclado
-        teclas = pygame.key.get_pressed()
+            # Obtener el estado del teclado
+            teclas = pygame.key.get_pressed()
 
-        # Manejar el movimiento del jugador
-        dx, dy = 0, 0
-        if teclas[pygame.K_w]:
-            dx, dy = -1, 0
-        elif teclas[pygame.K_s]:
-            dx, dy = 1, 0
-        elif teclas[pygame.K_a]:
-            dx, dy = 0, -1
-        elif teclas[pygame.K_d]:
-            dx, dy = 0, 1
+            # Manejar el movimiento del jugador
+            dx, dy = 0, 0
+            if teclas[pygame.K_w] or teclas[pygame.K_UP]:
+                dx, dy = -1, 0
+            elif teclas[pygame.K_s] or teclas[pygame.K_DOWN]:
+                dx, dy = 1, 0
+            elif teclas[pygame.K_a] or teclas[pygame.K_LEFT]:
+                dx, dy = 0, -1
+            elif teclas[pygame.K_d] or teclas[pygame.K_RIGHT]:
+                dx, dy = 0, 1
 
-        nueva_pos = (pos_jugador[0] + dx, pos_jugador[1] + dy)
-        if nueva_pos in lab.obtener_mov_validos(pos_jugador):
-            pos_jugador = nueva_pos
+            nueva_pos = (pos_jugador[0] + dx, pos_jugador[1] + dy)
+            if nueva_pos in lab.obtener_mov_validos(pos_jugador):
+                pos_jugador = nueva_pos
 
-        if pos_jugador == lab.salida:
+            # Actualizar el índice del frame para la animación
+            indice_frame = (indice_frame + 1) % len(jugador_imgs)
+
+            # Dibujar el laberinto centrado en la pantalla
+            screen.blit(fondo_img, (0, 0))  # Fondo del laberinto
+            screen.blit(fondo_laberinto_img, ((ANCHO_VENTANA - fondo_laberinto_img.get_width()) // 2, 5))  # Fondo para "Laberinto"
+            # Dibujar el título "Laberinto" en la parte superior
+            texto_titulo = titulo_fuente.render("Laberinto", True, BLANCO)
+            screen.blit(texto_titulo, ((ANCHO_VENTANA - texto_titulo.get_width()) // 2, 20))
+            lab.mostrar_lab(screen, pos_jugador, margen_x, margen_y, jugador_imgs[indice_frame])  # Pasar la imagen del jugador como argumento
+            # Dibujar boton pausa y help
+            dibujar_boton_pausa(screen, img_boton_pausa)
+            dibujar_boton_help(screen, img_boton_book)
+            mouse_pos = pygame.mouse.get_pos()
+            if boton_pausa.collidepoint(mouse_pos):
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+            elif boton_book.collidepoint(mouse_pos):
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+            else:
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+            pygame.display.flip()
+            if pos_jugador == lab.salida:
+                jugar_lab = False
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+                pygame.time.delay(1000)
+                mensaje_final(screen, "¡Felicidades, has llegado a la salida!", GOLD, reloj, fuente)
+                estado[0] = config.SCREEN_MAPA
+                print("FELICIDADES")
+                estado[8].add("laberinto")
+        elif estado[0] == config.SCREEN_PANEL_PAUSE:
+            main_panel_pause(screen, reloj, estado)
+        elif estado[0] == config.SCREEN_PANEL_BOOK:
+            main_panel_book(screen, reloj, estado)
+        elif estado[0] == config.SCREEN_MAPA:
             jugar_lab = False
-
-            pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-            pygame.time.delay(2000)
-            mensaje_final(screen, "¡Felicidades, has llegado a la salida!", GOLD, reloj, fuente)
-            estado[0] = config.SCREEN_MAPA
-            print("FELICIDADES")
-            estado[8].add("laberinto")
-
-        # Actualizar el índice del frame para la animación
-        indice_frame = (indice_frame + 1) % len(jugador_imgs)
-
-        # Dibujar el laberinto centrado en la pantalla
-        screen.blit(fondo_img, (0, 0))  # Fondo del laberinto
-        screen.blit(fondo_laberinto_img, ((ANCHO_VENTANA - fondo_laberinto_img.get_width()) // 2, 5))  # Fondo para "Laberinto"
-
-        # Dibujar el título "Laberinto" en la parte superior
-        texto_titulo = titulo_fuente.render("Laberinto", True, BLANCO)
-        screen.blit(texto_titulo, ((ANCHO_VENTANA - texto_titulo.get_width()) // 2, 20))
-
-        lab.mostrar_lab(screen, pos_jugador, margen_x, margen_y, jugador_imgs[indice_frame])  # Pasar la imagen del jugador como argumento
-
-        pygame.display.flip()
         reloj.tick(8)
