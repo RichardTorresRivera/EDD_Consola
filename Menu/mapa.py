@@ -138,8 +138,8 @@ def main_mapa(screen, reloj, estado, dificultad):
     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     # Cargando
     fondo_loading(screen)
-    ruta_video = "prueba.mp4"
-    historia_loading(screen, ruta_video, reloj)
+    ruta_video = os.path.join(config.VIDEO_DIR, "intro_juego.mp4")
+    historia_loading(screen, ruta_video, reloj, 33)
     fondo_loading(screen)
     # Ambiente
     pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Menu - Super Mario World.mp3"))

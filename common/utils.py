@@ -3,7 +3,7 @@ import sys
 import cv2
 import config
 import pygame
-import numpy as np
+import time
 
 def mensaje_final(screen, mensaje, color, reloj, fuente):
     # Dividir el mensaje en líneas donde se detecte el signo de dólar
@@ -74,7 +74,7 @@ def fondo_loading(screen):
     # Limpiar la cola de eventos de Pygame
     pygame.event.clear()
 
-def historia_loading(screen, video_path, reloj):
+def historia_loading(screen, video_path, reloj, tiempo_reproduccion):
     # Inicializar el video
     cap = cv2.VideoCapture(video_path)
     if not cap.isOpened():
@@ -87,6 +87,8 @@ def historia_loading(screen, video_path, reloj):
     pygame.mixer.music.play()
 
     screen_width, screen_height = screen.get_size()
+
+    tiempo_inicio = time.time()
 
     # Loop para reproducir el video y capturar eventos
     while cap.isOpened():
@@ -118,6 +120,9 @@ def historia_loading(screen, video_path, reloj):
         pygame.display.flip()
 
         reloj.tick(config.FPS)
+
+        if time.time() - tiempo_inicio > tiempo_reproduccion:
+            break
 
     cap.release()
     pygame.mixer.music.stop()

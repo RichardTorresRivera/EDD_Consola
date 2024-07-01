@@ -5,7 +5,7 @@ import config
 from juegos.buscaminas.recursos.constantes import *
 from common.colores import *
 
-bomba_img = pygame.image.load('assets/images/juegos/buscaminas/bomba.png')
+bomba_img = pygame.image.load(os.path.join(config.BUSCAMINAS_DIR, "bomba.png"))
 bomba_img = pygame.transform.scale(bomba_img, (20, 20))
 
 class Matriz:

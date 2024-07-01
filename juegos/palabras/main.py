@@ -5,7 +5,7 @@ import os
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((800, 600))
+    screen = pygame.display.set_mode((1280, 720))
     pygame.display.set_caption("Stack Adventure")
 
     # Cargar y reproducir la música de fondo

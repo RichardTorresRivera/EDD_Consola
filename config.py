@@ -8,6 +8,7 @@ DATA_DIR = os.path.join(ASSETS_DIR, "data")
 IMAGES_DIR = os.path.join(ASSETS_DIR, "images")
 FONTS_DIR = os.path.join(ASSETS_DIR, "fonts")
 SOUNDS_DIR = os.path.join(ASSETS_DIR, "sounds")
+VIDEO_DIR = os.path.join(ASSETS_DIR, "video")
 
 # Directorio de images
 FONDOS_DIR = os.path.join(IMAGES_DIR, "fondos")
