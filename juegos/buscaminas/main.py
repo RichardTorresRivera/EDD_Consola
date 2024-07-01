@@ -65,6 +65,9 @@ def main_buscaminas(screen, reloj, estado, dificultad):
                                     matriz.mostrar_bombas(screen, tamaño_celda, margen_x, margen_y)
                                     pygame.display.flip()
                                     pygame.time.delay(2000)
+                                    mensaje = "¡Tocaste una bomba!$"
+                                    mensaje_final(screen, mensaje, ROJO, reloj, fuente)
+                                    estado[0] = config.SCREEN_MAPA
                                     juagar_buscaminas = False
                                 else:
                                     sonido_click.play()
@@ -109,13 +112,6 @@ def main_buscaminas(screen, reloj, estado, dificultad):
                 mensaje_final(screen, mensaje, GOLD, reloj, fuente)
                 estado[0] = config.SCREEN_MAPA
 
-            if juagar_buscaminas == False:
-                pygame.time.delay(2000) 
-                matriz.mostrar_bombas(screen, tamaño_celda, margen_x, margen_y)
-                mensaje = "¡Tocaste una bomba!$"
-                mensaje_final(screen, mensaje, ROJO, reloj, fuente)
-                estado[0] = config.SCREEN_MAPA
-                
         elif estado[0] == config.SCREEN_PANEL_PAUSE:
             main_panel_pause(screen, reloj, estado)
         elif estado[0] == config.SCREEN_PANEL_BOOK:
