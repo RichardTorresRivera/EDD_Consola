@@ -11,8 +11,7 @@ pygame.init()
 # Definición de las Listas Enlazadas
 class Nodo:
     def __init__(self, valor, imagen):
-        self.valor = valor
-        self.imagen = imagen
+        self.valor = valor, imagen
         self.siguiente = None
 
 class ListaEnlazada:
@@ -57,7 +56,7 @@ def crear_cartas(nivel):
         [("Nube", "Nube.png"), ("Relámpago", "Relámpago.png"), ("Lluvia", "Lluvia.png"), ("Sol", "Sol.png"), ("Arcoíris", "Arcoiris.png")],
         [("Héroe", "Héroe.png"), ("Casa", "Casa.png"), ("Brujo", "Brujo.png"), ("Pregunta", "Pregunta.png"), ("Check", "Check.png"), ("Llave", "Llave.png"), ("Puerta", "Puerta.png")]
     ]
-    cartas = cartas_info[nivel]
+    cartas = cartas_info[nivel - 1]  # Ajuste aquí para usar nivel-1 como índice
     random.shuffle(cartas)
     lista_enlazada = ListaEnlazada()
     for valor, imagen in cartas:
@@ -110,7 +109,7 @@ def verificar_orden(cartas, nivel):
         ["Héroe", "Casa", "Brujo", "Pregunta", "Check", "Llave", "Puerta"]
     ]
     for i, carta in enumerate(cartas):
-        if carta["valor"] != orden_correcto[nivel][i]:
+        if carta["valor"] != orden_correcto[nivel - 1][i]:  # Ajuste aquí para usar nivel-1 como índice
             return False
     return True
 
@@ -121,7 +120,7 @@ def jugar_nivel(screen, font, nivel, fondo_img, estado):
         "Una tormenta comienza y termina con un arcoíris",
         "El héroe responde al brujo acierta y recibe una llave que da a una puerta"
     ]
-    mostrar_mensaje_pantalla(screen, font, frases[nivel], (255, 255, 255), 650)
+    mostrar_mensaje_pantalla(screen, font, frases[nivel - 1], (255, 255, 255), 650)  # Ajuste aquí para usar nivel-1 como índice
     mostrar_mensaje_pantalla(screen, font, "Presiona Enter para comprobar si está bien", (255, 255, 255), 700)
     
     cartas = crear_cartas(nivel)
@@ -134,7 +133,7 @@ def jugar_nivel(screen, font, nivel, fondo_img, estado):
     inicio_x = (1200 - total_ancho_cartas) // 2
 
     for i, carta in enumerate(cartas_desordenadas):
-        imagen = pygame.image.load(os.path.join(config.CARTASIN_DIR, "recursos", carta.imagen)).convert_alpha()
+        imagen = pygame.image.load(os.path.join(config.CARTASIN_DIR, carta.imagen)).convert_alpha()
         imagen = pygame.transform.scale(imagen, (100, 150))
         rect = imagen.get_rect(topleft=(inicio_x + i * 100, cartas_pos_y))
         carta_imgs.append({"img": imagen, "rect": rect, "valor": carta.valor})
@@ -145,7 +144,7 @@ def jugar_nivel(screen, font, nivel, fondo_img, estado):
     
     while not nivel_completado:
         screen.blit(fondo_img, (0, 0))
-        mostrar_mensaje_pantalla(screen, font, frases[nivel], (255, 255, 255), 650)
+        mostrar_mensaje_pantalla(screen, font, frases[nivel - 1], (255, 255, 255), 650)  # Ajuste aquí para usar nivel-1 como índice
         mostrar_mensaje_pantalla(screen, font, "Presiona Enter para comprobar si está bien", (255, 255, 255), 700)
         
         mouse_pos = pygame.mouse.get_pos()
@@ -176,19 +175,17 @@ def main_cartas(screen, reloj, estado, dificultad):
     
     font = pygame.font.Font(None, 36)
     
-    niveles = 3
-    for nivel in range(niveles):
-        jugar_nivel(screen, font, nivel, fondo_img, estado)
+    jugar_nivel(screen, font, dificultad, fondo_img, estado)
     
     screen.blit(fondo_img, (0, 0))
-    mostrar_mensaje_pantalla(screen, font, "¡Felicidades! Has completado todos los niveles del juego de emparejamiento de cartas.", (255, 255, 255), 200)
+    mostrar_mensaje_pantalla(screen, font, "¡Felicidades! Has completado el nivel del juego de emparejamiento de cartas.", (255, 255, 255), 200)
     mostrar_mensaje_pantalla(screen, font, "Puedes avanzar al siguiente desafío.", (255, 255, 255), 250)
     mostrar_mensaje_pantalla(screen, font, "Presiona Enter para salir...", (255, 255, 255), 300)
     pygame.display.flip()
-
+    
     esperar_enter()
     
-    pygame.quit()
+    estado[0] = config.SCREEN_MAPA
 
 if __name__ == "__main__":
-    main_cartas(pygame.display.set_mode((1280, 720)), pygame.time.Clock(), [0], [0])
+    main_cartas(pygame.display.set_mode((1280, 720)), pygame.time.Clock(), [0], 1)

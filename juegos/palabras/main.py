@@ -174,7 +174,7 @@ def main_palabras(screen, reloj, estado, dificultad):
     fondo_img = pygame.image.load(os.path.join(config.FONDOS_DIR, 'palabrasHD.png')).convert()
     fondo_img = pygame.transform.scale(fondo_img, (screen.get_width(), screen.get_height()))
 
-    juego = CompleteWordsPuzzle(screen, dificultad[0] + 1)
+    juego = CompleteWordsPuzzle(screen, dificultad)
 
     running = True
     while running:
@@ -193,4 +193,4 @@ def main_palabras(screen, reloj, estado, dificultad):
     estado[0] = config.SCREEN_MAPA
 
 if __name__ == "__main__":
-    main_palabras(pygame.display.set_mode((1280, 720)), pygame.time.Clock(), [0], [0])
+    main_palabras(pygame.display.set_mode((1280, 720)), pygame.time.Clock(), [0], 1)
