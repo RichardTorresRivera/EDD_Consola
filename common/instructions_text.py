@@ -125,8 +125,10 @@ def minesweeper_book(screen):
 
 def card_book(screen):
     screen.blit(backgroundCards, [0, 0])
+    screen.blit(text_learn, (180, 100))
+    screen.blit(text_game, (853, 100))
 
-    text_concept = "Lista enlazada: Secuencia\nde nodos conectados\nmediante enlaces\n(dato - puntero)."
+    text_concept = "Lista enlazada:\nSecuencia de nodos\nconectados mediante\nenlaces (dato -\npuntero)."
     text_operation1 = "Insertar:  Agrega un\nnuevo nodo, puede\nser al inicio o al\nfinal."
     text_operation2 = "Ordenar: Busca el\ndato del nodo y lo\nintercambia con el\nsiguiente."
     text_inst1 = "En la mesa hay\nuna cantidad de\ncartas."
