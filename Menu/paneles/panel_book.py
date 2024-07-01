@@ -1,7 +1,7 @@
 import pygame
 import os
 import config
-
+from common.instructions_text import words_book, minesweeper_book, hanoi_book, labyrinth_book, decision_book
 from common.utils import mostrar_indicador_mouse, escalar_imagen
 
 def manejar_eventos_panel_book(estado, buttons):
@@ -21,14 +21,10 @@ def manejar_eventos_panel_book(estado, buttons):
                     print("mostrando juego ...")
                     estado[0] = config.SCREEN_GAME
 
-def dibujar_panel_book(screen, img, rect):
-    screen.blit(img, (60, 60))
-    pygame.draw.rect(screen, (255,0,0), rect) # Comentar
-    pygame.display.flip()
 
 def main_panel_book(screen, reloj, estado):
     # Botones
-    button_ok = pygame.Rect(625, 558, 50, 40) # cambiar
+    button_ok = pygame.Rect(1092, 124, 55, 41) # cambiar
     buttons_panel_book = [button_ok]
     #estado[9] #num_game
     nombres_book = ["LibroWords.png","LibroMinesWeeper.png","LibroHanoi.png","LibroVacio.png","LibroLabyrinth.png","LibroDecision.png"]
@@ -42,7 +38,17 @@ def main_panel_book(screen, reloj, estado):
         if estado[0] == config.SCREEN_PANEL_BOOK:
             manejar_eventos_panel_book(estado, buttons_panel_book)
             mostrar_indicador_mouse(buttons_panel_book)
-            dibujar_panel_book(screen, img_book, button_ok)
+            if estado[9] == 0:
+                words_book(screen)
+            elif estado[9] == 1:
+                minesweeper_book(screen)
+            elif estado[9] == 2:
+                hanoi_book(screen)
+            elif estado[9] == 4:
+                labyrinth_book(screen)
+            elif estado[9] == 5:
+                decision_book(screen)
+            pygame.display.flip()
         elif estado[0] == config.SCREEN_GAME:
             run_panel_book = False
         reloj.tick(config.FPS)

@@ -4,14 +4,16 @@ import sys
 import config
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-# Initialization Pygame
 pygame.init()
+"""
+# Initialization Pygame
+
 screen = pygame.display.set_mode((config.ANCHO_VENTANA, config.ALTO_VENTANA))
 pygame.display.set_caption('Libro Instrucciones')
 clock = pygame.time.Clock()
 FPS = 60
 # End of initialization
+"""
 
 # Backgrounds
 backgroundDefault = pygame.image.load(os.path.join(config.LIBROS_DIR, "LibroVacio.png"))
@@ -41,8 +43,10 @@ def render_multiline_text(text, font, color, surface, x, y, line_height):
         surface.blit(line_surface, (x, y + i * line_height))
 
 
-def hanoi_book():
+def hanoi_book(screen):
     screen.blit(backgroundHanoi, [0, 0])
+    screen.blit(text_learn, (180, 100))
+    screen.blit(text_game, (853, 100))
 
     text_concept = "Pilas: Lista donde el ultimo\nelemento ingresado es el\nprimero en salir."
     text_operation1 = "Apilar (push): Introducir un\nelemento dentro de la\npila, hasta llegar a un tope."
@@ -59,8 +63,10 @@ def hanoi_book():
     render_multiline_text(text_inst3, myFontParagraph, (0, 0, 0), screen, 710, 500, 22)
 
 
-def decision_book():
+def decision_book(screen):
     screen.blit(backgroundDecision, [0, 0])
+    screen.blit(text_learn, (180, 100))
+    screen.blit(text_game, (853, 100))
 
     text_concept = "Arboles: Estructura no\nlineal conformada\npor elementos\nllamados nodos y lineas\nllamadas ramas."
     text_operation1 = "Cada nodo tiene un\nunico camino que\ncomienza desde el\nprimer nodo\n(raiz o padre)."
@@ -77,8 +83,10 @@ def decision_book():
     render_multiline_text(text_inst3, myFontParagraph, (0, 0, 0), screen, 710, 520, 22)
 
 
-def words_book():
+def words_book(screen):
     screen.blit(backgroundWords, [0, 0])
+    screen.blit(text_learn, (180, 100))
+    screen.blit(text_game, (853, 100))
 
     text_concept = "Vector: Estructura\nunidimensional. Se\ndefine su longitud al\ninicio, pero no\nen la ejecucion."
     text_operation1 = "Cada elemento se\nalmacena en una\nposicion (desde 0\nhasta n)."
@@ -95,8 +103,10 @@ def words_book():
     render_multiline_text(text_inst3, myFontParagraph, (0, 0, 0), screen, 710, 520, 22)
 
 
-def minesweeper_book():
+def minesweeper_book(screen):
     screen.blit(backgroundMinesWeeper, [0, 0])
+    screen.blit(text_learn, (180, 100))
+    screen.blit(text_game, (853, 100))
 
     text_concept = "Matriz: Estructura\nbidimensional. Define\nsu longitud al inicio."
     text_operation1 = "Cuenta con 2 indices\n(desde 0,0 hasta n,m)."
@@ -113,7 +123,7 @@ def minesweeper_book():
     render_multiline_text(text_inst3, myFontParagraph, (0, 0, 0), screen, 710, 500, 22)
 
 
-def card_book():
+def card_book(screen):
     """screen.blit(backgroundMinesWeeper, [0, 0])
 
     text_concept = "Matriz: Estructura\nbidimensional. Define\nsu longitud al inicio."
@@ -132,8 +142,10 @@ def card_book():
 """
 
 
-def labyrinth_book():
+def labyrinth_book(screen):
     screen.blit(backgroundLabyrinth, [0, 0])
+    screen.blit(text_learn, (180, 100))
+    screen.blit(text_game, (853, 100))
 
     text_concept = "Esta formado por un\nconjunto de vertices\ny aristas."
     text_operation1 = "Se dividen en grafos\ndirigidos (con flecha)\ny no dirigidos\n(sin flecha)."
@@ -149,7 +161,7 @@ def labyrinth_book():
     render_multiline_text(text_inst2, myFontParagraph, (0, 0, 0), screen, 710, 360, 22)
     render_multiline_text(text_inst3, myFontParagraph, (0, 0, 0), screen, 710, 500, 22)
 
-
+"""
 done = False
 
 while not done:
@@ -178,3 +190,4 @@ while not done:
     screen.blit(text_game, (853, 100))
     pygame.display.flip()
     clock.tick(FPS)
+"""

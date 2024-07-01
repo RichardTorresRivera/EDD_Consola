@@ -41,6 +41,6 @@ def main():
             break
 
 # Para correr el archivo, ubicarse en la carpeta consola
-# Ejecutar la instruccion: py main.py
+# Ejecutar la instruccion: py instructions_text.py
 if __name__ == '__main__':
     main()
