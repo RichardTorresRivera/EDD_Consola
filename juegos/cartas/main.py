@@ -134,7 +134,7 @@ def jugar_nivel(screen, font, nivel, fondo_img, estado):
     inicio_x = (1200 - total_ancho_cartas) // 2
 
     for i, carta in enumerate(cartas_desordenadas):
-        imagen = pygame.image.load(os.path.join('recursos', carta.imagen)).convert_alpha()
+        imagen = pygame.image.load(os.path.join(config.CARTAS_DIR, "Frases Cartas", "Imágenes Sueltas", carta.imagen)).convert_alpha()
         imagen = pygame.transform.scale(imagen, (100, 150))
         rect = imagen.get_rect(topleft=(inicio_x + i * 100, cartas_pos_y))
         carta_imgs.append({"img": imagen, "rect": rect, "valor": carta.valor})
@@ -169,11 +169,11 @@ def jugar_nivel(screen, font, nivel, fondo_img, estado):
 
 def main_cartas(screen, reloj, estado, dificultad):
     # Ambiente
-    pygame.mixer.music.load(os.path.join('recursos', 'Cartas - Hungarian Dance No.5.mp3'))
+    pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, 'Cartas - Hungarian Dance No.5.mp3'))
     pygame.mixer.music.play(-1)
     
-    fondo_img = pygame.image.load(os.path.join('recursos', 'cartasHD.png')).convert()
-    fondo_img = pygame.transform.scale(fondo_img, (1200, 600))
+    fondo_img = pygame.image.load(os.path.join(config.FONDOS_DIR, 'cartasHD.png')).convert()
+    fondo_img = pygame.transform.scale(fondo_img, (1280, 720))
     
     font = pygame.font.Font(None, 36)
     
@@ -192,4 +192,4 @@ def main_cartas(screen, reloj, estado, dificultad):
     pygame.quit()
 
 if __name__ == "__main__":
-    main_cartas(pygame.display.set_mode((1200, 600)), pygame.time.Clock(), [0], [0])
+    main_cartas(pygame.display.set_mode((1280, 720)), pygame.time.Clock(), [0], [0])

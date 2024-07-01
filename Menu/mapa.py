@@ -188,7 +188,7 @@ def main_mapa(screen, reloj, estado, dificultad):
         ]
     toshi = Personaje(path_segments[0][0][0], path_segments[0][0][1], toshi_move, toshi_stop, path_segments)
     # Juegos
-    init_game = [main_hanoi, main_buscaminas, main_hanoi,main_cartas, main_hanoi, main_lab, main_decisiones]
+    init_game = [main_hanoi, main_buscaminas, main_hanoi, main_cartas, main_lab, main_decisiones]
     
     run_mapa = True
     while run_mapa:
