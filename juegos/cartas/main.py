@@ -3,6 +3,7 @@ import random
 import sys
 import os
 import config
+from common.utils import mensaje_final
 
 # Inicialización de Pygame
 pygame.init()
@@ -63,9 +64,10 @@ def crear_cartas(nivel):
         lista_enlazada.agregar(valor, imagen)
     return lista_enlazada
 
-def mostrar_mensaje_pantalla(screen, font, mensaje, color, pos):
+def mostrar_mensaje_pantalla(screen, font, mensaje, color, y_offset):
     texto = font.render(mensaje, True, color)
-    screen.blit(texto, pos)
+    text_rect = texto.get_rect(center=(screen.get_width() // 2, y_offset))
+    screen.blit(texto, text_rect)
 
 def esperar_enter():
     esperando = True
@@ -111,15 +113,16 @@ def verificar_orden(cartas, nivel):
             return False
     return True
 
-def jugar_nivel(screen, font, nivel, fondo_img):
+def jugar_nivel(screen, font, nivel, fondo_img, estado):
     screen.blit(fondo_img, (0, 0))
-    mostrar_mensaje_pantalla(screen, font, f"--- Nivel {nivel + 1} ---", (255, 255, 255), (50, 50))
+    mostrar_mensaje_pantalla(screen, font, f"--- Nivel {nivel + 1} ---", (255, 255, 255), 50)
     frases = [
         "Una Planta Crece",
         "Una tormenta comienza y termina con un arcoíris",
         "El héroe responde al brujo acierta y recibe una llave que da a una puerta"
     ]
-    mostrar_mensaje_pantalla(screen, font, frases[nivel], (255, 255, 255), (50, 100))
+    mostrar_mensaje_pantalla(screen, font, frases[nivel], (255, 255, 255), 100)
+    mostrar_mensaje_pantalla(screen, font, "Presiona Enter para comprobar si está bien", (255, 255, 255), 150)
     
     cartas = crear_cartas(nivel)
     cartas_desordenadas = cartas.mostrar()
@@ -127,13 +130,13 @@ def jugar_nivel(screen, font, nivel, fondo_img):
     
     carta_imgs = []
     num_cartas = len(cartas_desordenadas)
-    espacio_disponible = 1200 - 100 * num_cartas
-    espacio_entre_cartas = espacio_disponible // (num_cartas + 1)
-    
+    total_ancho_cartas = num_cartas * 100
+    inicio_x = (1200 - total_ancho_cartas) // 2
+
     for i, carta in enumerate(cartas_desordenadas):
         imagen = pygame.image.load(os.path.join('recursos', carta.imagen)).convert_alpha()
         imagen = pygame.transform.scale(imagen, (100, 150))
-        rect = imagen.get_rect(center=(espacio_entre_cartas * (i + 1) + 100 * (i + 0.5), cartas_pos_y))
+        rect = imagen.get_rect(topleft=(inicio_x + i * 100, cartas_pos_y))
         carta_imgs.append({"img": imagen, "rect": rect, "valor": carta.valor})
     
     dragging = False
@@ -142,8 +145,9 @@ def jugar_nivel(screen, font, nivel, fondo_img):
     
     while not nivel_completado:
         screen.blit(fondo_img, (0, 0))
-        mostrar_mensaje_pantalla(screen, font, f"--- Nivel {nivel + 1} ---", (255, 255, 255), (50, 50))
-        mostrar_mensaje_pantalla(screen, font, frases[nivel], (255, 255, 255), (50, 100))
+        mostrar_mensaje_pantalla(screen, font, f"--- Nivel {nivel + 1} ---", (255, 255, 255), 50)
+        mostrar_mensaje_pantalla(screen, font, frases[nivel], (255, 255, 255), 100)
+        mostrar_mensaje_pantalla(screen, font, "Presiona Enter para comprobar si está bien", (255, 255, 255), 150)
         
         mouse_pos = pygame.mouse.get_pos()
         dragging, selected_card = manejar_eventos(carta_imgs, mouse_pos, dragging, selected_card)
@@ -157,46 +161,35 @@ def jugar_nivel(screen, font, nivel, fondo_img):
         if keys[pygame.K_RETURN]:
             carta_imgs.sort(key=lambda x: x["rect"].x)
             if verificar_orden(carta_imgs, nivel):
-                mostrar_mensaje_pantalla(screen, font, "¡Correcto! Presiona Enter para continuar...", (255, 255, 255), (50, 400))
+                screen.blit(fondo_img, (0, 0))
+                mostrar_mensaje_pantalla(screen, font, "¡Correcto! Presiona Enter para continuar...", (255, 255, 255), 450)
                 pygame.display.flip()
                 esperar_enter()
                 nivel_completado = True
 
-def juego_emparejamiento_cartas():
-    screen = pygame.display.set_mode((1200, 600))
-    pygame.display.set_caption("Juego de Emparejamiento de Cartas")
-    font = pygame.font.Font(None, 36)
+def main_cartas(screen, reloj, estado, dificultad):
+    # Ambiente
+    pygame.mixer.music.load(os.path.join('recursos', 'Cartas - Hungarian Dance No.5.mp3'))
+    pygame.mixer.music.play(-1)
     
     fondo_img = pygame.image.load(os.path.join('recursos', 'cartasHD.png')).convert()
     fondo_img = pygame.transform.scale(fondo_img, (1200, 600))
     
-    pygame.mixer.music.load(os.path.join('recursos', 'Cartas - Hungarian Dance No.5.mp3'))
-    pygame.mixer.music.set_volume(1.0)
-    pygame.mixer.music.play(-1)
+    font = pygame.font.Font(None, 36)
     
     niveles = 3
     for nivel in range(niveles):
-        jugar_nivel(screen, font, nivel, fondo_img)
+        jugar_nivel(screen, font, nivel, fondo_img, estado)
     
-    screen.fill((0, 0, 0))
-    mostrar_mensaje_pantalla(screen, font, "¡Felicidades! Has completado todos los niveles del juego de emparejamiento de cartas.", (255, 255, 255), (50, 200))
-    mostrar_mensaje_pantalla(screen, font, "Puedes avanzar al siguiente desafío.", (255, 255, 255), (50, 250))
-    mostrar_mensaje_pantalla(screen, font, "Presiona Enter para salir...", (255, 255, 255), (50, 300))
+    screen.blit(fondo_img, (0, 0))
+    mostrar_mensaje_pantalla(screen, font, "¡Felicidades! Has completado todos los niveles del juego de emparejamiento de cartas.", (255, 255, 255), 200)
+    mostrar_mensaje_pantalla(screen, font, "Puedes avanzar al siguiente desafío.", (255, 255, 255), 250)
+    mostrar_mensaje_pantalla(screen, font, "Presiona Enter para salir...", (255, 255, 255), 300)
     pygame.display.flip()
     
     esperar_enter()
     
     pygame.quit()
 
-def main():
-    juego_emparejamiento_cartas()
-    while True:
-        opcion = input("\n¿Quieres jugar de nuevo? (s/n): ").lower()
-        if opcion == 's':
-            juego_emparejamiento_cartas()
-        else:
-            print("Gracias por jugar. ¡Hasta la proxima!")
-            break
-
 if __name__ == "__main__":
-    main()
+    main_cartas(pygame.display.set_mode((1200, 600)), pygame.time.Clock(), [0], [0])
