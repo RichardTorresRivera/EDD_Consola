@@ -50,7 +50,7 @@ def llenar_torre(n, torre):
         torre.apilar(discos[i-1])
     return discos
 
-def manejar_eventos(hanoi, torres, discos, sounds, estado, button_pause_rect, button_book_rect):
+def manejar_eventos(hanoi, torres, discos, sounds, estado, button_pause_rect, button_book_rect, images, img_actual):
     for event in pygame.event.get():
         manejar_eventos_boton_pausa(event, estado, button_pause_rect)
         manejar_eventos_boton_help(event, estado, button_book_rect)
@@ -72,8 +72,10 @@ def manejar_eventos(hanoi, torres, discos, sounds, estado, button_pause_rect, bu
                                 hanoi.set_torre_origen(torre)
                                 hanoi.set_flotando(True)
                                 sounds[0].play()
+                                img_actual = images[4]
                             else:
                                 print("Movimiento invalido: La torre esta vacia, no hay discos para mover")
+                                img_actual = images[0]
                         else:
                             hanoi.set_torre_destino(torre)
                             if hanoi.movimiento_valido():
@@ -86,17 +88,22 @@ def manejar_eventos(hanoi, torres, discos, sounds, estado, button_pause_rect, bu
                                 hanoi.set_flotando(False)
                                 sounds[1].play()
                                 if (hanoi.get_torre_origen() == hanoi.get_torre_destino()):
+                                    hanoi.movimientos -= 1
                                     print("Mmmm")
+                                    img_actual = images[1]
                                 else:
                                     print("Bien hecho")
+                                    img_actual = images[2]
                             else:
                                 print("Movimiento invalido: El peso del disco a mover es mayor al disco de la torre destino")
+                                img_actual = images[3]
+    return img_actual
 
 def actualizar(discos):
     for i in range(len(discos)):
         discos[i].actualizar()
 
-def dibujar(screen, fondo, torres, discos, img_boton_pausa, boton_pausa, img_boton_help, boton_book):
+def dibujar(screen, fondo, torres, discos, img_boton_pausa, boton_pausa, img_boton_help, boton_book, movimientos, fuente, img_actual):
     screen.blit(fondo, (0,0))
     for i in range(3):
         torres[i].dibujar(screen)
@@ -105,6 +112,12 @@ def dibujar(screen, fondo, torres, discos, img_boton_pausa, boton_pausa, img_bot
 
     dibujar_boton_pausa(screen, img_boton_pausa)
     dibujar_boton_help(screen, img_boton_help)
+
+    texto = fuente.render(f"Movimientos: {movimientos}", True,BLANCO)
+    screen.blit(texto, (config.ANCHO_VENTANA // 2 - texto.get_width() // 2, 10))
+
+    if img_actual:
+        screen.blit(img_actual, (0, 0))
 
     mouse_pos = pygame.mouse.get_pos()
     if any(torre.forma.collidepoint(mouse_pos) for torre in torres):
@@ -144,26 +157,46 @@ def main_hanoi(screen, reloj, estado, dificultad):
 
     fuente = pygame.font.Font(os.path.join(config.FONTS_DIR, "minecraft.ttf"), 45)
 
+    fuente_mov = pygame.font.Font(os.path.join(config.FONTS_DIR, "minecraft.ttf"), 25)
+
     # Cargar imagen y rectangulo del boton pause
     img_boton_pausa, button_pause_rect = cargar_boton_pausa()
     img_boton_book, button_book_rect = cargar_boton_help()
+
+    # Imagenes de toshi
+    img_torre_vacia = cargar_imagen(config.TOSHI_DIR + "\\hanoi", "torre_vacia")
+    img_mmm = cargar_imagen(config.TOSHI_DIR + "\\hanoi", "pensando")
+    img_bien_hecho = cargar_imagen(config.TOSHI_DIR + "\\hanoi", "bien_hecho")
+    img_mov_invalido = cargar_imagen(config.TOSHI_DIR + "\\hanoi", "mov_invalido")
+    img_defecto = cargar_imagen(config.TOSHI_DIR + "\\hanoi", "defecto")
+
+    images = [img_torre_vacia, img_mmm, img_bien_hecho, img_mov_invalido, img_defecto]
+
+    img_actual = images[4]
     
     jugar_hanoi = True
     while jugar_hanoi:
         if estado[0] == config.SCREEN_GAME:
-            manejar_eventos(hanoi, torres, discos, sounds, estado, button_pause_rect, button_book_rect)
+            img_actual = manejar_eventos(hanoi, torres, discos, sounds, estado, button_pause_rect, button_book_rect, images, img_actual)
             actualizar(discos)
-            dibujar(screen, img_fondo, torres, discos, img_boton_pausa, button_pause_rect, img_boton_book, button_book_rect)
+            dibujar(screen, img_fondo, torres, discos, img_boton_pausa, button_pause_rect, img_boton_book, button_book_rect, hanoi.get_movimientos(), fuente_mov, img_actual)
             if hanoi.game_over(n):
                 jugar_hanoi = False
                 pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
-                pygame.time.delay(2000)
+                pygame.time.delay(1000)
                 mensaje = "¡Felicidades lograste completar el desafio!$" + "Numero de movimientos: " + str(hanoi.get_movimientos())
                 mensaje_final(screen, mensaje, GOLD, reloj, fuente)
                 estado[0] = config.SCREEN_MAPA
                 estado[8].add("hanoi")
                 # pygame.quit()
                 # sys.exit()
+            elif hanoi.get_movimientos() == pow(2, n)-1:
+                jugar_hanoi = False
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+                pygame.time.delay(1000)
+                mensaje = "¡Perdiste, no superaste el desafio con el minimo$numero de movimientos!$$" + "Numero de movimientos minimos: " + str(hanoi.get_movimientos())
+                mensaje_final(screen, mensaje, ROJO, reloj, fuente)
+                estado[0] = config.SCREEN_MAPA
         elif estado[0] == config.SCREEN_PANEL_PAUSE:
             main_panel_pause(screen, reloj, estado)
         elif estado[0] == config.SCREEN_PANEL_BOOK:

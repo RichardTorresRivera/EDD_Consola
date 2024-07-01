@@ -108,3 +108,10 @@ class Personaje:
     def mover_a_punto(self, x, y):
         self.cambiar_forma(x, y, self.forma.width, self.forma.height)
         self.moving = False
+        # Actualizar current_point_index y current_segment_index
+        for i, segment in enumerate(self.path_segments):
+            if (x, y) in segment:
+                self.current_segment_index = i
+                self.path = self.path_segments[self.current_segment_index]
+                self.current_point_index = segment.index((x, y))
+                break

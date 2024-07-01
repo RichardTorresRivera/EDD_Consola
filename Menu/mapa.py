@@ -113,7 +113,7 @@ def manejar_eventos_mapa(estado, buttons, toshi, areas_colision, num_game):
                 }
                 index = keys_to_indices[event.key]
                 if index < len(areas_colision):
-                    target_x, target_y = areas_colision[index].center
+                    target_x, target_y = areas_colision[index].topleft
                     toshi.mover_a_punto(target_x, target_y)
 
 

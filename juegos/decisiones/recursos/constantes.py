@@ -1,7 +1,7 @@
 # Colores de contenedores
-CR_MSG = (136, 16, 4)
-CR_OPC_A = (34, 96, 190)
-CR_OPC_B = (176, 74, 81)
+CR_MSG = (255, 255, 255)
+CR_OPC_A = (255, 255, 255)
+CR_OPC_B = (255, 255, 255)
 
 # Botones
 POSY_BOTON = 580
