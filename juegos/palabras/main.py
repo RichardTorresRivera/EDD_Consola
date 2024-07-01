@@ -19,7 +19,7 @@ class CompleteWordsPuzzle:
         self.reset_puzzle()
         self.font = pygame.font.Font(None, 72)
         self.small_font = pygame.font.Font(None, 36)
-        self.input_box = pygame.Rect(50, 400, 140, 32)
+        self.input_box = pygame.Rect(screen.get_width() // 2 - 100, screen.get_height() - 100, 200, 32)
         self.active = False
         self.user_text = ''
         self.message = ''
@@ -144,29 +144,35 @@ class CompleteWordsPuzzle:
             text = self.small_font.render(self.message, True, (255, 255, 255))
             self.screen.blit(text, (50, 100))
         else:
+            # Mostrar palabra a adivinar centrada en la parte inferior
             text = self.font.render(" ".join(self.guesses), True, (255, 255, 255))
-            self.screen.blit(text, (50, 200))
+            text_rect = text.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() - 100))
+            self.screen.blit(text, text_rect.topleft)
 
-            attempts_text = self.small_font.render(f"Attempts: {self.attempts}", True, (255, 255, 255))
-            self.screen.blit(attempts_text, (50, 300))
+            # Mostrar intentos y vidas en la parte superior izquierda
+            attempts_text = self.small_font.render(f"Intentos: {self.attempts}", True, (255, 255, 255))
+            self.screen.blit(attempts_text, (50, 50))
 
-            lives_text = self.small_font.render(f"Lives: {self.lives}", True, (255, 255, 255))
-            self.screen.blit(lives_text, (50, 350))
+            lives_text = self.small_font.render(f"Vidas: {self.lives}", True, (255, 255, 255))
+            self.screen.blit(lives_text, (50, 100))
 
+            # Mostrar caja de entrada centrada en la parte inferior
             txt_surface = self.small_font.render(self.user_text, True, (255, 255, 255))
             width = max(200, txt_surface.get_width() + 10)
             self.input_box.w = width
+            self.input_box.centerx = self.screen.get_width() // 2
+            self.input_box.y = self.screen.get_height() - 50
             self.screen.blit(txt_surface, (self.input_box.x + 5, self.input_box.y + 5))
             pygame.draw.rect(self.screen, (255, 255, 255), self.input_box, 2)
 
         pygame.display.flip()
 
 def main_palabras(screen, reloj, estado, dificultad):
-    pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, 'Contar Palabras - Words.mp3'))
+    pygame.mixer.music.load(os.path.join('recursos', 'Contar Palabras - Words.mp3'))
     pygame.mixer.music.play(-1)
     
-    fondo_img = pygame.image.load(os.path.join(config.FONDOS_DIR, 'palabrasHD.png')).convert()
-    fondo_img = pygame.transform.scale(fondo_img, (1280, 720))
+    fondo_img = pygame.image.load(os.path.join('recursos', 'palabrasHD.png')).convert()
+    fondo_img = pygame.transform.scale(fondo_img, (screen.get_width(), screen.get_height()))
 
     juego = CompleteWordsPuzzle(screen, dificultad[0] + 1)
 

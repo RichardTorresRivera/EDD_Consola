@@ -120,8 +120,8 @@ def jugar_nivel(screen, font, nivel, fondo_img, estado):
         "Una tormenta comienza y termina con un arcoíris",
         "El héroe responde al brujo acierta y recibe una llave que da a una puerta"
     ]
-    mostrar_mensaje_pantalla(screen, font, frases[nivel], (255, 255, 255), 600)
-    mostrar_mensaje_pantalla(screen, font, "Presiona Enter para comprobar si está bien", (255, 255, 255), 650)
+    mostrar_mensaje_pantalla(screen, font, frases[nivel], (255, 255, 255), 650)
+    mostrar_mensaje_pantalla(screen, font, "Presiona Enter para comprobar si está bien", (255, 255, 255), 700)
     
     cartas = crear_cartas(nivel)
     cartas_desordenadas = cartas.mostrar()
@@ -133,7 +133,7 @@ def jugar_nivel(screen, font, nivel, fondo_img, estado):
     inicio_x = (1200 - total_ancho_cartas) // 2
 
     for i, carta in enumerate(cartas_desordenadas):
-        imagen = pygame.image.load(os.path.join(config.CARTAS_DIR, "Frases Cartas", "1. Una Planta Crece", carta.imagen)).convert_alpha()
+        imagen = pygame.image.load(os.path.join(config.CARTAS_DIR, carta.imagen)).convert_alpha()
         imagen = pygame.transform.scale(imagen, (100, 150))
         rect = imagen.get_rect(topleft=(inicio_x + i * 100, cartas_pos_y))
         carta_imgs.append({"img": imagen, "rect": rect, "valor": carta.valor})
@@ -144,9 +144,8 @@ def jugar_nivel(screen, font, nivel, fondo_img, estado):
     
     while not nivel_completado:
         screen.blit(fondo_img, (0, 0))
-        mostrar_mensaje_pantalla(screen, font, f"--- Nivel {nivel + 1} ---", (255, 255, 255), 50)
-        mostrar_mensaje_pantalla(screen, font, frases[nivel], (255, 255, 255), 100)
-        mostrar_mensaje_pantalla(screen, font, "Presiona Enter para comprobar si está bien", (255, 255, 255), 150)
+        mostrar_mensaje_pantalla(screen, font, frases[nivel], (255, 255, 255), 650)
+        mostrar_mensaje_pantalla(screen, font, "Presiona Enter para comprobar si está bien", (255, 255, 255), 700)
         
         mouse_pos = pygame.mouse.get_pos()
         dragging, selected_card = manejar_eventos(carta_imgs, mouse_pos, dragging, selected_card)
