@@ -21,7 +21,7 @@ backgroundHanoi = pygame.image.load(os.path.join(config.LIBROS_DIR, "LibroHanoi.
 backgroundDecision = pygame.image.load(os.path.join(config.LIBROS_DIR, "LibroDecision.png"))
 backgroundWords = pygame.image.load(os.path.join(config.LIBROS_DIR, "LibroWords.png"))
 backgroundMinesWeeper = pygame.image.load(os.path.join(config.LIBROS_DIR, "LibroMinesWeeper.png"))
-backgroundCards = pygame.image.load(os.path.join(config.LIBROS_DIR, "LibroVacio.png"))
+backgroundCards = pygame.image.load(os.path.join(config.LIBROS_DIR, "LibroCards.png"))
 backgroundLabyrinth = pygame.image.load(os.path.join(config.LIBROS_DIR, "LibroLabyrinth.png"))
 
 # Context variable
@@ -124,7 +124,7 @@ def minesweeper_book(screen):
 
 
 def card_book(screen):
-    screen.blit(backgroundMinesWeeper, [0, 0])
+    screen.blit(backgroundCards, [0, 0])
 
     text_concept = "Lista enlazada: Secuencia\nde nodos conectados\nmediante enlaces\n(dato - puntero)."
     text_operation1 = "Insertar:  Agrega un\nnuevo nodo, puede\nser al inicio o al\nfinal."

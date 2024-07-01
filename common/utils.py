@@ -1,9 +1,7 @@
 import os
 import sys
-import cv2
 import config
 import pygame
-import time
 
 def mensaje_final(screen, mensaje, color, reloj, fuente):
     # Dividir el mensaje en líneas donde se detecte el signo de dólar
@@ -74,55 +72,51 @@ def fondo_loading(screen):
     # Limpiar la cola de eventos de Pygame
     pygame.event.clear()
 
-def historia_loading(screen, video_path, reloj, tiempo_reproduccion):
-    # Inicializar el video
-    cap = cv2.VideoCapture(video_path)
-    if not cap.isOpened():
-        print(f"Error al abrir el video: {video_path}")
-        return
+def transicion(screen, speed):
+    fade = pygame.Surface(screen.get_size())
+    fade.fill((255, 255, 255))
+    for alpha in range(0, 255, speed):
+        fade.set_alpha(alpha)
+        screen.fill((0, 0, 0))
+        screen.blit(fade, (0, 0))
+        pygame.display.update()
+        pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+        pygame.time.delay(15)
 
-    # Inicializar el audio
+def historia_loading(screen, images, audio_path, reloj):
+    # Cargar el audio
     pygame.mixer.init()
-    pygame.mixer.music.load(video_path.replace(".mp4", ".mp3"))  # Suponiendo que el audio está en un archivo .mp3
+    pygame.mixer.music.load(audio_path)
     pygame.mixer.music.play()
 
-    screen_width, screen_height = screen.get_size()
+    # Duraciones en milisegundos
+    image_durations = [10000, 10000, 13000]  # 10s, 10s, 13s
 
-    tiempo_inicio = time.time()
-
-    # Loop para reproducir el video y capturar eventos
-    while cap.isOpened():
-        ret, frame = cap.read()
-        if not ret:
-            break
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                cap.release()
-                pygame.quit()
-                sys.exit()
-            elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
-                cap.release()
-                pygame.mixer.music.stop()
-                return
-
-        # Convertir el frame de BGR a RGB
-        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-        # Redimensionar el frame para que coincida con el tamaño de la pantalla
-        frame = cv2.resize(frame, (screen_width, screen_height))
-
-        # Crear una superficie a partir del frame
-        frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
-
-        # Dibujar el frame en la pantalla
-        screen.blit(frame_surface, (0, 0))
+    # Loop para mostrar las imágenes y capturar eventos
+    i = 0
+    for img in images:
+        
+        # Mostrar imagen
+        screen.blit(img, (0, 0))
         pygame.display.flip()
 
-        reloj.tick(config.FPS)
-
-        if time.time() - tiempo_inicio > tiempo_reproduccion:
-            break
-
-    cap.release()
+        # Tiempo que la imagen debe mostrarse
+        image_start_time = pygame.time.get_ticks()
+        while pygame.time.get_ticks() - image_start_time < image_durations[i]:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.mixer.music.stop()
+                    pygame.quit()
+                    sys.exit()
+                elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                    pygame.mixer.music.stop()
+                    return
+            
+            reloj.tick(config.FPS)
+        
+        # Transición entre imágenes
+        if i < len(images) - 1:
+            transicion(screen, 4)
+        i += 1
+    
     pygame.mixer.music.stop()
