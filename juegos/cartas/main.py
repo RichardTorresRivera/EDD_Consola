@@ -3,10 +3,12 @@ import random
 import sys
 import os
 import config
+from Menu.paneles.panel_pause import main_panel_pause
+from Menu.paneles.panel_book import main_panel_book
 from common.utils import mensaje_final
-
-# Inicialización de Pygame
-pygame.init()
+from common.colores import *
+from common.pause_button import cargar_boton_pausa, dibujar_boton_pausa, manejar_eventos_boton_pausa
+from common.help_button import cargar_boton_help, dibujar_boton_help, manejar_eventos_boton_help
 
 # Definición de las Listas Enlazadas
 class Nodo:
@@ -84,8 +86,10 @@ def esperar_enter():
                     pygame.quit()
                     sys.exit()
 
-def manejar_eventos(cartas, mouse_pos, dragging, selected_card):
+def manejar_eventos(cartas, mouse_pos, dragging, selected_card, boton_pausa, boton_book, estado):
     for event in pygame.event.get():
+        manejar_eventos_boton_pausa(event, estado, boton_pausa)
+        manejar_eventos_boton_help(event, estado, boton_book)
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
@@ -114,7 +118,7 @@ def verificar_orden(cartas, nivel):
             return False
     return True
 
-def jugar_nivel(screen, font, nivel, fondo_img, estado):
+def jugar_nivel(screen, font, nivel, fondo_img, estado, reloj):
     screen.blit(fondo_img, (0, 0))
     frases = [
         "Una Planta Crece",
@@ -138,33 +142,56 @@ def jugar_nivel(screen, font, nivel, fondo_img, estado):
         imagen = pygame.transform.scale(imagen, (100, 150))
         rect = imagen.get_rect(topleft=(inicio_x + i * 100, cartas_pos_y))
         carta_imgs.append({"img": imagen, "rect": rect, "valor": carta.valor})
-    
+    # Cargar imagen y rectangulo del boton pause y help
+    img_boton_pausa, boton_pausa = cargar_boton_pausa()
+    img_boton_book, boton_book = cargar_boton_help()
+
     dragging = False
     selected_card = None
     nivel_completado = False
-    
+    ruta_fuente = 'assets/fonts/Minecraft.ttf'
+    fuente = pygame.font.Font(ruta_fuente, 45)
+    estado[0] = config.SCREEN_PANEL_BOOK
     while not nivel_completado:
-        screen.blit(fondo_img, (0, 0))
-        mostrar_mensaje_pantalla(screen, font, frases[nivel[0] - 1], (255, 255, 255), 650)  # Ajuste aquí para usar nivel-1 como índice
-        mostrar_mensaje_pantalla(screen, font, "Presiona Enter para comprobar si está bien", (255, 255, 255), 700)
-        
-        mouse_pos = pygame.mouse.get_pos()
-        dragging, selected_card = manejar_eventos(carta_imgs, mouse_pos, dragging, selected_card)
-        
-        for carta in carta_imgs:
-            screen.blit(carta["img"], carta["rect"])
-        
-        pygame.display.flip()
-        
-        keys = pygame.key.get_pressed()
-        if keys[pygame.K_RETURN]:
-            carta_imgs.sort(key=lambda x: x["rect"].x)
-            if verificar_orden(carta_imgs, nivel):
-                screen.blit(fondo_img, (0, 0))
-                mostrar_mensaje_pantalla(screen, font, "¡Correcto! Presiona Enter para continuar...", (255, 255, 255), 450)
-                pygame.display.flip()
-                esperar_enter()
-                nivel_completado = True
+        if estado[0] == config.SCREEN_GAME:
+            screen.blit(fondo_img, (0, 0))
+            mostrar_mensaje_pantalla(screen, font, frases[nivel[0] - 1], (255, 255, 255), 650)  # Ajuste aquí para usar nivel-1 como índice
+            mostrar_mensaje_pantalla(screen, font, "Presiona Enter para comprobar si está bien", (255, 255, 255), 700)
+            
+            mouse_pos = pygame.mouse.get_pos()
+            dragging, selected_card = manejar_eventos(carta_imgs, mouse_pos, dragging, selected_card, boton_pausa, boton_book, estado)
+            
+            for carta in carta_imgs:
+                screen.blit(carta["img"], carta["rect"])
+            
+            # Dibujar boton pausa y help
+            dibujar_boton_pausa(screen, img_boton_pausa)
+            dibujar_boton_help(screen, img_boton_book)
+            mouse_pos = pygame.mouse.get_pos()
+            if boton_pausa.collidepoint(mouse_pos):
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+            elif boton_book.collidepoint(mouse_pos):
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+            else:
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+            pygame.display.flip()
+            
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_RETURN]:
+                carta_imgs.sort(key=lambda x: x["rect"].x)
+                if verificar_orden(carta_imgs, nivel):
+                    nivel_completado = True
+                    if nivel_completado is True:
+                        mensaje_final(screen, "¡Felicidades! Has completado el nivel$Puedes avanzar al siguiente desafio", GOLD, reloj, fuente)
+                        estado[0] = config.SCREEN_MAPA
+                        print("FELICIDADES")
+                        estado[8].add("cartas")
+        elif estado[0] == config.SCREEN_PANEL_PAUSE:
+            main_panel_pause(screen, reloj, estado)
+        elif estado[0] == config.SCREEN_PANEL_BOOK:
+            main_panel_book(screen, reloj, estado)
+        elif estado[0] == config.SCREEN_MAPA:
+            nivel_completado = True
 
 def main_cartas(screen, reloj, estado, dificultad):
     # Ambiente
@@ -176,17 +203,7 @@ def main_cartas(screen, reloj, estado, dificultad):
     
     font = pygame.font.Font(None, 36)
     
-    jugar_nivel(screen, font, dificultad, fondo_img, estado)
-    
-    screen.blit(fondo_img, (0, 0))
-    mostrar_mensaje_pantalla(screen, font, "¡Felicidades! Has completado el nivel del juego de emparejamiento de cartas.", (255, 255, 255), 200)
-    mostrar_mensaje_pantalla(screen, font, "Puedes avanzar al siguiente desafío.", (255, 255, 255), 250)
-    mostrar_mensaje_pantalla(screen, font, "Presiona Enter para salir...", (255, 255, 255), 300)
-    pygame.display.flip()
-    
-    esperar_enter()
-    
-    estado[0] = config.SCREEN_MAPA
+    jugar_nivel(screen, font, dificultad, fondo_img, estado, reloj)
 
 if __name__ == "__main__":
     main_cartas(pygame.display.set_mode((1280, 720)), pygame.time.Clock(), [0], 1)

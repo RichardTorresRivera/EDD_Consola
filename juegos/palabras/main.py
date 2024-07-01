@@ -3,10 +3,12 @@ import random
 import sys
 import os
 import config
+from Menu.paneles.panel_pause import main_panel_pause
+from Menu.paneles.panel_book import main_panel_book
 from common.utils import mensaje_final
-
-# Inicialización de Pygame
-pygame.init()
+from common.colores import *
+from common.pause_button import cargar_boton_pausa, dibujar_boton_pausa, manejar_eventos_boton_pausa
+from common.help_button import cargar_boton_help, dibujar_boton_help, manejar_eventos_boton_help
 
 class CompleteWordsPuzzle:
     def __init__(self, screen, nivel):
@@ -175,20 +177,42 @@ def main_palabras(screen, reloj, estado, dificultad):
     fondo_img = pygame.transform.scale(fondo_img, (screen.get_width(), screen.get_height()))
 
     juego = CompleteWordsPuzzle(screen, dificultad)
-
+    # Cargar imagen y rectangulo del boton pause y help
+    img_boton_pausa, boton_pausa = cargar_boton_pausa()
+    img_boton_book, boton_book = cargar_boton_help()
+    estado[0] = config.SCREEN_PANEL_BOOK
     running = True
     while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                sys.exit()
-            if juego.handle_events(event):
-                running = False
+        if estado[0] == config.SCREEN_GAME:
+            for event in pygame.event.get():
+                manejar_eventos_boton_pausa(event, estado, boton_pausa)
+                manejar_eventos_boton_help(event, estado, boton_book)
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if juego.handle_events(event):
+                    running = False
 
-        screen.blit(fondo_img, (0, 0))
-        juego.draw()
-        pygame.display.flip()
-        reloj.tick(60)
+            screen.blit(fondo_img, (0, 0))
+            juego.draw()
+            # Dibujar boton pausa y help
+            dibujar_boton_pausa(screen, img_boton_pausa)
+            dibujar_boton_help(screen, img_boton_book)
+            mouse_pos = pygame.mouse.get_pos()
+            if boton_pausa.collidepoint(mouse_pos):
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+            elif boton_book.collidepoint(mouse_pos):
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_HAND)
+            else:
+                pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
+            pygame.display.flip()
+        elif estado[0] == config.SCREEN_PANEL_PAUSE:
+            main_panel_pause(screen, reloj, estado)
+        elif estado[0] == config.SCREEN_PANEL_BOOK:
+            main_panel_book(screen, reloj, estado)
+        elif estado[0] == config.SCREEN_MAPA:
+            running = False
+        reloj.tick(config.FPS)
     
     estado[0] = config.SCREEN_MAPA
 
