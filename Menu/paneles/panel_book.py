@@ -1,7 +1,7 @@
 import pygame
 import os
 import config
-from common.instructions_text import words_book, minesweeper_book, hanoi_book, labyrinth_book, decision_book
+from common.instructions_text import words_book, minesweeper_book, hanoi_book, labyrinth_book, decision_book, card_book
 from common.utils import mostrar_indicador_mouse, escalar_imagen
 
 def manejar_eventos_panel_book(estado, buttons):
@@ -39,6 +39,8 @@ def main_panel_book(screen, reloj, estado):
                 minesweeper_book(screen)
             elif estado[9] == 2:
                 hanoi_book(screen)
+            elif estado[9] == 3:
+                card_book(screen)
             elif estado[9] == 4:
                 labyrinth_book(screen)
             elif estado[9] == 5:
