@@ -28,7 +28,7 @@ def main_buscaminas(screen, reloj, estado, dificultad):
     # Tablero
     filas = (dificultad[0] + 1)*3
     columnas = (dificultad[0] + 1)*3
-    minas = int(((dificultad[0] + 1)*3)**2/4)
+    minas = int(((dificultad[0] + 1)*3)**2/4) - 3
     # Crea la matriz con los valores
     matriz = Matriz(filas, columnas, minas)
     tamaño_celda = constantes.TAMANIO_CELDA
@@ -62,12 +62,10 @@ def main_buscaminas(screen, reloj, estado, dificultad):
                             if not matriz.revelado[fila][columna]:
                                 if not matriz.revelar(fila, columna):
                                     sonido_bomba.play()
-                                    juagar_buscaminas = False
-                                    pygame.time.delay(2000)
                                     matriz.mostrar_bombas(screen, tamaño_celda, margen_x, margen_y)
-                                    mensaje = "¡Tocaste una bomba!$"
-                                    mensaje_final(screen, mensaje, ROJO, reloj, fuente)
-                                    estado[0] = config.SCREEN_MAPA
+                                    pygame.display.flip()
+                                    pygame.time.delay(2000)
+                                    juagar_buscaminas = False
                                 else:
                                     sonido_click.play()
                         elif evento.button == 3:  # Botón derecho del ratón
@@ -110,7 +108,14 @@ def main_buscaminas(screen, reloj, estado, dificultad):
                 mensaje = "¡Felicidades, ganaste!$"
                 mensaje_final(screen, mensaje, GOLD, reloj, fuente)
                 estado[0] = config.SCREEN_MAPA
-                estado[8].add("buscaminas")
+
+            if juagar_buscaminas == False:
+                pygame.time.delay(2000) 
+                matriz.mostrar_bombas(screen, tamaño_celda, margen_x, margen_y)
+                mensaje = "¡Tocaste una bomba!$"
+                mensaje_final(screen, mensaje, ROJO, reloj, fuente)
+                estado[0] = config.SCREEN_MAPA
+                
         elif estado[0] == config.SCREEN_PANEL_PAUSE:
             main_panel_pause(screen, reloj, estado)
         elif estado[0] == config.SCREEN_PANEL_BOOK:
