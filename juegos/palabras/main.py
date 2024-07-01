@@ -134,7 +134,6 @@ class CompleteWordsPuzzle:
             self.waiting_for_key = True
 
     def draw(self):
-        self.screen.fill((0, 0, 0))
         if isinstance(self.message, list):
             y_offset = 100
             for line in self.message:
@@ -163,11 +162,11 @@ class CompleteWordsPuzzle:
         pygame.display.flip()
 
 def main_palabras(screen, reloj, estado, dificultad):
-    pygame.mixer.music.load(os.path.join('recursos', 'Contar Palabras - Words.mp3'))
+    pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, 'Contar Palabras - Words.mp3'))
     pygame.mixer.music.play(-1)
     
-    fondo_img = pygame.image.load(os.path.join('recursos', 'palabrasHD.png')).convert()
-    fondo_img = pygame.transform.scale(fondo_img, (800, 600))
+    fondo_img = pygame.image.load(os.path.join(config.FONDOS_DIR, 'palabrasHD.png')).convert()
+    fondo_img = pygame.transform.scale(fondo_img, (1280, 720))
 
     juego = CompleteWordsPuzzle(screen, dificultad[0] + 1)
 
@@ -188,4 +187,4 @@ def main_palabras(screen, reloj, estado, dificultad):
     estado[0] = config.SCREEN_MAPA
 
 if __name__ == "__main__":
-    main_palabras(pygame.display.set_mode((800, 600)), pygame.time.Clock(), [0], [0])
+    main_palabras(pygame.display.set_mode((1280, 720)), pygame.time.Clock(), [0], [0])
