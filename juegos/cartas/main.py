@@ -2,6 +2,8 @@ import pygame
 import random
 import sys
 import os
+import config
+from common.utils import mensaje_final
 
 # Inicialización de Pygame
 pygame.init()
@@ -111,7 +113,7 @@ def verificar_orden(cartas, nivel):
             return False
     return True
 
-def jugar_nivel(screen, font, nivel, fondo_img):
+def jugar_nivel(screen, font, nivel, fondo_img, estado):
     screen.blit(fondo_img, (0, 0))
     mostrar_mensaje_pantalla(screen, font, f"--- Nivel {nivel + 1} ---", (255, 255, 255), 50)
     frases = [
@@ -165,21 +167,19 @@ def jugar_nivel(screen, font, nivel, fondo_img):
                 esperar_enter()
                 nivel_completado = True
 
-def juego_emparejamiento_cartas():
-    screen = pygame.display.set_mode((1200, 600))
-    pygame.display.set_caption("Juego de Emparejamiento de Cartas")
-    font = pygame.font.Font(None, 36)
+def main_cartas(screen, reloj, estado, dificultad):
+    # Ambiente
+    pygame.mixer.music.load(os.path.join('recursos', 'Cartas - Hungarian Dance No.5.mp3'))
+    pygame.mixer.music.play(-1)
     
     fondo_img = pygame.image.load(os.path.join('recursos', 'cartasHD.png')).convert()
     fondo_img = pygame.transform.scale(fondo_img, (1200, 600))
     
-    pygame.mixer.music.load(os.path.join('recursos', 'Cartas - Hungarian Dance No.5.mp3'))
-    pygame.mixer.music.set_volume(1.0)
-    pygame.mixer.music.play(-1)
+    font = pygame.font.Font(None, 36)
     
     niveles = 3
     for nivel in range(niveles):
-        jugar_nivel(screen, font, nivel, fondo_img)
+        jugar_nivel(screen, font, nivel, fondo_img, estado)
     
     screen.blit(fondo_img, (0, 0))
     mostrar_mensaje_pantalla(screen, font, "¡Felicidades! Has completado todos los niveles del juego de emparejamiento de cartas.", (255, 255, 255), 200)
@@ -191,15 +191,5 @@ def juego_emparejamiento_cartas():
     
     pygame.quit()
 
-def main():
-    juego_emparejamiento_cartas()
-    while True:
-        opcion = input("\n¿Quieres jugar de nuevo? (s/n): ").lower()
-        if opcion == 's':
-            juego_emparejamiento_cartas()
-        else:
-            print("Gracias por jugar. ¡Hasta la próxima!")
-            break
-
 if __name__ == "__main__":
-    main()
+    main_cartas(pygame.display.set_mode((1200, 600)), pygame.time.Clock(), [0], [0])
