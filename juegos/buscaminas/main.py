@@ -111,7 +111,7 @@ def main_buscaminas(screen, reloj, estado, dificultad):
                 mensaje = "¡Felicidades, ganaste!$"
                 mensaje_final(screen, mensaje, GOLD, reloj, fuente)
                 estado[0] = config.SCREEN_MAPA
-
+                estado[8].add("buscaminas")
         elif estado[0] == config.SCREEN_PANEL_PAUSE:
             main_panel_pause(screen, reloj, estado)
         elif estado[0] == config.SCREEN_PANEL_BOOK:

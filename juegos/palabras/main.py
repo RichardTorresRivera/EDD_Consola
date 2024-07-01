@@ -168,10 +168,10 @@ class CompleteWordsPuzzle:
         pygame.display.flip()
 
 def main_palabras(screen, reloj, estado, dificultad):
-    pygame.mixer.music.load(os.path.join('recursos', 'Contar Palabras - Words.mp3'))
+    pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, 'Contar Palabras - Words.mp3'))
     pygame.mixer.music.play(-1)
     
-    fondo_img = pygame.image.load(os.path.join('recursos', 'palabrasHD.png')).convert()
+    fondo_img = pygame.image.load(os.path.join(config.FONDOS_DIR, 'palabrasHD.png')).convert()
     fondo_img = pygame.transform.scale(fondo_img, (screen.get_width(), screen.get_height()))
 
     juego = CompleteWordsPuzzle(screen, dificultad[0] + 1)

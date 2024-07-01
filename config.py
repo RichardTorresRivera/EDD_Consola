@@ -27,6 +27,9 @@ CARTAS_DIR = os.path.join(JUEGOS_DIR, "cartas")
 HANOI_DIR = os.path.join(JUEGOS_DIR, "hanoi")
 LABERINTOS_DIR = os.path.join(JUEGOS_DIR, "laberintos")
 
+JUEGOIN_DIR = os.path.join(PROJECT_DIR, "juegos")
+CARTASIN_DIR = os.path.join(JUEGOIN_DIR, "cartas")
+
 # Directorio de musica
 SFX_DIR = os.path.join(SOUNDS_DIR, "sound effects")
 SOUNDTRACK_DIR = os.path.join(SOUNDS_DIR, "soundtrack 8-bits")

@@ -62,6 +62,7 @@ def crear_cartas(nivel):
     lista_enlazada = ListaEnlazada()
     for valor, imagen in cartas:
         lista_enlazada.agregar(valor, imagen)
+
     return lista_enlazada
 
 def mostrar_mensaje_pantalla(screen, font, mensaje, color, y_offset):
@@ -133,7 +134,7 @@ def jugar_nivel(screen, font, nivel, fondo_img, estado):
     inicio_x = (1200 - total_ancho_cartas) // 2
 
     for i, carta in enumerate(cartas_desordenadas):
-        imagen = pygame.image.load(os.path.join(config.CARTAS_DIR, carta.imagen)).convert_alpha()
+        imagen = pygame.image.load(os.path.join(config.CARTASIN_DIR, "recursos", carta.imagen)).convert_alpha()
         imagen = pygame.transform.scale(imagen, (100, 150))
         rect = imagen.get_rect(topleft=(inicio_x + i * 100, cartas_pos_y))
         carta_imgs.append({"img": imagen, "rect": rect, "valor": carta.valor})
@@ -184,7 +185,7 @@ def main_cartas(screen, reloj, estado, dificultad):
     mostrar_mensaje_pantalla(screen, font, "Puedes avanzar al siguiente desafío.", (255, 255, 255), 250)
     mostrar_mensaje_pantalla(screen, font, "Presiona Enter para salir...", (255, 255, 255), 300)
     pygame.display.flip()
-    
+
     esperar_enter()
     
     pygame.quit()
