@@ -67,10 +67,8 @@ def crear_cartas(nivel):
 
     return lista_enlazada
 
-def mostrar_mensaje_pantalla(screen, font, mensaje, color, y_offset):
-    texto = font.render(mensaje, True, color)
-    text_rect = texto.get_rect(center=(screen.get_width() // 2, y_offset))
-    screen.blit(texto, text_rect)
+def mostrar_mensaje_pantalla(screen, imagen):
+    screen.blit(imagen, (0,0))
 
 def esperar_enter():
     esperando = True
@@ -121,13 +119,14 @@ def verificar_orden(cartas, nivel):
 def jugar_nivel(screen, font, nivel, fondo_img, estado, reloj):
     screen.blit(fondo_img, (0, 0))
     frases = [
-        "Una Planta Crece",
-        "Una tormenta comienza y termina con un arcoíris",
-        "El héroe responde al brujo acierta y recibe una llave que da a una puerta"
+        pygame.image.load(os.path.join(config.CARTAS_DIR, "planta.png")),
+        pygame.image.load(os.path.join(config.CARTAS_DIR, "arcoiris.png")),
+        pygame.image.load(os.path.join(config.CARTAS_DIR, "llave.png"))
     ]
-    mostrar_mensaje_pantalla(screen, font, frases[nivel[0] - 1], (255, 255, 255), 650)  # Ajuste aquí para usar nivel-1 como índice
-    mostrar_mensaje_pantalla(screen, font, "Presiona Enter para comprobar si está bien", (255, 255, 255), 700)
-    
+    #mostrar_mensaje_pantalla(screen, font, frases[nivel - 1]) # Ajuste aquí para usar nivel-1 como índice
+    imagen = frases[nivel[0] - 1]
+    mostrar_mensaje_pantalla(screen, imagen)
+
     cartas = crear_cartas(nivel)
     cartas_desordenadas = cartas.mostrar()
     cartas_pos_y = 300
@@ -149,14 +148,14 @@ def jugar_nivel(screen, font, nivel, fondo_img, estado, reloj):
     dragging = False
     selected_card = None
     nivel_completado = False
-    ruta_fuente = 'assets/fonts/Minecraft.ttf'
+    ruta_fuente = os.path.join(config.FONTS_DIR, "minecraft.ttf")
     fuente = pygame.font.Font(ruta_fuente, 45)
     estado[0] = config.SCREEN_PANEL_BOOK
     while not nivel_completado:
         if estado[0] == config.SCREEN_GAME:
             screen.blit(fondo_img, (0, 0))
-            mostrar_mensaje_pantalla(screen, font, frases[nivel[0] - 1], (255, 255, 255), 650)  # Ajuste aquí para usar nivel-1 como índice
-            mostrar_mensaje_pantalla(screen, font, "Presiona Enter para comprobar si está bien", (255, 255, 255), 700)
+            imagen = frases[nivel[0] - 1]
+            mostrar_mensaje_pantalla(screen, imagen) # Ajuste aquí para usar nivel-1 como índice
             
             mouse_pos = pygame.mouse.get_pos()
             dragging, selected_card = manejar_eventos(carta_imgs, mouse_pos, dragging, selected_card, boton_pausa, boton_book, estado)
