@@ -31,7 +31,7 @@ class CompleteWordsPuzzle:
             2: ["PILA", "COLA", "ARBOL", "GRAFO"],
             3: ["PILA", "COLA", "ARBOL", "GRAFO", "LISTAENLAZADA"]
         }
-        return palabras[self.nivel]
+        return palabras[self.nivel[0]]
 
     def reset_puzzle(self):
         if len(self.words_guessed) < len(self.word_list):
