@@ -53,7 +53,7 @@ def hanoi_book(screen):
     text_operation2 = "Desapilar (pop): Retirar\ncada elemento. Solo se\npuede desde el extremo\nen que se ingreso."
     text_inst1 = "Lleva los discos del\npunto A al punto C,\npasando por B.\nOrdenar del\nmayor al menor."
     text_inst2 = "Desapila y apila\ncada disco. Al\napilar se considera\nun movimiento."
-    text_inst3 = "Calcula los\nmovimientos, ya\nque para cada\ncaso existe una\nmínima cantidad."
+    text_inst3 = "Calcula los\nmovimientos, ya\nque para cada\ncaso existe una\nminima cantidad."
 
     render_multiline_text(text_concept, myFontParagraph, (0, 0, 0), screen, 100, 220, 22)
     render_multiline_text(text_operation1, myFontParagraph, (0, 0, 0), screen, 100, 390, 22)
@@ -124,14 +124,14 @@ def minesweeper_book(screen):
 
 
 def card_book(screen):
-    """screen.blit(backgroundMinesWeeper, [0, 0])
+    screen.blit(backgroundMinesWeeper, [0, 0])
 
-    text_concept = "Matriz: Estructura\nbidimensional. Define\nsu longitud al inicio."
-    text_operation1 = "Cuenta con 2 indices\n(desde 0,0 hasta n,m)."
-    text_operation2 = "Para modificar un\nelemento, se busca\nla posicion deseada.."
-    text_inst1 = "Toshi llega a una\nmina, que contiene\nbombas en algunas\nposiciones."
-    text_inst2 = "Excava las posiciones\nvacias y coloca\nbanderas donde\nhaya bombas."
-    text_inst3 = "Los extremos indican\ncon un numero la\ncantidad de espacios.\nTen cuidado con\nexplotar una bomba."
+    text_concept = "Lista enlazada: Secuencia\nde nodos conectados\nmediante enlaces\n(dato - puntero)."
+    text_operation1 = "Insertar:  Agrega un\nnuevo nodo, puede\nser al inicio o al\nfinal."
+    text_operation2 = "Ordenar: Busca el\ndato del nodo y lo\nintercambia con el\nsiguiente."
+    text_inst1 = "En la mesa hay\nuna cantidad de\ncartas."
+    text_inst2 = "El brujo te dara\nuna frase que\ninvolucra esas cartas."
+    text_inst3 = "Colocar en el orden\ncorrecto para ganar\nel nivel."
 
     render_multiline_text(text_concept, myFontParagraph, (0, 0, 0), screen, 100, 190, 22)
     render_multiline_text(text_operation1, myFontParagraph, (0, 0, 0), screen, 100, 370, 22)
@@ -139,7 +139,6 @@ def card_book(screen):
     render_multiline_text(text_inst1, myFontParagraph, (0, 0, 0), screen, 710, 190, 22)
     render_multiline_text(text_inst2, myFontParagraph, (0, 0, 0), screen, 710, 340, 22)
     render_multiline_text(text_inst3, myFontParagraph, (0, 0, 0), screen, 710, 500, 22)
-"""
 
 
 def labyrinth_book(screen):
