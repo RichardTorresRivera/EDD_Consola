@@ -1,7 +1,9 @@
 import os
 import sys
+import cv2
 import config
 import pygame
+import numpy as np
 
 def mensaje_final(screen, mensaje, color, reloj, fuente):
     # Dividir el mensaje en líneas donde se detecte el signo de dólar
@@ -71,3 +73,51 @@ def fondo_loading(screen):
         pygame.time.delay(500)
     # Limpiar la cola de eventos de Pygame
     pygame.event.clear()
+
+def historia_loading(screen, video_path, reloj):
+    # Inicializar el video
+    cap = cv2.VideoCapture(video_path)
+    if not cap.isOpened():
+        print(f"Error al abrir el video: {video_path}")
+        return
+
+    # Inicializar el audio
+    pygame.mixer.init()
+    pygame.mixer.music.load(video_path.replace(".mp4", ".mp3"))  # Suponiendo que el audio está en un archivo .mp3
+    pygame.mixer.music.play()
+
+    screen_width, screen_height = screen.get_size()
+
+    # Loop para reproducir el video y capturar eventos
+    while cap.isOpened():
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                cap.release()
+                pygame.quit()
+                sys.exit()
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
+                cap.release()
+                pygame.mixer.music.stop()
+                return
+
+        # Convertir el frame de BGR a RGB
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+
+        # Redimensionar el frame para que coincida con el tamaño de la pantalla
+        frame = cv2.resize(frame, (screen_width, screen_height))
+
+        # Crear una superficie a partir del frame
+        frame_surface = pygame.surfarray.make_surface(frame.swapaxes(0, 1))
+
+        # Dibujar el frame en la pantalla
+        screen.blit(frame_surface, (0, 0))
+        pygame.display.flip()
+
+        reloj.tick(config.FPS)
+
+    cap.release()
+    pygame.mixer.music.stop()

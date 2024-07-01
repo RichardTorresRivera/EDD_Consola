@@ -3,7 +3,7 @@ import os
 import sys
 import config
 from common.music_config import cargar_configuracion
-from common.utils import escalar_imagen, mostrar_indicador_mouse, fondo_loading
+from common.utils import escalar_imagen, mostrar_indicador_mouse, fondo_loading, historia_loading
 from juegos.buscaminas.main import main_buscaminas
 from juegos.hanoi.main import main_hanoi
 from juegos.laberinto.main import main_lab
@@ -137,6 +137,9 @@ def dibujar_mapa(screen, fondo, images_buttons, toshi, current_frame, preview_ar
 def main_mapa(screen, reloj, estado, dificultad):
     pygame.mouse.set_cursor(pygame.SYSTEM_CURSOR_ARROW)
     # Cargando
+    fondo_loading(screen)
+    ruta_video = "prueba.mp4"
+    historia_loading(screen, ruta_video, reloj)
     fondo_loading(screen)
     # Ambiente
     pygame.mixer.music.load(os.path.join(config.SOUNDTRACK_DIR, "Menu - Super Mario World.mp3"))
