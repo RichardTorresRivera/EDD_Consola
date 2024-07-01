@@ -13,6 +13,8 @@ from Menu.paneles.panel_exit import main_panel_exit
 from Menu.paneles.panel_help import main_panel_help
 from Menu.personaje import Personaje
 from juegos.cartas.main import main_cartas
+from juegos.palabras.main import main_palabras
+
 num_game = [0]
 
 def images_mapa():
@@ -188,7 +190,7 @@ def main_mapa(screen, reloj, estado, dificultad):
         ]
     toshi = Personaje(path_segments[0][0][0], path_segments[0][0][1], toshi_move, toshi_stop, path_segments)
     # Juegos
-    init_game = [main_hanoi, main_buscaminas, main_hanoi, main_cartas, main_lab, main_decisiones]
+    init_game = [main_palabras, main_buscaminas, main_hanoi, main_cartas, main_lab, main_decisiones]
     
     run_mapa = True
     while run_mapa:
